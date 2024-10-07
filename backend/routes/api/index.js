@@ -45,24 +45,4 @@ router.post('/test', (req, res) => {
 // })
 
 
-
-router.post('/signup', async (req, res, next) => {
-    const {username, email , password} = req.body;
-    const saltedAndHashedPassword = await bcrypt.hashSync(password);
-    const newUser = await User.create({username, email, hashedPassword: saltedAndHashedPassword});
-    const token = jwt.sign({id: newUser.id, username: newUser.username, email: newUser.email}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN})
-    if (newUser) {
-        res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: process.env.JWT_EXPIRES_IN
-        })
-        res.json({
-            id: newUser.id,
-            username: newUser.username,
-            email: newUser.email
-        })
-    }
-})
-
-
 module.exports = router;
