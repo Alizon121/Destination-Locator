@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const apiRouter = require('./api');
+// const apiRouter = require('./api');
 const {Spot, SpotImage, Review} = require("../../db/models");
 const { Model } = require('sequelize');
 
-router.use('/api', apiRouter);
+
+
+// router.use('/api', apiRouter);
 
 function getAverage(arr) {
     if (arr.length === 0) {
@@ -14,27 +16,34 @@ function getAverage(arr) {
     return sum / arr.length;
   }
 
+  const ratings = await Review.findAll({
+      // where: {
+      //     ratings: "stars"
+      // },
+      attributes: ['stars'],
+  });
+  console.log('ratings', ratings)
 
-router.get("/spots", async (req,res,next) => {
-    try { 
-    const ratings = await Review.findAll({
-        where: {
-            ratings: "stars"
-        }
-    })
+router.get("/", async (req,res,next) => {
+    // console.log('hello world')
+    try {
 
     const avgRating = getAverage(ratings);
 
     const spots = await Spot.findAll(
         {include: [{
             model: SpotImage,
-            where: {previewImage: "url"}
+            // where: {previewImage: "url"}
+            attributes: 'url',
+            exclude: ['spotId', 'createdAt', 'updatedAt']
             },
             {
             model: Review,
-            where: {
-                avgRating: avgRating
-            }
+            attributes: 'avgRating',
+            exclude: ['id', 'spotId', 'userId', 'review', 'createdAt', 'updatedAt']
+            // where: {
+            //     avgRating: avgRating
+            // }
              }
             ]
         }
@@ -44,3 +53,6 @@ router.get("/spots", async (req,res,next) => {
     next(error)
 }
 })
+
+
+module.exports = router;
