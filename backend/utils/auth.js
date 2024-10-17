@@ -72,4 +72,11 @@ const requireAuth = function (req, _res, next) {
     return next(err);
   }
 
+// Authorization is making the the user is the right user
+// Use the token
+// Create a user propery on req (restoreUsers)
+// Use the reviews foreignKey (userId)
+// We need to make sure that the user ids match
+// 
+
   module.exports = { setTokenCookie, restoreUser, requireAuth };
