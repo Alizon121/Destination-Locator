@@ -61,7 +61,7 @@ function getAverage(arr) {
 
 
 router.post("/", requireAuth, async (req,res,next) => {
-    console.log(req.body)
+    // console.log(req.body)
     const { ownerId, address, city, state, country, lat, lng, name, price, description} = req.body
     const existingListing = await Spot.findOne({where:{lat}})
     try {
@@ -98,16 +98,13 @@ router.get('/:current', requireAuth, async (req, res, next) => {
         ]
     })
 
-
     const newFormat = spots.map(spotElements => {
-
         const reviews = spotElements.Reviews;
         const spotRatings = reviews.map(reviewStars => reviewStars.stars);
         const avgRating = getAverage(spotRatings);
 
         const spotImagesDetails = spotElements.SpotImages;
         const urls = spotImagesDetails.map(element => element.dataValues.url)
-
 
         return {
             id: spotElements.id,
