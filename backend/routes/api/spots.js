@@ -90,5 +90,16 @@ router.post("/", requireAuth, async (req,res,next) => {
     }
 })
 
+router.get('/:current', requireAuth, async (req, res, next) => {
+    const currentId = req.params.current;
+    const spotDetails = await Spot.findAll({
+        where: {
+            ownerId: currentId
+        }
+    })
+
+    res.json(spotDetails);
+})
+
 
 module.exports = router;
