@@ -4,42 +4,56 @@ const router = express.Router();
 const {Spot, SpotImage, Review} = require("../../db/models");
 const { Model } = require('sequelize');
 
-
-
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
-
     if (arr.length === 0) {
-      return 0; // Return 0 if the array is empty to avoid division by zero
+      return null; // Return 0 if the array is empty to avoid division by zero
     }
-
     const sum = arr.reduce((acc, val) => acc + val, 0);
     const average = sum / arr.length;
     return Number.parseFloat(average).toFixed(1);
   }
 
-
   router.get("/", async (req,res,next) => {
       try {
             const spots = await Spot.findAll({
-            include: [{
-                model: SpotImage,
-            attributes: ['url'],
-            }],
-            include: [{
-                model: Review,
-                attributes: ['stars']
-            }]
+            include: [
+                { model: SpotImage, attributes: ['url'] },
+                { model: Review, attributes: ['stars'] }]
         })
 
-        // const ratings = reviewElements.map(review => {
-        //     return review.dataValues.stars;
-        // });
-        // const avgRating = getAverage(ratings);
+        const newFormat = spots.map(spotElements => {
+            // console.log(spotElements)
+            const reviews = spotElements.Reviews;
+            const spotRatings = reviews.map(reviewStars => reviewStars.stars);
+            const avgRating = getAverage(spotRatings);
+            // console.log(avgRating)
+
+            // console.log(spotElements.SpotImages)
+
+            return {
+                id: spotElements.id,
+                ownerId: spotElements.ownerId,
+                address: spotElements.address,
+                city: spotElements.city,
+                state: spotElements.state,
+                country: spotElements.country,
+                lat: spotElements.lat,
+                lng: spotElements.lng,
+                name: spotElements.name,
+                description: spotElements.description,
+                price: spotElements.price,
+                createdAt: spotElements.createdAt,
+                updatedAt: spotElements.updatedAt,
+                avgRating: avgRating,
+                previewImage: spotElements.SpotImages[0].url
+            }
+        });
 
     return res.json({
-        spots
+        // spots
+        Spots: newFormat
     })
 } catch(error) {
     next(error)
