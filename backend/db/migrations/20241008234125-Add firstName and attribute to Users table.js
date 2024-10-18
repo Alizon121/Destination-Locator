@@ -11,9 +11,10 @@ const { DataTypes } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-   
+
    await queryInterface.addColumn(options, "firstName",{
     type: Sequelize.STRING,
+    allowNull: true
    }, options)
   },
 

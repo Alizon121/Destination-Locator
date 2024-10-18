@@ -64,12 +64,13 @@ function getAverage(arr) {
 
 
 router.post("/", requireAuth, async (req,res,next) => {
-    console.log(req.body.lat)
-    const {address, city, state, country, lat, lng, name, price, description} = req.body
+    console.log(req.body)
+    const { ownerId, address, city, state, country, lat, lng, name, price, description} = req.body
     const existingListing = await Spot.findOne({where:{lat}})
     try {
         if (!existingListing) {
             const newSpot = await Spot.create({
+                ownerId,
                 address,
                 city,
                 state,

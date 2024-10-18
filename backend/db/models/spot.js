@@ -66,53 +66,25 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
-      // validate: {
-        // isDecimal: true
-      // }
     },
     lng: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
-      // validate: {
-        // isDecimal: true
-      // }
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        // isAlphanumeric: true,
         min: 3
       }
     },
     price: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false,
-      // validate: {
-        // isDecimal: true
-      // }
     },
-    // avgRating: {
-    //   type: DataTypes.DECIMAL(2,1),
-    //   allowNull: true,
-    //   validate: {
-    //     // isDecimal: true,
-    //     isInt: true
-    //   }
-    // },
-    // previewImage: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     isUrl: true
-    //   }
-    // },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   // isAlphanumeric: true,
-      // }
     }
   }, {
     sequelize,
