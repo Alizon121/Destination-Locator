@@ -29,7 +29,7 @@ function getAverage(arr) {
             const avgRating = getAverage(spotRatings);
 
             const spotImagesDetails = spotElements.dataValues.SpotImages;
-            const url = spotImagesDetails.forEach(element => console.log(element.dataValues.url));
+            const url = spotImagesDetails.map(element => element.dataValues.url);
 
             return {
                 id: spotElements.id,
@@ -98,7 +98,7 @@ router.get('/:current', requireAuth, async (req, res, next) => {
         ]
     })
 
-    
+
     const newFormat = spots.map(spotElements => {
 
         const reviews = spotElements.Reviews;
