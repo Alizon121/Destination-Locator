@@ -3,7 +3,9 @@ const router = express.Router();
 // const apiRouter = require('./api');
 const {Spot, SpotImage, Review} = require("../../db/models");
 const { Model } = require('sequelize');
+const { requireAuth } = require('../../utils/auth');
 
+let nextSpotId = 4;
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
@@ -58,6 +60,33 @@ function getAverage(arr) {
 } catch(error) {
     next(error)
 }
+})
+
+
+router.post("/", requireAuth, async (req,res,next) => {
+    console.log(req.body.lat)
+    const {address, city, state, country, lat, lng, name, price, description} = req.body
+    const existingListing = await Spot.findOne({where:{lat}})
+    try {
+        if (!existingListing) {
+            const newSpot = await Spot.create({
+                address,
+                city,
+                state,
+                country,
+                lat,
+                lng,
+                name,
+                price,
+                description,
+            })
+            res.json(newSpot)
+        } else (
+            res.status(400).json("Listing already exists.")
+        )
+    } catch(error) {
+        next(error)
+    }
 })
 
 
