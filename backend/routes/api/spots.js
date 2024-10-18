@@ -56,7 +56,7 @@ function getAverage(arr) {
                 price: spotElements.price,
                 createdAt: spotElements.createdAt,
                 updatedAt: spotElements.updatedAt,
-                previewImage: url,
+                previewImage: url[0],
                 avgRating: avgRating
             }
         });
@@ -72,7 +72,6 @@ function getAverage(arr) {
 
 
 router.post("/", requireAuth, async (req,res,next) => {
-    // console.log(req.body)
     const { ownerId, address, city, state, country, lat, lng, name, price, description} = req.body
     const existingListing = await Spot.findOne({where:{lat}})
     try {
@@ -102,8 +101,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     const currentId = req.user.dataValues.id
     const spots = await Spot.findAll({
         where: { ownerId: currentId},
-        include:
-        [
+        include: [
             { model: SpotImage, attributes: ['url'] },
             { model: Review, attributes: ['stars'] }
         ]
@@ -115,7 +113,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         const avgRating = getAverage(spotRatings);
 
         const spotImagesDetails = spotElements.SpotImages;
-        const urls = spotImagesDetails.map(element => element.dataValues.url)
+        const url = spotImagesDetails.map(element => element.dataValues.url)
 
         return {
             id: spotElements.id,
@@ -132,7 +130,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             createdAt: spotElements.createdAt,
             updatedAt: spotElements.updatedAt,
             avgRating: avgRating,
-            previewImage: urls
+            previewImage: url[0]
         }
     })
 
@@ -143,31 +141,16 @@ router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
 
     try {
-
         if (!await Spot.findByPk(spotId)) {
-            res.status(404).json({
-                message: "Spot couldn't be found"
-            })
+            return res.status(404).json({ message: "Spot couldn't be found"})
         }
 
-
         const spot = await Spot.findAll({
-            where: {
-                id: spotId
-            },
+            where: {id: spotId},
             include: [
-                {
-                    model: Review,
-                    attributes: ['review', 'stars']
-                },
-                {
-                    model: SpotImage,
-                    attributes: ['id', 'url', 'preview']
-                },
-                {
-                    model: User,
-                    attributes: ['id', 'firstName', 'lastName']
-                }
+                { model: Review, attributes: ['review', 'stars'] },
+                { model: SpotImage, attributes: ['id', 'url', 'preview'] },
+                { model: User, attributes: ['id', 'firstName', 'lastName'] }
             ]
         })
 
@@ -213,8 +196,25 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
-router.post('/:spotId/images', requireAuthorization, (req, res, next) => {
+router.post('/:spotId/images', requireAuthorization, requireAuth, async (req, res, next) => {
+    const spotId = req.params.spotId;
+    // console.log(spotId)
+    const spot = await Spot.findByPk(spotId);
 
+    // console.log(spot)
+
+    if (!spot) return res.status(404).json({message: "Spot couldn't be found"})
+
+        // Update the image path
+    spot.imagePath = '/uploads/' + req.file.filename; // Adjust path as needed
+
+    // Save the updated listing
+    await spot.save();
+
+    // Respond with the updated listing
+    res.status(201).json(spot);
+
+    const newImage = await Spot.create([])
 })
 
 

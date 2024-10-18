@@ -75,10 +75,10 @@ const requireAuth = function (req, _res, next) {
   const requireAuthorization = async function (req, res, next) {
     const mainUser = req.user.dataValues.id;
 
-    const reviewData = await Review.findAll()
-    const userId = reviewData.map(elements => elements.dataValues.userId)
+    const reviewData = await Review.findOne()
+    const userId = reviewData.dataValues.userId;
 
-    if (mainUser === userId) return next();
+    if ((userId) && mainUser === userId) return next();
 
     const err = new Error('Authorization required');
     err.title = 'Authorization required';
