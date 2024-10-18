@@ -1,7 +1,7 @@
 // backend/utils/auth.js
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
-const { User } = require('../db/models');
+const { User, Review } = require('../db/models');
 const { secret, expiresIn } = jwtConfig;
 
 //SetTokenCookie
@@ -72,11 +72,26 @@ const requireAuth = function (req, _res, next) {
     return next(err);
   }
 
+  const requireAuthorization = async function (req, res, next) {
+    const mainUser = req.user.dataValues.id;
+
+    const reviewData = await Review.findAll()
+    const userId = reviewData.map(elements => elements.dataValues.userId)
+
+    if (mainUser === userId) return next();
+
+    const err = new Error('Authorization required');
+    err.title = 'Authorization required';
+    err.errors = { message: 'Authorization required' };
+    err.status = 403;
+    return next(err);
+
+  }
 // Authorization is making the the user is the right user
 // Use the token
 // Create a user propery on req (restoreUsers)
 // Use the reviews foreignKey (userId)
 // We need to make sure that the user ids match
-// 
+//
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth };
+  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorization};
