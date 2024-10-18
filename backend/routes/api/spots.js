@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 // const apiRouter = require('./api');
 const {Spot, SpotImage, Review} = require("../../db/models");
-const { Model } = require('sequelize');
+const { Model, json } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 // router.use('/api', apiRouter);
 
@@ -87,8 +87,8 @@ router.post("/", requireAuth, async (req,res,next) => {
     }
 })
 
-router.get('/:current', requireAuth, async (req, res, next) => {
-    const currentId = req.params.current;
+router.get('/current', requireAuth, async (req, res, next) => {
+    const currentId = req.user.dataValues.id
     const spots = await Spot.findAll({
         where: { ownerId: currentId},
         include:
@@ -126,6 +126,30 @@ router.get('/:current', requireAuth, async (req, res, next) => {
     })
 
     res.json(newFormat);
+})
+
+router.get('/:spotId', async (req, res, next) => {
+    const spotId = req.params.spotId;
+
+    const spot = await Spot.findAll({
+        where: {
+            id: spotId
+        },
+        include: [
+            {
+                model: Review,
+
+            },
+            {
+                model: SpotImage
+            },
+            {
+                model: User
+            }
+        ]
+    })
+
+    return res.json(spot);
 })
 
 
