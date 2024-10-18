@@ -26,13 +26,12 @@ function getAverage(arr) {
         })
 
         const newFormat = spots.map(spotElements => {
-            // console.log(spotElements)
             const reviews = spotElements.Reviews;
             const spotRatings = reviews.map(reviewStars => reviewStars.stars);
             const avgRating = getAverage(spotRatings);
-            // console.log(avgRating)
 
-            // console.log(spotElements.SpotImages)
+            const spotImagesDetails = spotElements.dataValues.SpotImages;
+            const url = spotImagesDetails.forEach(element => console.log(element.dataValues.url));
 
             return {
                 id: spotElements.id,
@@ -48,8 +47,8 @@ function getAverage(arr) {
                 price: spotElements.price,
                 createdAt: spotElements.createdAt,
                 updatedAt: spotElements.updatedAt,
-                avgRating: avgRating,
-                previewImage: spotElements.SpotImages[0].url
+                previewImage: url,
+                avgRating: avgRating
             }
         });
 
@@ -92,13 +91,43 @@ router.post("/", requireAuth, async (req,res,next) => {
 
 router.get('/:current', requireAuth, async (req, res, next) => {
     const currentId = req.params.current;
-    const spotDetails = await Spot.findAll({
-        where: {
-            ownerId: currentId
-        }
+    const spots = await Spot.findAll({
+        where: { ownerId: currentId},
+        include:
+        [
+            { model: SpotImage, attributes: ['url'] },
+            { model: Review, attributes: ['stars'] }
+        ]
     })
 
-    res.json(spotDetails);
+    const newFormat = spots.map(spotElements => {
+        const reviews = spotElements.Reviews;
+        const spotRatings = reviews.map(reviewStars => reviewStars.stars);
+        const avgRating = getAverage(spotRatings);
+
+        const spotImagesDetails = spotElements.SpotImages;
+        const url = spotImagesDetails.forEach(element => element.dataValues.url)
+
+            return {
+                id: spotElements.id,
+                ownerId: spotElements.ownerId,
+                address: spotElements.address,
+                city: spotElements.city,
+                state: spotElements.state,
+                country: spotElements.country,
+                lat: spotElements.lat,
+                lng: spotElements.lng,
+                name: spotElements.name,
+                description: spotElements.description,
+                price: spotElements.price,
+                createdAt: spotElements.createdAt,
+                updatedAt: spotElements.updatedAt,
+                avgRating: avgRating,
+                previewImage: url
+            }
+    });
+
+    res.json(newFormat);
 })
 
 
