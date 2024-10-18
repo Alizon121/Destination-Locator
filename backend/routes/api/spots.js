@@ -9,46 +9,38 @@ const { Model } = require('sequelize');
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
+
     if (arr.length === 0) {
       return 0; // Return 0 if the array is empty to avoid division by zero
     }
+
     const sum = arr.reduce((acc, val) => acc + val, 0);
-    return sum / arr.length;
+    const average = sum / arr.length;
+    return Number.parseFloat(average).toFixed(1);
   }
 
-  const ratings = await Review.findAll({
-      // where: {
-      //     ratings: "stars"
-      // },
-      attributes: ['stars'],
-  });
-  console.log('ratings', ratings)
 
-router.get("/", async (req,res,next) => {
-    // console.log('hello world')
-    try {
+  router.get("/", async (req,res,next) => {
+      try {
+            const spots = await Spot.findAll({
+            include: [{
+                model: SpotImage,
+            attributes: ['url'],
+            }],
+            include: [{
+                model: Review,
+                attributes: ['stars']
+            }]
+        })
 
-    const avgRating = getAverage(ratings);
+        // const ratings = reviewElements.map(review => {
+        //     return review.dataValues.stars;
+        // });
+        // const avgRating = getAverage(ratings);
 
-    const spots = await Spot.findAll(
-        {include: [{
-            model: SpotImage,
-            // where: {previewImage: "url"}
-            attributes: 'url',
-            exclude: ['spotId', 'createdAt', 'updatedAt']
-            },
-            {
-            model: Review,
-            attributes: 'avgRating',
-            exclude: ['id', 'spotId', 'userId', 'review', 'createdAt', 'updatedAt']
-            // where: {
-            //     avgRating: avgRating
-            // }
-             }
-            ]
-        }
-    )
-    return res.json(spots)
+    return res.json({
+        spots
+    })
 } catch(error) {
     next(error)
 }
