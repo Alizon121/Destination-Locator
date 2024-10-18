@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // const apiRouter = require('./api');
-const {Spot, SpotImage, Review} = require("../../db/models");
+const {Spot, SpotImage, Review, User} = require("../../db/models");
 const { Model, json } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 // router.use('/api', apiRouter);
@@ -14,6 +14,17 @@ function getAverage(arr) {
     const average = sum / arr.length;
     return Number.parseFloat(average).toFixed(1);
   }
+
+  function countReviews(arr) {
+    let count = 0
+    let i = 0;
+
+    while (i < arr.length) {
+        i++;
+        count++;
+    }
+    return count;
+}
 
   router.get("/", async (req,res,next) => {
       try {
@@ -138,18 +149,55 @@ router.get('/:spotId', async (req, res, next) => {
         include: [
             {
                 model: Review,
-
+                attributes: ['review', 'stars']
             },
             {
-                model: SpotImage
+                model: SpotImage,
+                attributes: ['id', 'url', 'preview']
             },
             {
-                model: User
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
             }
         ]
     })
 
-    return res.json(spot);
+    const newFormat = spot.map(spotElements => {
+        const reviews = spotElements.dataValues.Reviews;
+
+        const spotRatings = reviews.map(reviewStars => reviewStars.stars);
+        const spotReviews = reviews.map(review => review.dataValues.review)
+
+        const avgRating = getAverage(spotRatings);
+        const countingReviews = countReviews(spotReviews)
+
+        const image = spotElements.dataValues.SpotImages;
+        const imageElements = image.map(elements => elements.dataValues);
+
+        const owner = spotElements.dataValues.User.dataValues
+
+        return {
+            id: spotElements.id,
+            ownerId: spotElements.ownerId,
+            address: spotElements.address,
+            city: spotElements.city,
+            state: spotElements.state,
+            country: spotElements.country,
+            lat: spotElements.lat,
+            lng: spotElements.lng,
+            name: spotElements.name,
+            description: spotElements.description,
+            price: spotElements.price,
+            createdAt: spotElements.createdAt,
+            updatedAt: spotElements.updatedAt,
+            numReviews: countingReviews,
+            avgStarRating: avgRating,
+            SpotImages: imageElements,
+            Owner: owner
+        }
+    });
+
+    return res.json(newFormat);
 })
 
 
