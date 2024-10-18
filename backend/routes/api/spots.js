@@ -198,23 +198,26 @@ router.get('/:spotId', async (req, res, next) => {
 
 router.post('/:spotId/images', requireAuthorization, requireAuth, async (req, res, next) => {
     const spotId = req.params.spotId;
-    // console.log(spotId)
-    const spot = await Spot.findByPk(spotId);
+    const { url, preview } = req.body;
 
-    // console.log(spot)
+    try {
+      const spot = await Spot.findByPk(spotId);
 
-    if (!spot) return res.status(404).json({message: "Spot couldn't be found"})
+      if (!spot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
 
-        // Update the image path
-    spot.imagePath = '/uploads/' + req.file.filename; // Adjust path as needed
+      const newImage = await spot.createSpotImage({ url, preview });
 
-    // Save the updated listing
-    await spot.save();
+      const limitedImage = await SpotImage.findByPk(newImage.id, {
+        attributes: ['id', 'url', 'preview']
+      });
 
-    // Respond with the updated listing
-    res.status(201).json(spot);
-
-    const newImage = await Spot.create([])
+      res.status(201).json(limitedImage);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
 })
 
 
