@@ -4,8 +4,6 @@ const router = express.Router();
 const {Spot, SpotImage, Review} = require("../../db/models");
 const { Model } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
-
-let nextSpotId = 4;
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
@@ -100,32 +98,35 @@ router.get('/:current', requireAuth, async (req, res, next) => {
         ]
     })
 
+    
     const newFormat = spots.map(spotElements => {
+
         const reviews = spotElements.Reviews;
         const spotRatings = reviews.map(reviewStars => reviewStars.stars);
         const avgRating = getAverage(spotRatings);
 
         const spotImagesDetails = spotElements.SpotImages;
-        const url = spotImagesDetails.forEach(element => element.dataValues.url)
+        const urls = spotImagesDetails.map(element => element.dataValues.url)
 
-            return {
-                id: spotElements.id,
-                ownerId: spotElements.ownerId,
-                address: spotElements.address,
-                city: spotElements.city,
-                state: spotElements.state,
-                country: spotElements.country,
-                lat: spotElements.lat,
-                lng: spotElements.lng,
-                name: spotElements.name,
-                description: spotElements.description,
-                price: spotElements.price,
-                createdAt: spotElements.createdAt,
-                updatedAt: spotElements.updatedAt,
-                avgRating: avgRating,
-                previewImage: url
-            }
-    });
+
+        return {
+            id: spotElements.id,
+            ownerId: spotElements.ownerId,
+            address: spotElements.address,
+            city: spotElements.city,
+            state: spotElements.state,
+            country: spotElements.country,
+            lat: spotElements.lat,
+            lng: spotElements.lng,
+            name: spotElements.name,
+            description: spotElements.description,
+            price: spotElements.price,
+            createdAt: spotElements.createdAt,
+            updatedAt: spotElements.updatedAt,
+            avgRating: avgRating,
+            previewImage: urls
+        }
+    })
 
     res.json(newFormat);
 })
