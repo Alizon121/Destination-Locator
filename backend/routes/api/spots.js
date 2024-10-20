@@ -221,4 +221,57 @@ router.post('/:spotId/images', requireAuthorization, requireAuth, async (req, re
 })
 
 
+router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
+
+    const spotId = req.params.spotId;
+    const findSpotId = await Spot.findByPk(spotId);
+    const {address, city, state, country, lat, lng, name, description, price} = req.body;
+
+    try {
+
+        if (!findSpotId) return res.status(404).json({
+            "message": "Spot couldn't be found"
+          })
+
+          const updateSpot = await Spot.findOne({
+            where: {id: spotId}
+          })
+
+          const error = []
+          if (!address) error.push("Address is required.");
+          if (!city) error.push("City is requried.")
+          if (!state) error.push("State is requried.");
+          if (!country) error.push("Country is requried.");
+          if (!lat) error.push("Latitutde is requried.");
+          if (!lng) error.push("Longitude is requried.");
+          if (!name) error.push("name is requried.");
+          if (!description) error.push("Description is requried.");
+          if (!price) error.push("Price is requried.")
+
+        if (error.length > 0) {
+            return res.status(400).json({
+                "message": "Validation error",
+                error
+            })
+        }
+
+          updateSpot.set({
+            address, 
+            city, 
+            state, 
+            country, 
+            lat, 
+            lng, 
+            name, 
+            description, 
+            price
+          })
+
+          await updateSpot.save();
+
+          res.json(updateSpot)
+    } catch(error) {
+        next(error)
+    }
+})
 module.exports = router;
