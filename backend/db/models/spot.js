@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     // Should be assigned an ownerId if the user is owner
     ownerId: {
       type: DataTypes.INTEGER,
-      // unique: true,
       allowNull: false,
       validate: {
         isInt: true,

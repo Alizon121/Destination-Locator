@@ -4,6 +4,7 @@ const router = express.Router();
 const {Spot, SpotImage, Review, User} = require("../../db/models");
 const { Model, json } = require('sequelize');
 const { requireAuth, requireAuthorization } = require('../../utils/auth');
+const { parse } = require('dotenv');
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
@@ -27,11 +28,25 @@ function getAverage(arr) {
 }
 
   router.get("/", async (req,res,next) => {
+      
+      
       try {
+        let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+    
+        let pageNumber = parseInt(page);
+        let sizeNumber = parseInt(size)
+
+        console.log(Number.isNaN(sizeNumber))
+    
+        if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
+        if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
+
             const spots = await Spot.findAll({
             include: [
                 { model: SpotImage, attributes: ['url'] },
-                { model: Review, attributes: ['stars'] }]
+                { model: Review, attributes: ['stars'] }],
+                limit: sizeNumber,
+                offset:  sizeNumber*(pageNumber-1)
         })
 
         const newFormat = spots.map(spotElements => {
@@ -57,13 +72,15 @@ function getAverage(arr) {
                 createdAt: spotElements.createdAt,
                 updatedAt: spotElements.updatedAt,
                 previewImage: url[0],
-                avgRating: avgRating
+                avgRating: avgRating,
             }
         });
 
     return res.json({
         // spots
-        Spots: newFormat
+        Spots: newFormat,
+        page: pageNumber,
+        size: sizeNumber
     })
 } catch(error) {
     next(error)
@@ -281,4 +298,22 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
             next(error)
     }
 })
+
+
+
+router.delete("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
+    try {
+    const spotId = req.params.spotId;
+    const findSpotId = await Spot.findByPk(spotId);
+    if (!findSpotId) return res.status(404).json({"message": "Spot couldn't be found"});
+    await findSpotId.destroy();
+
+    res.json({
+    "message": "Successfully deleted"
+    })
+} catch(error) {
+    next(error)
+}
+})
+
 module.exports = router;
