@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isInt: false
+        is: /^[a-zA-Z_ ]+$/i,
       }
     },
     state: {
@@ -68,21 +68,32 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
+      validate: {
+        min: -90,
+        max: 90
+      }
     },
     lng: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
+      validate: {
+        min: -180,
+        max: 180
+      }
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        min: 3
+        max: 50
       }
     },
     price: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false,
+      validate: {
+        min: 1
+      }
     },
     description: {
       type: DataTypes.STRING,
