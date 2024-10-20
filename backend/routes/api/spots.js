@@ -28,18 +28,32 @@ function getAverage(arr) {
 }
 
   router.get("/", async (req,res,next) => {
-      
+    const {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+    let error = {}
+         if(page < 1) error.page = "Page must be greater than or equal to 1";
+         if(size < 1 || size > 20) error.size = "Size must be between 1 and 20";
+         if(maxLat > 90) error.maxLat = "Maximum latitude is invalid";
+         if(minLat < -90) error.minLat = "Minimum latitude is invalid";
+         if(minLng < -180) error.minLng = "Minimum longitude is invalid";
+         if(maxLng > 180) error.maxLng = "Maximum longitude is invalid";
+         if(minPrice < 0 ) error.minPrice = "Minimum price must be greater than or equal to 0";
+         if(maxPrice > 1000000) error.maxPrice = "Maximum price must be greater than or equal to 0";
+
+
+     if (Object.keys(error).length > 0) {
+        return res.status(400).json({ 
+            "message": "Bad Request", 
+            "errors": error
+        });
+    }
       
       try {
-        let {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
     
         let pageNumber = parseInt(page);
         let sizeNumber = parseInt(size)
-
-        console.log(Number.isNaN(sizeNumber))
     
-        if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
-        if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
+        // if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
+        // if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
 
             const spots = await Spot.findAll({
             include: [
@@ -83,6 +97,10 @@ function getAverage(arr) {
         size: sizeNumber
     })
 } catch(error) {
+        //  res.status(400).json({
+        //      "message": "Bad request",
+        //      "errors": options
+        //  })
     next(error)
 }
 })
