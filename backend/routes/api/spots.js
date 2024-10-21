@@ -52,8 +52,8 @@ function getAverage(arr) {
         let pageNumber = parseInt(page);
         let sizeNumber = parseInt(size)
     
-        // if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
-        // if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
+        if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
+        if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
 
             const spots = await Spot.findAll({
             include: [
@@ -231,7 +231,7 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
-router.post('/:spotId/images', requireAuthorization, requireAuth, async (req, res, next) => {
+router.post('/:spotId/images', requireAuth, requireAuthorization, async (req, res, next) => {
     const spotId = req.params.spotId;
     const { url, preview } = req.body;
 
@@ -261,7 +261,7 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
-
+    console.log(lng)
     try {
 
         if (!findSpotId) return res.status(404).json({

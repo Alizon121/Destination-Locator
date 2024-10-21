@@ -66,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     lat: {
       type: DataTypes.DECIMAL(10,7),
-      unique: true,
+      unique: false,
       validate: {
         min: -90,
         max: 90
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     lng: {
       type: DataTypes.DECIMAL(10,7),
-      unique: true,
+      unique: false,
       validate: {
         min: -180,
         max: 180

@@ -38,11 +38,11 @@ module.exports = {
       },
       lat: {
         type: Sequelize.DECIMAL,
-        unique: true
+        unique: false
       },
       lng: {
         type: Sequelize.DECIMAL,
-        unique: true
+        unique: false
       },
       name: {
         type: Sequelize.STRING,
