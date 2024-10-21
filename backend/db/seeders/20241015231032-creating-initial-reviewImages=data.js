@@ -22,7 +22,7 @@ module.exports = {
         reviewId: 3,
         url: 'http://sussyimage.com',
       }
-    ])
+    ], {validate: true})
   },
 
   async down (queryInterface, Sequelize) {
