@@ -25,7 +25,7 @@ module.exports = {
         url: 'http://yeahsomething.com',
         preview: true
       }
-    ])
+    ], {validate: true})
   },
 
   async down (queryInterface, Sequelize) {
