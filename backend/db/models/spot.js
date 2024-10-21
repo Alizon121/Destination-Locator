@@ -32,7 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     // Should be assigned an ownerId if the user is owner
     ownerId: {
       type: DataTypes.INTEGER,
-      // unique: true,
       allowNull: false,
       validate: {
         isInt: true,
@@ -46,82 +45,58 @@ module.exports = (sequelize, DataTypes) => {
     address: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   isAlphanumeric: true,
-      // }
     },
     city: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   isAlpha: true
-      // }
+      validate: {
+        is: /^[a-zA-Z_ ]+$/i,
+      }
     },
     state: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true,
-        len: [2,2]
+        notEmpty: true
       }
     },
     country: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   isAlpha: true
-      // }
     },
     lat: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
-      // validate: {
-        // isDecimal: true
-      // }
+      validate: {
+        min: -90,
+        max: 90
+      }
     },
     lng: {
       type: DataTypes.DECIMAL(10,7),
       unique: true,
-      // validate: {
-        // isDecimal: true
-      // }
+      validate: {
+        min: -180,
+        max: 180
+      }
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        // isAlphanumeric: true,
-        min: 3
+        max: 50
       }
     },
     price: {
       type: DataTypes.DECIMAL(10,2),
       allowNull: false,
-      // validate: {
-        // isDecimal: true
-      // }
+      validate: {
+        min: 1
+      }
     },
-    // avgRating: {
-    //   type: DataTypes.DECIMAL(2,1),
-    //   allowNull: true,
-    //   validate: {
-    //     // isDecimal: true,
-    //     isInt: true
-    //   }
-    // },
-    // previewImage: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   validate: {
-    //     isUrl: true
-    //   }
-    // },
     description: {
       type: DataTypes.STRING,
       allowNull: false,
-      // validate: {
-      //   // isAlphanumeric: true,
-      // }
     }
   }, {
     sequelize,
