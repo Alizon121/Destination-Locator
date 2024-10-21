@@ -21,15 +21,15 @@ router.get('/restore-user', (req, res) => {
   }
 );
 
-router.get('/set-token-cookie', async (_req, res) => {
-  const user = await User.findOne({
-    where: {
-      username: 'Demo-lition'
-    }
-  });
-  setTokenCookie(res, user);
-  return res.json({ user: user });
-});
+// router.get('/set-token-cookie', async (_req, res) => {
+//   const user = await User.findOne({
+//     where: {
+//       username: 'Demo-lition'
+//     }
+//   });
+//   setTokenCookie(res, user);
+//   return res.json({ user: user });
+// });
 
 // // GET /api/require-auth
 // router.get('/require-auth',requireAuth, (req, res) => {
