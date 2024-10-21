@@ -1,4 +1,9 @@
 'use strict';
+
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+options.schema = process.env.SCHEMA;
+}
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,7 +17,7 @@ module.exports = {
       },
       ownerId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       address: {
         type: Sequelize.STRING,
@@ -47,13 +52,6 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
-      // avgRating: {
-      //   type: Sequelize.DECIMAL(2, 1),
-      //   allowNull: true
-      // },
-      // previewImage: {
-      //   type: Sequelize.STRING
-      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -64,9 +62,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    });
+    }, options);
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Spots');
+    options.tableName = "Spots";
+    await queryInterface.dropTable(options);
   }
 };
