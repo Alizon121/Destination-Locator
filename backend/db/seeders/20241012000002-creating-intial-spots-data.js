@@ -18,7 +18,7 @@ module.exports = {
       country: "United States of America",
       lat: 28.0825000,
       lng: -155.2457809,
-      name: "Country Cabin Near Beale St",
+      name: "Cabin on Beale St",
       price: 68.00,
       description: "A cute wooden cabin near Beale St."
     },
@@ -28,9 +28,9 @@ module.exports = {
       city: "Minneapolis",
       state: "MN",
       country: "United States of America",
-      lat: 95.1010190,
+      lat: 89.1010190,
       lng: -108.1018829,
-      name: "High rise near metropolitan area",
+      name: "Condo in metro area",
       price: 152.00,
       description: "High rise near the Arts District."
     },
@@ -40,9 +40,9 @@ module.exports = {
       city: "Las Vegas",
       state: "NV",
       country: "United States of America",
-      lat: 100.1241249,
+      lat: 70.1241249,
       lng: -101.1191904,
-      name: "Condo near the Strip",
+      name: "Condo on the Strip",
       price: 128.00,
       description: "Lively night life and clean stay."
     }
@@ -53,7 +53,7 @@ module.exports = {
     options.tableName = "Spots";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      lat: {[Op.in]: [28.0825000, 95.1010190, 100.1241249]}
+      lat: {[Op.in]: [28.0825000, 89.1010190, 70.1241249]}
     }, {})
   }
 };
