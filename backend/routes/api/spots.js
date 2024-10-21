@@ -41,17 +41,17 @@ function getAverage(arr) {
 
 
      if (Object.keys(error).length > 0) {
-        return res.status(400).json({ 
-            "message": "Bad Request", 
+        return res.status(400).json({
+            "message": "Bad Request",
             "errors": error
         });
     }
-      
+
       try {
-    
+
         let pageNumber = parseInt(page);
         let sizeNumber = parseInt(size)
-    
+
         if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
         if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
 
@@ -272,16 +272,16 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
             where: {id: spotId}
           })
 
-          console.log(req.body)
+        //   console.log(req.body)
           updateSpot.set({
-            address, 
-            city, 
-            state, 
-            country, 
-            lat, 
-            lng, 
-            name, 
-            description, 
+            address,
+            city,
+            state,
+            country,
+            lat,
+            lng,
+            name,
+            description,
             price
           })
 
@@ -299,6 +299,7 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
 
        let options = {}
        error.errors.map(element => {
+            console.log(element)
             if(element.path === "address") element.message = options.address = "Street address is required";
             if(element.path === "city") element.message = options.city = "City is required";
             if(element.path === "state") element.message = options.state = "State is required";
