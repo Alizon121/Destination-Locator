@@ -2,6 +2,7 @@
 const jwt = require('jsonwebtoken');
 const { jwtConfig } = require('../config');
 const { User, Review } = require('../db/models');
+const review = require('../db/models/review');
 const { secret, expiresIn } = jwtConfig;
 
 //SetTokenCookie
@@ -75,11 +76,18 @@ const requireAuth = function (req, _res, next) {
   const requireAuthorization = async function (req, res, next) {
     const mainUser = req.user.dataValues.id;
 
-    const reviewData = await Review.findOne()
+    const reviewData = await Review.findOne({
+      where: {id: req.params.spotId}
+    })
+
+    if (reviewData === null) {
+      return res.status(404).json({"message": "Spot couldn't be found"});
+    }
+
+    // console.log(reviewData)
     const userId = reviewData.dataValues.userId;
 
-    if ((userId) && mainUser === userId) return next();
-
+    if (userId && (mainUser === userId)) return next();
     const err = new Error('Authorization required');
     err.title = 'Authorization required';
     err.errors = { message: 'Authorization required' };
@@ -87,11 +95,5 @@ const requireAuth = function (req, _res, next) {
     return next(err);
 
   }
-// Authorization is making the the user is the right user
-// Use the token
-// Create a user propery on req (restoreUsers)
-// Use the reviews foreignKey (userId)
-// We need to make sure that the user ids match
-//
 
   module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorization};
