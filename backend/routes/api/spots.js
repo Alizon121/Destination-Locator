@@ -107,6 +107,7 @@ function getAverage(arr) {
 
 
 router.post("/", requireAuth, async (req,res,next) => {
+    console.log(req.body)
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
     const ownerId = req.user.id;
     const existingListing = await Spot.findOne({where:{lat}})
