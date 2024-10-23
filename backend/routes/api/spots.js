@@ -268,7 +268,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     try {
       const spot = await Spot.findByPk(spotId);
-      if (req.user.id !== spot.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
+      if (req.user.id !== spot.ownerId) return res.status(403).json({message: "Forbidden"})
 
       if (!spot) {
         return res.status(404).json({ message: "Spot couldn't be found" });
@@ -294,7 +294,7 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
     
-    if (req.user.id !== findSpotId.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
+    if (req.user.id !== findSpotId.ownerId) return res.status(403).json({message: "Forbidden"})
 
     try {
         if (!findSpotId) return res.status(404).json({
@@ -357,7 +357,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
     try {
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
-    if (req.user.id !== findSpotId.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
+    if (req.user.id !== findSpotId.ownerId) return res.status(403).json({message: "Forbidden"})
 
     if (!findSpotId) return res.status(404).json({"message": "Spot couldn't be found"});
     await findSpotId.destroy();
