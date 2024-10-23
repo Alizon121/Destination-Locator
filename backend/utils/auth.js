@@ -73,26 +73,26 @@ const requireAuth = function (req, _res, next) {
     return next(err);
   }
 
-  const requireAuthorization = async function (req, res, next) {
-    const mainUser = req.user.dataValues.id;
+  // const requireAuthorization = async function (req, res, next) {
+  //   const mainUser = req.user.dataValues.id;
 
-    const reviewData = await Review.findOne({
-      where: {id: req.params.spotId}
-    })
+  //   const reviewData = await Review.findOne({
+  //     where: {id: req.params.spotId}
+  //   })
 
-    if (!reviewData) {
-      return res.status(404).json({"message": "Spot couldn't be found"});
-  }
+  //   if (!reviewData) {
+  //     return res.status(404).json({"message": "Spot couldn't be found"});
+  // }
 
-    const userId = reviewData.dataValues.userId;
+  //   const userId = reviewData.dataValues.userId;
 
-    if (mainUser === userId) return next();
-    const err = new Error('Authorization required');
-    err.title = 'Authorization required';
-    err.errors = { message: 'Authorization required' };
-    err.status = 404;
-    return next(err);
+  //   if (mainUser === userId) return next();
+  //   const err = new Error('Authorization required');
+  //   err.title = 'Authorization required';
+  //   err.errors = { message: 'Authorization required' };
+  //   err.status = 404;
+  //   return next(err);
 
-  }
+  // }
 
-  module.exports = { setTokenCookie, restoreUser, requireAuth, requireAuthorization};
+  module.exports = { setTokenCookie, restoreUser, requireAuth};

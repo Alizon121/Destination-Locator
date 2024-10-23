@@ -262,12 +262,13 @@ router.get('/:spotId', async (req, res, next) => {
 })
 
 /*************************Add Image to a Spot by Id *************************/
-router.post('/:spotId/images', requireAuth, requireAuthorization, async (req, res, next) => {
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     const spotId = req.params.spotId;
     const { url, preview } = req.body;
 
     try {
       const spot = await Spot.findByPk(spotId);
+      if (spotId !== spot.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
 
       if (!spot) {
         return res.status(404).json({ message: "Spot couldn't be found" });
@@ -287,13 +288,14 @@ router.post('/:spotId/images', requireAuth, requireAuthorization, async (req, re
 })
 
 /**********************Edit a Spot ******************************/
-router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
+router.put("/:spotId", requireAuth, async (req, res, next) => {
 
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
-    // console.log(lng)
-    // console.log(findSpotId)
+    
+    if (spotId !== findSpotId.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
+
     try {
         if (!findSpotId) return res.status(404).json({
             "message": "Spot couldn't be found"
@@ -351,10 +353,12 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
 
 
 /***************Delete a Spot *****************************/
-router.delete("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
+router.delete("/:spotId", requireAuth, async (req, res, next) => {
     try {
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
+    if (spotId !== findSpotId.dataValues.ownerId) return res.status(403).json({message: "Forbidden"})
+        
     if (!findSpotId) return res.status(404).json({"message": "Spot couldn't be found"});
     await findSpotId.destroy();
 
