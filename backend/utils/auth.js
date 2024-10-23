@@ -80,11 +80,10 @@ const requireAuth = function (req, _res, next) {
       where: {id: req.params.spotId}
     })
 
-    // if (reviewData === null) {
-    //   return res.status(404).json({"message": "Spot couldn't be found"});
-    // }
+    if (reviewData === null) {
+      return res.status(404).json({"message": "Spot couldn't be found"});
+    }
 
-    // console.log(reviewData)
     const userId = reviewData.dataValues.userId;
 
     if (mainUser === userId) return next();
