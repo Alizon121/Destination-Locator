@@ -87,7 +87,7 @@ const requireAuth = function (req, _res, next) {
     // console.log(reviewData)
     const userId = reviewData.dataValues.userId;
 
-    if (userId && (mainUser === userId)) return next();
+    if (mainUser === userId) return next();
     const err = new Error('Authorization required');
     err.title = 'Authorization required';
     err.errors = { message: 'Authorization required' };
