@@ -249,7 +249,12 @@ router.get('/:spotId', async (req, res, next) => {
             }
         });
 
-        return res.status(200).json(newFormat);
+    for (let el in newFormat) {
+        if (spotId == newFormat[el].id) {
+            return res.status(200).json(newFormat[el]);
+        }
+    }
+
     }
     catch (error) {
         next(error)
