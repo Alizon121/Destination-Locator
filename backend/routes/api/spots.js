@@ -27,6 +27,7 @@ function getAverage(arr) {
     return count;
 }
 
+/*************************Get All Spots ************************************/
   router.get("/", async (req,res,next) => {
     const {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
     let error = {}
@@ -105,7 +106,7 @@ function getAverage(arr) {
 }
 })
 
-
+/***************************CREATE A SPOT *****************************/
 router.post("/", requireAuth, async (req,res,next) => {
     console.log(req.body)
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
@@ -152,6 +153,7 @@ router.post("/", requireAuth, async (req,res,next) => {
     }
 })
 
+/***********************GET All Spots of Current User ***********************/
 router.get('/current', requireAuth, async (req, res, next) => {
     const currentId = req.user.dataValues.id
     const spots = await Spot.findAll({
@@ -189,9 +191,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
     })
 
-    res.json(newFormat);
+    res.json({
+        Spots: newFormat
+    });
 })
 
+/**************************Get Details of a Spot from Id *****************************/
 router.get('/:spotId', async (req, res, next) => {
     const spotId = req.params.spotId;
 
@@ -251,6 +256,7 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 
+/*************************Add Image to a Spot by Id *************************/
 router.post('/:spotId/images', requireAuth, requireAuthorization, async (req, res, next) => {
     const spotId = req.params.spotId;
     const { url, preview } = req.body;
@@ -275,7 +281,7 @@ router.post('/:spotId/images', requireAuth, requireAuthorization, async (req, re
     }
 })
 
-
+/**********************Edit a Spot ******************************/
 router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
 
     const spotId = req.params.spotId;
@@ -339,7 +345,7 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
 })
 
 
-
+/***************Delete a Spot *****************************/
 router.delete("/:spotId", requireAuth, requireAuthorization, async (req, res, next) => {
     try {
     const spotId = req.params.spotId;
