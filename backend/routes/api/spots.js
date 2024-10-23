@@ -282,7 +282,7 @@ router.put("/:spotId", requireAuth, requireAuthorization, async (req, res, next)
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
     // console.log(lng)
-    console.log(findSpotId)
+    // console.log(findSpotId)
     try {
         if (!findSpotId) return res.status(404).json({
             "message": "Spot couldn't be found"

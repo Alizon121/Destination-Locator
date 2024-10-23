@@ -80,9 +80,9 @@ const requireAuth = function (req, _res, next) {
       where: {id: req.params.spotId}
     })
 
-    if (reviewData === null) {
-      return res.status(404).json({"message": "Spot couldn't be found"});
-    }
+    // if (reviewData === null) {
+    //   return res.status(404).json({"message": "Spot couldn't be found"});
+    // }
 
     // console.log(reviewData)
     const userId = reviewData.dataValues.userId;
@@ -91,7 +91,7 @@ const requireAuth = function (req, _res, next) {
     const err = new Error('Authorization required');
     err.title = 'Authorization required';
     err.errors = { message: 'Authorization required' };
-    err.status = 403;
+    err.status = 404;
     return next(err);
 
   }
