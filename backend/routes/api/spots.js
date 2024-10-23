@@ -139,11 +139,11 @@ router.post("/", requireAuth, async (req,res,next) => {
             if(element.path === "city") element.message = options.city = "City is required";
             if(element.path === "state") element.message = options.state = "State is required";
             if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude must be within -90 and 90";
-            if(element.path === "lng") element.message = options.lng = "Longitude must be within -180 and 180";
+            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
+            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
             if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
             if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day must be a positive number";
+            if(element.path === "price") element.message = options.price = "Price per day is required";
         })
             res.status(400).json({
                 "message": "Bad request",
@@ -337,11 +337,11 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
             if(element.path === "city") element.message = options.city = "City is required";
             if(element.path === "state") element.message = options.state = "State is required";
             if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude must be within -90 and 90";
-            if(element.path === "lng") element.message = options.lng = "Longitude must be within -180 and 180";
+            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
+            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
             if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
             if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day must be a positive number";
+            if(element.path === "price") element.message = options.price = "Price per day is required";
         })
             res.status(400).json({
                 "message": "Bad request",
