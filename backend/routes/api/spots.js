@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 // const apiRouter = require('./api');
-const {Spot, SpotImage, Review, User} = require("../../db/models");
+const {Spot, SpotImage, Review, User, ReviewImage} = require("../../db/models");
 const { Model, json } = require('sequelize');
 const { requireAuth, requireAuthorization } = require('../../utils/auth');
 const { parse } = require('dotenv');
+const review = require('../../db/models/review');
 // router.use('/api', apiRouter);
 
 function getAverage(arr) {
@@ -260,6 +261,34 @@ router.get('/:spotId', async (req, res, next) => {
         next(error)
     }
 })
+
+/***********************Get All Reviews by a Spot's Id *************************/
+router.get("/:spotId/reviews", async (req, res, next) => {
+    const spotId = req.params.spotId;
+    const findSpot = await Spot.findByPk(spotId);
+
+    if (!findSpot) {
+        res.status(404).json({message: "Spot couldn't be found"})
+    }
+
+    const findReview = await Review.findAll({
+        where: {id: spotId},
+        include: [
+            {model: User, as: "User", attributes: ["id", "firstName", "lastName"]},
+            {model: ReviewImage, attributes: ['id', 'url']}
+            ]
+        }
+    )
+    const reviews = findReview.map(element => {
+            return element
+    })
+    console.log(reviews)
+    // const user = reviews.map
+    
+        return res.json({
+            Reviews: reviews
+        })
+    })
 
 /*************************Add Image to a Spot by Id *************************/
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {

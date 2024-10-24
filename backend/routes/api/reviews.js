@@ -7,3 +7,5 @@ const { requireAuth } = require('../../utils/auth');
 const { parse } = require('dotenv');
 
 
+
+module.exports = router
