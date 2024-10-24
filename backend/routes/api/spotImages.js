@@ -9,7 +9,30 @@ const review = require('../../db/models/review');
 
 
 router.delete('/:imageId', requireAuth, async (req, res, next) => {
-    
+    const spotImage = req.params.imageId;
+    let spotId;
+    try {
+        const findSpotImageId = await SpotImage.findByPk(spotImage)
+        if (!findSpotImageId) res.status(404).json({
+            "message": "Spot Image couldn't be found"
+          })
+
+          spotId = findSpotImageId.spotId
+
+        const findSpot = await Spot.findAll({
+            where: {id: spotId}
+        })
+
+        findSpot.forEach(element => {
+            if (req.user.id !== element.ownerId) return res.status(403).json({
+                "message": "Forbidden"
+              })
+        })
+        await findSpotImageId.destroy()
+        res.json({message: "Successfully deleted"})
+    } catch(err) {
+        next(err)
+    }
 })
 
 
