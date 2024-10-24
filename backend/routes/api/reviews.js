@@ -4,6 +4,8 @@ const {Spot, SpotImage, Review, ReviewImage, User} = require("../../db/models");
 const { Model, json } = require('sequelize');
 const { requireAuth } = require('../../utils/auth');
 const { parse } = require('dotenv');
+const review = require('../../db/models/review');
+
 
 /***********************GET All Reviews of Current User ***********************/
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -76,6 +78,30 @@ router.put("/:reviewId", requireAuth, async (req, res, next) => {
 })
 
 
+router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
+    const reviewId = req.params.reviewId;
+    const { url } = req.body;
+
+    try {
+      const review = await Review.findByPk(reviewId);
+      if (!review) {
+        return res.status(404).json({ message: "Review couldn't be found" });
+      }
+      if (req.user.id !== review.userId) return res.status(403).json({message: "Forbidden"})
 
 
-module.exports = router;
+      const newImage = await review.createReviewImage({ url });
+
+      const limitedImage = await ReviewImage.findByPk(newImage.id, {
+        attributes: ['id', 'url']
+      });
+
+      res.status(201).json(limitedImage);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+})
+
+module.exports = router
+
