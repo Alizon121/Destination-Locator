@@ -322,8 +322,8 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
-    
-    
+
+
     try {
         if (!findSpotId) return res.status(404).json({
             "message": "Spot couldn't be found"
@@ -361,7 +361,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
 
        let options = {}
        error.errors.map(element => {
-            console.log(element)
             if(element.path === "address") element.message = options.address = "Street address is required";
             if(element.path === "city") element.message = options.city = "City is required";
             if(element.path === "state") element.message = options.state = "State is required";
@@ -397,6 +396,68 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 } catch(error) {
     next(error)
 }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************CREATE A REVIEW*****************************/
+router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
+    const { review, stars } = req.body;
+    const userId = req.user.id;
+    const { spotId } = req.params;
+
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) return res.status(404).json({ "message": "Spot couldn't be found"})
+
+    const existingReview = await Review.findOne({ where: { spotId } })
+    if (existingReview) return res.status(500).json({ "message": "User already has a review for this spot" })
+
+    try {
+        const newReview = await Review.create({
+            userId,
+            spotId,
+            review,
+            stars,
+        })
+
+        return res.status(201).json(newReview);
+    }
+    catch(error) {
+        let options = {}
+        error.errors.map(element => {
+             if(element.path === "review") element.message = options.review = "Review text is required";
+             if(element.path === "stars") element.message = options.city = "Stars must be an integer from 1 to 5";
+         })
+             res.status(400).json({
+                 "message": "Bad request",
+                 "errors": options
+             })
+             next(error)
+    }
 })
 
 module.exports = router;
