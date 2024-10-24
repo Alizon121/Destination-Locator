@@ -127,7 +127,8 @@ router.post("/", requireAuth, async (req,res,next) => {
                 price,
                 description,
             })
-            res.status(201).json(newSpot)
+            console.log(newSpot);
+            return res.status(201).json(newSpot)
         } else (
             res.status(400).json("Listing already exists.")
         )
@@ -284,7 +285,7 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     })
     console.log(reviews)
     // const user = reviews.map
-    
+
         return res.json({
             Reviews: reviews
         })
