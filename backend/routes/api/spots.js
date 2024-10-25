@@ -80,7 +80,7 @@ function getAverage(arr) {
                 city: spotElements.city,
                 state: spotElements.state,
                 country: spotElements.country,
-                lat: pareseFloat(spotElements.lat),
+                lat: parseFloat(spotElements.lat),
                 lng: parseFloat(spotElements.lng),
                 name: spotElements.name,
                 description: spotElements.description,
