@@ -10,47 +10,46 @@ const validateSignup = [
     check('email')
       .exists({ checkFalsy: true })
       .isEmail()
-      .withMessage('Invalid email'),
+      .withMessage('Please provide a valid email.'),
     check('username')
       .exists({ checkFalsy: true })
       .isLength({ min: 4 })
-      .withMessage('Username is required'),
+      .withMessage('Please provide a username with at least 4 characters.'),
     check('username')
       .not()
       .isEmail()
-      .withMessage('Username cannot be an email'),
+      .withMessage('Username cannot be an email.'),
     check('password')
       .exists({ checkFalsy: true })
       .isLength({ min: 6 })
-      .withMessage('Password must be 6 characters or more'),
+      .withMessage('Password must be 6 characters or more.'),
     check('firstName')
       .exists({ checkFalsy: true })
-      .withMessage('First name is required'),
+      .withMessage('Please provide a first name.'),
     check('lastName')
       .exists({ checkFalsy: true })
-      .withMessage('Last name is required'),
+      .withMessage('Please provide a last name.'),
     handleValidationErrors
   ];
 
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
-
-
   const { email, password, username } = req.body;
-  const existingInfo = await User.findAll({
-    attributes: ['email', 'username']
-  })
+
+  // const existingInfo = await User.findAll({
+  //   attributes: ['email', 'username']
+  // })
+  // const errors = {}
+  // existingInfo.forEach(element => {
+  //   // Include an error handler for checking if element.attrib exists
+  //   if (element.dataValues.email === email) errors.email = "User with that email already exists"
+  //   if (element.dataValues.username === username) errors.username = "User with that username already exists"
+  // })
   
-  const errors = {}
-  existingInfo.forEach(element => {
-    if (element.dataValues.email === email) errors.email = "User with that email already exists"
-    if (element.dataValues.username === username) errors.username = "User with that username already exists"
-  })
-  
-  if (Object.keys(errors).length > 0) res.status(500).json({
-    message: "User already exists",
-    errors
-  })
+  // if (Object.keys(errors).length > 0) res.status(500).json({
+  //   message: "User already exists",
+  //   errors
+  // })
   
       const hashedPassword = bcrypt.hashSync(password);
       const user = await User.create({ firstName, lastName, email, username, hashedPassword });
@@ -60,7 +59,9 @@ router.post('/', validateSignup, async (req, res) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        username: user.username
+        username: user.username,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
       };
   
       await setTokenCookie(res, safeUser);
