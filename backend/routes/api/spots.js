@@ -284,7 +284,7 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     })
     console.log(reviews)
     // const user = reviews.map
-    
+
         return res.json({
             Reviews: reviews
         })
@@ -425,7 +425,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 
 
 /***************************CREATE A REVIEW*****************************/
-//  Review from the current user already exists for the Spot 
+//  Review from the current user already exists for the Spot
 router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
     const { review, stars } = req.body;
     const userId = req.user.id;
@@ -434,11 +434,10 @@ router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
     const spot = await Spot.findByPk(spotId);
     if (!spot) return res.status(404).json({ "message": "Spot couldn't be found"})
 
-    const existingReview = await Review.findAll({
-        where: {spotId: spotId}
+    const existingReview = await Review.findOne({
+        where: {spotId , userId}
     });
-    console.log(existingReview)
-    // if (req.user.id === existingReview.dataValues.userId) return res.status(500).json({ "message": "User already has a review for this spot" })
+    if (existingReview) return res.status(500).json({ "message": "User already has a review for this spot" })
 
     try {
         const newReview = await Review.create({
