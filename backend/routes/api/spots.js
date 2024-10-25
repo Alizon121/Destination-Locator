@@ -372,7 +372,7 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
             if(element.path === "price") element.message = options.price = "Price per day is required";
         })
             res.status(400).json({
-                "message": "Bad request",
+                "message": "Bad Request",
                 "errors": options
             })
             next(error)
