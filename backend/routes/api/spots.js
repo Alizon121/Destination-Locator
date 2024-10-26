@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const {check} = require("express-validator");
+const {handleValidationErrors} = require("../../utils/validation")
 // const apiRouter = require('./api');
 const {Spot, SpotImage, Review, User, ReviewImage} = require("../../db/models");
 const { Model, json } = require('sequelize');
@@ -7,6 +9,49 @@ const { requireAuth, requireAuthorization } = require('../../utils/auth');
 const { parse } = require('dotenv');
 const review = require('../../db/models/review');
 // router.use('/api', apiRouter);
+
+const validateSpot = [
+    check('address')
+        .notEmpty()
+        .withMessage('Street address is required'),
+    check('city')
+        .notEmpty()
+        .withMessage('City is required'),
+    check('state')
+        .notEmpty()
+        .withMessage('State is required'),
+    check('country')
+        .notEmpty()
+        .withMessage('Country is required'),
+    check('lat')
+        .notEmpty()
+        .withMessage('Latitude is required')
+        // .bail()
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Latitude must be within -90 and 90'),
+    check('lng')
+        .notEmpty()
+        .withMessage('Longitude is required')
+        // .bail()
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Longitude must be within -180 and 180'),
+    check('name')
+        .notEmpty()
+        .withMessage('Name cannot be empty')
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .notEmpty()
+        .withMessage('Description is required'),
+    check('price')
+        .notEmpty()
+        .withMessage('Price cannot be empty')
+        .isFloat({ gt: 0 })
+        .withMessage('Price per day must be a positive number'),
+    handleValidationErrors
+];
+
+
 
 function getAverage(arr) {
     if (arr.length === 0) {
@@ -108,15 +153,11 @@ function getAverage(arr) {
 })
 
 /***************************CREATE A SPOT *****************************/
-router.post("/", requireAuth, async (req,res,next) => {
-    console.log(req.body)
+router.post("/", requireAuth, validateSpot, async (req,res,next) => {
+
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
-    if (!address || !city || !state || !country || !lat || !lng || !name || !price || !description) {
-        return res.status(400).json("Listing already exists.")
-    }
-    
     const ownerId = req.user.id;
-    const existingListing = await Spot.findOne({where:{address}})
+    // const existingListing = await Spot.findOne({where:{address}})
     try {
         // if (!existingListing) {
             const newSpot = await Spot.create({
@@ -137,23 +178,23 @@ router.post("/", requireAuth, async (req,res,next) => {
         // )
     } catch(error) {
 
-       let options = {}
-       error.errors.map(element => {
-            console.log(element)
-            if(element.path === "address") element.message = options.address = "Street address is required";
-            if(element.path === "city") element.message = options.city = "City is required";
-            if(element.path === "state") element.message = options.state = "State is required";
-            if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-            if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-            if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day is required";
-        })
-            res.status(400).json({
-                "message": "Bad request",
-                "errors": options
-            })
+    //    let options = {}
+    //    error.errors.map(element => {
+    //         console.log(element)
+    //         if(element.path === "address") element.message = options.address = "Street address is required";
+    //         if(element.path === "city") element.message = options.city = "City is required";
+    //         if(element.path === "state") element.message = options.state = "State is required";
+    //         if(element.path === "country") element.message = options.country = "Country is required";
+    //         if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
+    //         if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
+    //         if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
+    //         if(element.path === "description") element.message = options.description = "Description is required";
+    //         if(element.path === "price") element.message = options.price = "Price per day is required";
+    //     })
+    //         res.status(400).json({
+    //             "message": "Bad request",
+    //             "errors": options
+    //         })
             next(error)
     }
 })
