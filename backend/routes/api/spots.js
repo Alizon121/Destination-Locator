@@ -51,6 +51,20 @@ const validateSpot = [
     handleValidationErrors
 ];
 
+const validateReview = (req, res, next) => {
+    const { review, stars } = req.body;
+    const errors = {};
+    if (!review) errors.review = "Review text is required";
+    if (!stars || stars < 1 || stars > 5) errors.stars = "Stars must be an integer from 1 to 5";
+  
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        "message": "Validation error",
+        "errors": errors
+      })
+    }
+    next();
+  }
 
 
 function getAverage(arr) {
@@ -370,30 +384,6 @@ router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
 
           res.json(updateSpot)
     } catch(error) {
-        // if (error.name === "SequelizeValidationError") {
-        //     const errorHandler = error.errors.map(element => element.message = `${element.path} is required`);
-        //     res.status(400).json({
-        //         "message": "Bad Request",
-        //         "errors": errorHandler
-        //     })
-        // }
-
-    //    let options = {}
-    //    error.errors.map(element => {
-    //         if(element.path === "address") element.message = options.address = "Street address is required";
-    //         if(element.path === "city") element.message = options.city = "City is required";
-    //         if(element.path === "state") element.message = options.state = "State is required";
-    //         if(element.path === "country") element.message = options.country = "Country is required";
-    //         if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-    //         if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-    //         if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-    //         if(element.path === "description") element.message = options.description = "Description is required";
-    //         if(element.path === "price") element.message = options.price = "Price per day is required";
-    //     })
-    //         res.status(400).json({
-    //             "message": "Bad Request",
-    //             "errors": options
-    //         })
             next(error)
     }
 })
@@ -445,7 +435,7 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 
 /***************************CREATE A REVIEW*****************************/
 //  Review from the current user already exists for the Spot
-router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
+router.post("/:spotId/reviews", requireAuth,  validateReview, async (req,res,next) => {
     const { review, stars } = req.body;
     const userId = req.user.id;
     const { spotId } = req.params;
@@ -469,15 +459,15 @@ router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
         return res.status(201).json(newReview);
     }
     catch(error) {
-        let options = {}
-        error.errors.map(element => {
-             if(element.path === "review") element.message = options.review = "Review text is required";
-             if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
-         })
-             res.status(400).json({
-                 "message": "Bad Request",
-                 "errors": options
-             })
+        // let options = {}
+        // error.errors.map(element => {
+        //      if(element.path === "review") element.message = options.review = "Review text is required";
+        //      if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
+        //  })
+        //      res.status(400).json({
+        //          "message": "Bad Request",
+        //          "errors": options
+        //      })
              next(error)
     }
 })
