@@ -157,9 +157,7 @@ router.post("/", requireAuth, validateSpot, async (req,res,next) => {
 
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
     const ownerId = req.user.id;
-    // const existingListing = await Spot.findOne({where:{address}})
     try {
-        // if (!existingListing) {
             const newSpot = await Spot.create({
                 ownerId,
                 address,
@@ -173,28 +171,7 @@ router.post("/", requireAuth, validateSpot, async (req,res,next) => {
                 description,
             })
             res.status(201).json(newSpot)
-        // } else (
-        //     res.status(400).json("Listing already exists.")
-        // )
     } catch(error) {
-
-    //    let options = {}
-    //    error.errors.map(element => {
-    //         console.log(element)
-    //         if(element.path === "address") element.message = options.address = "Street address is required";
-    //         if(element.path === "city") element.message = options.city = "City is required";
-    //         if(element.path === "state") element.message = options.state = "State is required";
-    //         if(element.path === "country") element.message = options.country = "Country is required";
-    //         if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-    //         if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-    //         if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-    //         if(element.path === "description") element.message = options.description = "Description is required";
-    //         if(element.path === "price") element.message = options.price = "Price per day is required";
-    //     })
-    //         res.status(400).json({
-    //             "message": "Bad request",
-    //             "errors": options
-    //         })
             next(error)
     }
 })
@@ -362,12 +339,11 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 })
 
 /**********************Edit a Spot ******************************/
-router.put("/:spotId", requireAuth, async (req, res, next) => {
+router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
 
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
-
 
     try {
         if (!findSpotId) return res.status(404).json({
@@ -378,8 +354,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
           const updateSpot = await Spot.findOne({
             where: {id: spotId}
           })
-
-        //   console.log(req.body)
           updateSpot.set({
             address,
             city,
@@ -404,22 +378,22 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
         //     })
         // }
 
-       let options = {}
-       error.errors.map(element => {
-            if(element.path === "address") element.message = options.address = "Street address is required";
-            if(element.path === "city") element.message = options.city = "City is required";
-            if(element.path === "state") element.message = options.state = "State is required";
-            if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-            if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-            if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day is required";
-        })
-            res.status(400).json({
-                "message": "Bad Request",
-                "errors": options
-            })
+    //    let options = {}
+    //    error.errors.map(element => {
+    //         if(element.path === "address") element.message = options.address = "Street address is required";
+    //         if(element.path === "city") element.message = options.city = "City is required";
+    //         if(element.path === "state") element.message = options.state = "State is required";
+    //         if(element.path === "country") element.message = options.country = "Country is required";
+    //         if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
+    //         if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
+    //         if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
+    //         if(element.path === "description") element.message = options.description = "Description is required";
+    //         if(element.path === "price") element.message = options.price = "Price per day is required";
+    //     })
+    //         res.status(400).json({
+    //             "message": "Bad Request",
+    //             "errors": options
+    //         })
             next(error)
     }
 })
