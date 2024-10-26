@@ -133,7 +133,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 
 /************************Delete a Review *****************/
 // router.delete("/:reviewId", requireAuth, async (req, res, next) => {
-    // try {
+//     try {
 
 //         const userId = req.user.id;
 //         const reviewId = req.params.reviewId;
@@ -163,10 +163,11 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     try {
         const reviewId = req.params.reviewId;
-        const findReviewId = await Review.findByPk(reviewId);
-        if (!findReviewId) return res.status(404).json({message: "Review couldn't be found"});
-        if (req.user.id !== reviewId) return res.status(403).json({message: "Forbidden"})
-        await findReviewId.destroy();
+        const review = await Review.findByPk(reviewId);
+
+        if (!review) return res.status(404).json({message: "Review couldn't be found"});
+        if (req.user.id !== review.userId) return res.status(403).json({message: "Forbidden"})
+        await review.destroy();
     
         return res.json({
         message: "Successfully deleted"
