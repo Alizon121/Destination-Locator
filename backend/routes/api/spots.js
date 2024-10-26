@@ -112,9 +112,9 @@ router.post("/", requireAuth, async (req,res,next) => {
     console.log(req.body)
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
     const ownerId = req.user.id;
-    const existingListing = await Spot.findOne({where:{lat}})
+    const existingListing = await Spot.findOne({where:{address}})
     try {
-        if (!existingListing) {
+        // if (!existingListing) {
             const newSpot = await Spot.create({
                 ownerId,
                 address,
@@ -128,9 +128,9 @@ router.post("/", requireAuth, async (req,res,next) => {
                 description,
             })
             res.status(201).json(newSpot)
-        } else (
-            res.status(400).json("Listing already exists.")
-        )
+        // } else (
+        //     res.status(400).json("Listing already exists.")
+        // )
     } catch(error) {
 
        let options = {}
