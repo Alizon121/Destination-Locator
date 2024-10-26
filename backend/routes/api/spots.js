@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const {check} = require("express-validator");
+const {handleValidationErrors} = require("../../utils/validation")
 // const apiRouter = require('./api');
 const {Spot, SpotImage, Review, User, ReviewImage} = require("../../db/models");
 const { Model, json } = require('sequelize');
@@ -7,6 +9,63 @@ const { requireAuth, requireAuthorization } = require('../../utils/auth');
 const { parse } = require('dotenv');
 const review = require('../../db/models/review');
 // router.use('/api', apiRouter);
+
+const validateSpot = [
+    check('address')
+        .notEmpty()
+        .withMessage('Street address is required'),
+    check('city')
+        .notEmpty()
+        .withMessage('City is required'),
+    check('state')
+        .notEmpty()
+        .withMessage('State is required'),
+    check('country')
+        .notEmpty()
+        .withMessage('Country is required'),
+    check('lat')
+        .notEmpty()
+        .withMessage('Latitude is required')
+        // .bail()
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Latitude must be within -90 and 90'),
+    check('lng')
+        .notEmpty()
+        .withMessage('Longitude is required')
+        // .bail()
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Longitude must be within -180 and 180'),
+    check('name')
+        .notEmpty()
+        .withMessage('Name cannot be empty')
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .notEmpty()
+        .withMessage('Description is required'),
+    check('price')
+        .notEmpty()
+        .withMessage('Price cannot be empty')
+        .isFloat({ gt: 0 })
+        .withMessage('Price per day must be a positive number'),
+    handleValidationErrors
+];
+
+const validateReview = (req, res, next) => {
+    const { review, stars } = req.body;
+    const errors = {};
+    if (!review) errors.review = "Review text is required";
+    if (!stars || stars < 1 || stars > 5) errors.stars = "Stars must be an integer from 1 to 5";
+  
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        "message": "Validation error",
+        "errors": errors
+      })
+    }
+    next();
+  }
+
 
 function getAverage(arr) {
     if (arr.length === 0) {
@@ -29,92 +88,178 @@ function getAverage(arr) {
 }
 
 /*************************Get All Spots ************************************/
-  router.get("/", async (req,res,next) => {
-    const {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
-    let error = {}
-         if(page < 1) error.page = "Page must be greater than or equal to 1";
-         if(size < 1 || size > 20) error.size = "Size must be between 1 and 20";
-         if(maxLat > 90) error.maxLat = "Maximum latitude is invalid";
-         if(minLat < -90) error.minLat = "Minimum latitude is invalid";
-         if(minLng < -180) error.minLng = "Minimum longitude is invalid";
-         if(maxLng > 180) error.maxLng = "Maximum longitude is invalid";
-         if(minPrice < 0 ) error.minPrice = "Minimum price must be greater than or equal to 0";
-         if(maxPrice > 1000000) error.maxPrice = "Maximum price must be greater than or equal to 0";
+//   router.get("/", validateSpot, async (req,res,next) => {
+//     const {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
+    // let error = {}
+    //      if(page < 1) error.page = "Page must be greater than or equal to 1";
+    //      if(size < 1 || size > 20) error.size = "Size must be between 1 and 20";
+    //      if(maxLat > 90) error.maxLat = "Maximum latitude is invalid";
+    //      if(minLat < -90) error.minLat = "Minimum latitude is invalid";
+    //      if(minLng < -180) error.minLng = "Minimum longitude is invalid";
+    //      if(maxLng > 180) error.maxLng = "Maximum longitude is invalid";
+    //      if(minPrice < 0 ) error.minPrice = "Minimum price must be greater than or equal to 0";
+    //      if(maxPrice > 1000000) error.maxPrice = "Maximum price must be greater than or equal to 0";
 
 
-     if (Object.keys(error).length > 0) {
+    //  if (Object.keys(error).length > 0) {
+    //     return res.status(400).json({
+    //         "message": "Bad Request",
+    //         "errors": error
+    //     });
+    // }
+//       try {
+
+//         let pageNumber = parseInt(page);
+//         let sizeNumber = parseInt(size)
+
+//         if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
+//         if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
+
+//             const spots = await Spot.findAll({
+//             include: [
+//                 { model: SpotImage, attributes: ['url'] },
+//                 { model: Review, attributes: ['stars'] }],
+//                 limit: sizeNumber,
+//                 offset:  sizeNumber*(pageNumber-1)
+//         })
+
+//         const newFormat = spots.map(spotElements => {
+//             const reviews = spotElements.Reviews;
+//             const spotRatings = reviews.map(reviewStars => reviewStars.stars);
+//             const avgRating = getAverage(spotRatings);
+
+//             const spotImagesDetails = spotElements.dataValues.SpotImages;
+//             const url = spotImagesDetails.map(element => element.dataValues.url);
+
+//             return {
+//                 id: spotElements.id,
+//                 ownerId: spotElements.ownerId,
+//                 address: spotElements.address,
+//                 city: spotElements.city,
+//                 state: spotElements.state,
+//                 country: spotElements.country,
+//                 lat: parseFloat(spotElements.lat),
+//                 lng: parseFloat(spotElements.lng),
+//                 name: spotElements.name,
+//                 description: spotElements.description,
+//                 price: spotElements.price,
+//                 createdAt: spotElements.createdAt,
+//                 updatedAt: spotElements.updatedAt,
+//                 previewImage: url[0],
+//                 avgRating: avgRating,
+//             }
+//         });
+
+//     return res.json({
+//         // spots
+//         Spots: newFormat,
+//         page: pageNumber,
+//         size: sizeNumber
+//     })
+// } catch(error) {
+//         //  res.status(400).json({
+//         //      "message": "Bad request",
+//         //      "errors": options
+//         //  })
+//     next(error)
+// }
+// })
+
+router.get('/', async (req, res) => {
+    const { page = 1, size = 20, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+
+    const pageNum = parseInt(page);
+    const sizeNum = parseInt(size);
+
+    const errors = {};
+    if (isNaN(pageNum) || pageNum < 1) errors.page = "Page must be greater than or equal to 1";
+    if (isNaN(sizeNum) || sizeNum < 1 || sizeNum > 20) errors.size = "Size must be between 1 and 20";
+    if (maxLat !== undefined && (isNaN(parseFloat(maxLat)) || maxLat > 90)) errors.maxLat = "Maximum latitude is invalid";
+    if (minLat !== undefined && (isNaN(parseFloat(minLat)) || minLat < -90)) errors.minLat = "Minimum latitude is invalid";
+    if (maxLng !== undefined && (isNaN(parseFloat(maxLng)) || maxLng > 180)) errors.maxLng = "Maximum longitude is invalid";
+    if (minLng !== undefined && (isNaN(parseFloat(minLng)) || minLng < -180)) errors.minLng = "Minimum longitude is invalid";
+    if (minPrice !== undefined && (isNaN(parseFloat(minPrice)) || minPrice < 0)) errors.minPrice = "Minimum price must be greater than or equal to 0";
+    if (maxPrice !== undefined && (isNaN(parseFloat(maxPrice)) || maxPrice < 0)) errors.maxPrice = "Maximum price must be greater than or equal to 0";
+
+    if (Object.keys(errors).length > 0) {
         return res.status(400).json({
             "message": "Bad Request",
-            "errors": error
+            "errors": errors
         });
     }
 
-      try {
+    const where = {};
+    if (minLat) where.lat = { [Op.gte]: parseFloat(minLat) };
+    if (maxLat) where.lat = { ...where.lat, [Op.lte]: parseFloat(maxLat) };
+    if (minLng) where.lng = { [Op.gte]: parseFloat(minLng) };
+    if (maxLng) where.lng = { ...where.lng, [Op.lte]: parseFloat(maxLng) };
+    if (minPrice) where.price = { [Op.gte]: parseFloat(minPrice) };
+    if (maxPrice) where.price = { ...where.price, [Op.lte]: parseFloat(maxPrice) };
 
-        let pageNumber = parseInt(page);
-        let sizeNumber = parseInt(size)
+    const limit = Math.min(sizeNum, 20);
+    const offset = (pageNum - 1) * limit;
 
-        if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1
-        if (Number.isNaN(sizeNumber) || (sizeNumber < 1 || sizeNumber > 20)) sizeNumber = 20;
+    const spots = await Spot.findAll({
+        where,
+        limit,
+        offset,
+        include: [
+            {
+                model: SpotImage,
+                as: "SpotImages",
+                where: { preview: true },
+                required: false,
+                attributes: ["url"],
+            },
+            {
+                model: Review,
+                attributes: [],
+            },
+        ],
+        group: ["Spot.id", "SpotImages.id"],
+        subQuery: false,
+    });
 
-            const spots = await Spot.findAll({
-            include: [
-                { model: SpotImage, attributes: ['url'] },
-                { model: Review, attributes: ['stars'] }],
-                limit: sizeNumber,
-                offset:  sizeNumber*(pageNumber-1)
-        })
+    const result = spots.map((spot) => {
+        const numReviews = spot.Reviews ? spot.Reviews.length : 0;
+        const avgRating = numReviews > 0
+            ? spot.Reviews.reduce((sum, review) => sum + review.stars, 0) / numReviews
+            : 0;
+        return {
+            id: spot.id,
+            ownerId: spot.ownerId,
+            address: spot.address,
+            city: spot.city,
+            state: spot.state,
+            country: spot.country,
+            lat: spot.lat ? parseFloat(spot.lat) : null,
+            lng: spot.lng ? parseFloat(spot.lng) : null,
+            name: spot.name,
+            description: spot.description,
+            price: spot.price ? parseFloat(spot.price) : null,
+            createdAt: spot.createdAt,
+            updatedAt: spot.updatedAt,
+            avgRating: spot.dataValues.avgRating
+                ? parseFloat(spot.dataValues.avgRating).toFixed(1)
+                : null,
 
-        const newFormat = spots.map(spotElements => {
-            const reviews = spotElements.Reviews;
-            const spotRatings = reviews.map(reviewStars => reviewStars.stars);
-            const avgRating = getAverage(spotRatings);
+            previewImage: spot.SpotImages.length > 0 ? spot.SpotImages[0].url : null,
+        };
+    });
 
-            const spotImagesDetails = spotElements.dataValues.SpotImages;
-            const url = spotImagesDetails.map(element => element.dataValues.url);
-
-            return {
-                id: spotElements.id,
-                ownerId: spotElements.ownerId,
-                address: spotElements.address,
-                city: spotElements.city,
-                state: spotElements.state,
-                country: spotElements.country,
-                lat: spotElements.lat,
-                lng: spotElements.lng,
-                name: spotElements.name,
-                description: spotElements.description,
-                price: spotElements.price,
-                createdAt: spotElements.createdAt,
-                updatedAt: spotElements.updatedAt,
-                previewImage: url[0],
-                avgRating: avgRating,
-            }
-        });
-
-    return res.json({
-        // spots
-        Spots: newFormat,
-        page: pageNumber,
-        size: sizeNumber
-    })
-} catch(error) {
-        //  res.status(400).json({
-        //      "message": "Bad request",
-        //      "errors": options
-        //  })
-    next(error)
-}
-})
+    res.json({
+        Spots: result,
+        page: pageNum,
+        size: limit,
+    });
+});
 
 /***************************CREATE A SPOT *****************************/
-router.post("/", requireAuth, async (req,res,next) => {
-    console.log(req.body)
+router.post("/", requireAuth, validateSpot, async (req,res,next) => {
+
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
     const ownerId = req.user.id;
-    const existingListing = await Spot.findOne({where:{lat}})
     try {
-        if (!existingListing) {
             const newSpot = await Spot.create({
                 ownerId,
                 address,
@@ -128,28 +273,7 @@ router.post("/", requireAuth, async (req,res,next) => {
                 description,
             })
             res.status(201).json(newSpot)
-        } else (
-            res.status(400).json("Listing already exists.")
-        )
     } catch(error) {
-
-       let options = {}
-       error.errors.map(element => {
-            console.log(element)
-            if(element.path === "address") element.message = options.address = "Street address is required";
-            if(element.path === "city") element.message = options.city = "City is required";
-            if(element.path === "state") element.message = options.state = "State is required";
-            if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-            if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-            if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day is required";
-        })
-            res.status(400).json({
-                "message": "Bad request",
-                "errors": options
-            })
             next(error)
     }
 })
@@ -284,7 +408,7 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     })
     console.log(reviews)
     // const user = reviews.map
-    
+
         return res.json({
             Reviews: reviews
         })
@@ -317,12 +441,11 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 })
 
 /**********************Edit a Spot ******************************/
-router.put("/:spotId", requireAuth, async (req, res, next) => {
+router.put("/:spotId", requireAuth, validateSpot, async (req, res, next) => {
 
     const spotId = req.params.spotId;
     const findSpotId = await Spot.findByPk(spotId);
     const {address, city, state, country, lat, lng, name, description, price} = req.body;
-
 
     try {
         if (!findSpotId) return res.status(404).json({
@@ -333,8 +456,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
           const updateSpot = await Spot.findOne({
             where: {id: spotId}
           })
-
-        //   console.log(req.body)
           updateSpot.set({
             address,
             city,
@@ -351,30 +472,6 @@ router.put("/:spotId", requireAuth, async (req, res, next) => {
 
           res.json(updateSpot)
     } catch(error) {
-        // if (error.name === "SequelizeValidationError") {
-        //     const errorHandler = error.errors.map(element => element.message = `${element.path} is required`);
-        //     res.status(400).json({
-        //         "message": "Bad Request",
-        //         "errors": errorHandler
-        //     })
-        // }
-
-       let options = {}
-       error.errors.map(element => {
-            if(element.path === "address") element.message = options.address = "Street address is required";
-            if(element.path === "city") element.message = options.city = "City is required";
-            if(element.path === "state") element.message = options.state = "State is required";
-            if(element.path === "country") element.message = options.country = "Country is required";
-            if(element.path === "lat") element.message = options.lat = "Latitude is not valid";
-            if(element.path === "lng") element.message = options.lng = "Longitude is not valid";
-            if(element.path === "name") element.message = options.name = "Name must be less than 50 characters";
-            if(element.path === "description") element.message = options.description = "Description is required";
-            if(element.path === "price") element.message = options.price = "Price per day is required";
-        })
-            res.status(400).json({
-                "message": "Bad request",
-                "errors": options
-            })
             next(error)
     }
 })
@@ -425,7 +522,8 @@ router.delete("/:spotId", requireAuth, async (req, res, next) => {
 
 
 /***************************CREATE A REVIEW*****************************/
-router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
+//  Review from the current user already exists for the Spot
+router.post("/:spotId/reviews", requireAuth,  validateReview, async (req,res,next) => {
     const { review, stars } = req.body;
     const userId = req.user.id;
     const { spotId } = req.params;
@@ -433,7 +531,9 @@ router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
     const spot = await Spot.findByPk(spotId);
     if (!spot) return res.status(404).json({ "message": "Spot couldn't be found"})
 
-    const existingReview = await Review.findOne({ where: { spotId } })
+    const existingReview = await Review.findOne({
+        where: {spotId , userId}
+    });
     if (existingReview) return res.status(500).json({ "message": "User already has a review for this spot" })
 
     try {
@@ -447,15 +547,15 @@ router.post("/:spotId/reviews", requireAuth, async (req,res,next) => {
         return res.status(201).json(newReview);
     }
     catch(error) {
-        let options = {}
-        error.errors.map(element => {
-             if(element.path === "review") element.message = options.review = "Review text is required";
-             if(element.path === "stars") element.message = options.city = "Stars must be an integer from 1 to 5";
-         })
-             res.status(400).json({
-                 "message": "Bad request",
-                 "errors": options
-             })
+        // let options = {}
+        // error.errors.map(element => {
+        //      if(element.path === "review") element.message = options.review = "Review text is required";
+        //      if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
+        //  })
+        //      res.status(400).json({
+        //          "message": "Bad Request",
+        //          "errors": options
+        //      })
              next(error)
     }
 })

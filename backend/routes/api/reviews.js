@@ -6,6 +6,20 @@ const { requireAuth } = require('../../utils/auth');
 const { parse } = require('dotenv');
 const review = require('../../db/models/review');
 
+const validateReview = (req, res, next) => {
+    const { review, stars } = req.body;
+    const errors = {};
+    if (!review) errors.review = "Review text is required";
+    if (!stars || stars < 1 || stars > 5) errors.stars = "Stars must be an integer from 1 to 5";
+  
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({
+        "message": "Validation error",
+        "errors": errors
+      })
+    }
+    next();
+  }
 
 /***********************GET All Reviews of Current User ***********************/
 router.get('/current', requireAuth, async (req, res, next) => {
@@ -15,7 +29,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         where: { userId: currentId },
         include: [
             { model: User, as: 'User', attributes: ['id', 'firstName', 'lastName']},
-            { model: Spot, as: 'Spot', attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']},
+            { model: Spot, as: 'Spot',include: [{model: SpotImage, attributes: ['url'], where: { preview: true }, required: false}], attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']},
             { model: ReviewImage, attributes: ['id', 'url']},
         ]
     });
@@ -27,8 +41,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         const previewImageDetails = reviewElements.dataValues.ReviewImages.map(elements => elements.dataValues.url);
         const reviewInfo = reviewElements.dataValues.ReviewImages.map(elements => elements.dataValues);
 
-        //adding previewImage to the Spot object
-        spotInfo.previewImage = previewImageDetails[0];
+        previewImageDetails.length > 0 ? spotInfo.previewImage = previewImageDetails[0] : null
 
         return {
             id: review.id,
@@ -39,7 +52,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
             User: userInfo,
-            Spot: spotInfo,
+            Spot: {
+                id: review.Spot.id,
+                ownerId: review.Spot.ownerId,
+                address: review.Spot.address,
+                city: review.Spot.city,
+                state: review.Spot.state,
+                country: review.Spot.country,
+                lat: review.Spot.lat,
+                lng: review.Spot.lng,
+                name: review.Spot.name,
+                price: review.Spot.price,
+                previewImage: review.Spot.SpotImages.length > 0 ? review.Spot.SpotImages[0].url : null
+            },
             ReviewImages: reviewInfo
         }
     })
@@ -48,7 +73,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 });
 
 /**********************Edit a Review******************************/
-router.put("/:reviewId", requireAuth, async (req, res, next) => {
+router.put("/:reviewId", requireAuth, validateReview, async (req, res, next) => {
     const {reviewId} = req.params;
     const { review, stars } = req.body;
 
@@ -64,26 +89,29 @@ router.put("/:reviewId", requireAuth, async (req, res, next) => {
         await updateReview.save();
         res.json(updateReview)
     } catch(error) {
-       let options = {}
-       error.errors.map(element => {
-            if(element.path === "review") element.message = options.review = "Review text is required";
-            if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
-        })
-            res.status(400).json({
-                "message": "Bad request",
-                "errors": options
-            })
+    //    let options = {}
+    //    error.errors.map(element => {
+    //         if(element.path === "review") element.message = options.review = "Review text is required";
+    //         if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
+    //     })
+    //         res.status(400).json({
+    //             "message": "Bad request",
+    //             "errors": options
+    //         })
             next(error)
     }
 })
 
-
+/******************* Add an Image to a Review ************/
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     const reviewId = req.params.reviewId;
     const { url } = req.body;
 
     try {
-      const review = await Review.findByPk(reviewId);
+      const review = await Review.findOne({
+        where: {id:reviewId}
+    });
+
       if (!review) {
         return res.status(404).json({ message: "Review couldn't be found" });
       }
@@ -107,14 +135,14 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     try {
         const reviewId = req.params.reviewId;
-        const findReviewId = await Spot.findByPk(reviewId);
-        if (!findReviewId) return res.status(404).json({"message": "Spot couldn't be found"});
-        if (req.user.id !== findReviewId.ownerId) return res.status(403).json({message: "Forbidden"})
+        const review = await Review.findByPk(reviewId);
+
+        if (!review) return res.status(404).json({message: "Review couldn't be found"});
+        if (req.user.id !== review.userId) return res.status(403).json({message: "Forbidden"})
+        await review.destroy();
     
-        await findReviewId.destroy();
-    
-        res.json({
-        "message": "Successfully deleted"
+        return res.json({
+        message: "Successfully deleted"
         })
     } catch(err) {
         next(err)

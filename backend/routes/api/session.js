@@ -11,11 +11,9 @@ const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
       .notEmpty()
-      // .withMessage('Please provide a valid email or username.'),
       .withMessage('Email or username is required'),
     check('password')
       .exists({ checkFalsy: true })
-      // .withMessage('Please provide a password.'),
       .withMessage("Password is required"),
     handleValidationErrors
   ];
@@ -35,13 +33,10 @@ router.post('/', validateLogin, async (req, res, next) => {
       });
   
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
-        const err = new Error('Login failed');
+        const err = new Error('Invalid credentials');
         err.status = 401;
-        err.errors = { credential: 'The provided credentials were invalid.' };
+        // err.errors = { credential: 'The provided credentials were invalid.' };
         return next(err);
-        // res.status(401).json({
-        //   "message": "Invalid credentials"
-        // })
       }
   
       const safeUser = {
@@ -50,8 +45,8 @@ router.post('/', validateLogin, async (req, res, next) => {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt
+        // createdAt: user.createdAt,
+        // updatedAt: user.updatedAt
       };
   
       await setTokenCookie(res, safeUser);
@@ -72,8 +67,8 @@ router.get('/', (req, res) => {
           lastName: user.lastName,
           email: user.email,
           username: user.username,
-          createdAt: user.createdAt,
-          updatedAt: user.updatedAt
+          // createdAt: user.createdAt,
+          // updatedAt: user.updatedAt
         };
         return res.json({
           user: safeUser
