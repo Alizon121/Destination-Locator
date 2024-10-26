@@ -42,7 +42,10 @@ router.post('/', validateSignup, async (req, res) => {
 
   existingInfo.forEach(element => {
     // Include an error handler for checking if element.attrib exists
-    if (element.dataValues.email && element.dataValues.email === email) errors.email = "User with that email already exists"
+    if (!element.dataValues.email) errors.email = "element.dataValues.email"
+    if (element.dataValues.email === email) errors.email = "User with that email already exists" //User already exists with the specified email
+
+    if (!element.dataValues.username) errors.username = "User with that username already exists"
     if (element.dataValues.username && element.dataValues.username === username) errors.username = "User with that username already exists"
   })
   
