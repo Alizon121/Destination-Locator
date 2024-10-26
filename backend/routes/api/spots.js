@@ -111,6 +111,10 @@ function getAverage(arr) {
 router.post("/", requireAuth, async (req,res,next) => {
     console.log(req.body)
     const { address, city, state, country, lat, lng, name, price, description} = req.body;
+    if (!address || !city || !state || !country || !lat || !lng || !name || !price || !description) {
+        return res.status(400).json("Listing already exists.")
+    }
+    
     const ownerId = req.user.id;
     const existingListing = await Spot.findOne({where:{address}})
     try {
