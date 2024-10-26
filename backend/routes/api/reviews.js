@@ -9,13 +9,44 @@ const review = require('../../db/models/review');
 
 /***********************GET All Reviews of Current User ***********************/
 router.get('/current', requireAuth, async (req, res, next) => {
+    // router.get('/current', requireAuth, async (req, res) => {
+    //     const userId = req.user.id;
+    
+    //     const reviews = await Review.findAll({
+    //         where: { userId: userId },
+    //         include: [
+    //             {
+    //                 model: User,
+    //                 attributes: ['id', 'firstName', 'lastName']
+    //             },
+    //             {
+    //                 model: Spot,
+    //                 include: [
+    //                     {
+    //                         model: SpotImage,
+    //                         attributes: ['url'],
+    //                         where: { preview: true },
+    //                         required: false
+    //                     }
+    //                 ],
+    //                 attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']
+    //             },
+    //             {
+    //                 model: ReviewImage,
+    //                 attributes: ['id', 'url']
+    //             }
+    //         ]
+    //     });
+    
+    // });
+
     const currentId = req.user.dataValues.id;
 
     const reviews = await Review.findAll({
         where: { userId: currentId },
         include: [
             { model: User, as: 'User', attributes: ['id', 'firstName', 'lastName']},
-            { model: Spot, as: 'Spot', attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']},
+            { model: Spot, as: 'Spot',include: [{model: SpotImage, attributes: ['url'], where: { preview: true }, required: false}], attributes: ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price']},
             { model: ReviewImage, attributes: ['id', 'url']},
         ]
     });
@@ -28,7 +59,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         const reviewInfo = reviewElements.dataValues.ReviewImages.map(elements => elements.dataValues);
 
         previewImageDetails.length > 0 ? spotInfo.previewImage = previewImageDetails[0] : null
-        //adding previewImage to the Spot object
+
         return {
             id: review.id,
             userId: review.userId,
@@ -38,7 +69,19 @@ router.get('/current', requireAuth, async (req, res, next) => {
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
             User: userInfo,
-            Spot: spotInfo,
+            Spot: {
+                id: review.Spot.id,
+                ownerId: review.Spot.ownerId,
+                address: review.Spot.address,
+                city: review.Spot.city,
+                state: review.Spot.state,
+                country: review.Spot.country,
+                lat: review.Spot.lat,
+                lng: review.Spot.lng,
+                name: review.Spot.name,
+                price: review.Spot.price,
+                previewImage: review.Spot.SpotImages.length > 0 ? review.Spot.SpotImages[0].url : null
+            },
             ReviewImages: reviewInfo
         }
     })
