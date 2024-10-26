@@ -27,9 +27,8 @@ router.get('/current', requireAuth, async (req, res, next) => {
         const previewImageDetails = reviewElements.dataValues.ReviewImages.map(elements => elements.dataValues.url);
         const reviewInfo = reviewElements.dataValues.ReviewImages.map(elements => elements.dataValues);
 
+        previewImageDetails.length > 0 ? spotInfo.previewImage = previewImageDetails[0] : null
         //adding previewImage to the Spot object
-        spotInfo.previewImage = previewImageDetails[0];
-
         return {
             id: review.id,
             userId: review.userId,
