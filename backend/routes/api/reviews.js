@@ -135,7 +135,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 router.delete("/:reviewId", requireAuth, async (req, res, next) => {
     try {
         const reviewId = req.params.reviewId;
-        const findReviewId = await Spot.findByPk(reviewId);
+        const findReviewId = await Review.findByPk(reviewId);
         if (!findReviewId) return res.status(404).json({"message": "Spot couldn't be found"});
         if (req.user.id !== findReviewId.ownerId) return res.status(403).json({message: "Forbidden"})
     
