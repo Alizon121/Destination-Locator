@@ -32,6 +32,41 @@ export const login = (user) => async dispatch => {
         return response
 }
 
+// Make a thunk action for restoring user
+export const restoreUser = () => async dispatch => {
+    const response = await csrfFetch("api/session");
+    const data = await response.json();
+    dispatch(setUser(data.user))
+    return response
+}
+
+// Make a thunk action for logging out
+export const logout = () => async dispatch => {
+    const response = await csrfFetch('/api/session', {
+        method: 'DELETE'
+    })
+        dispatch(removeUser())
+        return response
+}
+
+// Make a thunk action for signing up
+export const signup = (payload) => async dispatch => {
+    const {username, firstName, lastName, email, password} = payload
+    const response = await csrfFetch('/api/users', {
+        method: 'POST',
+        body: JSON.stringify({
+            username,
+            firstName,
+            lastName,
+            email,
+            password
+        })
+    })
+        const result = await response.json();
+        dispatch(setUser(result.payload)) // This may be keying into incorrect key
+        return response
+}
+
 // Create the sessionReducer to update state
 const intialState = {user: null}
 const sessionReducer = (state = intialState, action) => {
