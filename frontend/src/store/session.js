@@ -40,14 +40,6 @@ export const restoreUser = () => async dispatch => {
     return response
 }
 
-// Make a thunk action for logging out
-export const logout = () => async dispatch => {
-    const response = await csrfFetch('/api/session', {
-        method: 'DELETE'
-    })
-        dispatch(removeUser())
-        return response
-}
 
 // Make a thunk action for signing up
 export const signup = (payload) => async dispatch => {
@@ -62,8 +54,16 @@ export const signup = (payload) => async dispatch => {
             password
         })
     })
-        const result = await response.json();
-        dispatch(setUser(result.payload)) // This may be keying into incorrect key
+    const result = await response.json();
+    dispatch(setUser(result.payload)) // This may be keying into incorrect key
+    return response
+}
+// Make a thunk action for logging out
+export const logout = () => async dispatch => {
+    const response = await csrfFetch('/api/session', {
+        method: 'DELETE'
+    })
+        dispatch(removeUser())
         return response
 }
 

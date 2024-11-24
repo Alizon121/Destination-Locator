@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../store/session";
 import { Navigate } from "react-router-dom";
-import './SignupForm.css'
+import './SignUpFormPage.css'
 // import { error } from "console";
 
 export default function SignUpFormPage() {

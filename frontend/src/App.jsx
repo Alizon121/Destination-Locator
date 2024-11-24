@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux';
 import LoginFormPage from "./components/LoginFormPage/LoginFormPage";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import { restoreUser } from "./store/session";
+import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation/Navigation';
 import SignUpFormPage from './components/SignUpFormPage';
 
@@ -11,7 +11,7 @@ function Layout () {
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    dispatch(restoreUser()).then(() => {
+    dispatch(sessionActions.restoreUser()).then(() => {
       setIsLoaded(true)
     })
   }, [dispatch])
