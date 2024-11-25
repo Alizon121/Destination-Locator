@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 import './Modal.css'
 
 const ModalContext = createContext();
-export const useModal = () => useContext(ModalContext);
 
 export function ModalProvider({children}) {
     const modalRef = useRef();
@@ -15,7 +14,7 @@ export function ModalProvider({children}) {
     const closeModal = () => {
         setModalContent(null) // clear ModalContents
 
-        if (typeof onModalClose === "funciton") { // if cb func is truthy, call cb and reset it
+        if (typeof onModalClose === "function") { // if cb func is truthy, call cb and reset it
             setOnModalClose(null)
             onModalClose();
         }
@@ -53,3 +52,5 @@ export function Modal() {
         modalRef.current
     )
 }
+
+export const useModal = () => useContext(ModalContext);
