@@ -21,8 +21,8 @@ function ProfileButton({user}) {
     useEffect(() => {
         if (!showMenu) return;
         
-        const closeMenu = (event) => {
-            if (!ulRef.current.contains(event.target)) {
+        const closeMenu = (e) => {
+            if (!ulRef.current.contains(e.target)) {
                 setShowMenu(false);
             }
         };
@@ -30,7 +30,7 @@ function ProfileButton({user}) {
         return () => document.removeEventListener('click', closeMenu);
     }, [showMenu]);
 
-    const closeMenu = (e) => setShowMenu(false)
+    const closeMenu = () => setShowMenu(false)
     
     const logout = (e) => {
         e.preventDefault();
