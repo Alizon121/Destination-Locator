@@ -29,10 +29,13 @@ function ProfileButton({user}) {
         document.addEventListener('click', closeMenu);
         return () => document.removeEventListener('click', closeMenu);
     }, [showMenu]);
+
+    const closeMenu = (e) => setShowMenu(false)
     
     const logout = (e) => {
         e.preventDefault();
         dispatch(sessionActions.logout())
+        closeMenu();
     }
     
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");  
@@ -51,21 +54,23 @@ function ProfileButton({user}) {
                 <button onClick={logout}>Log Out</button>
             </li>
             </>
-            ): (
-                <>
-                    <li>
-                        <OpenModalButton 
-                        buttonText="Log In"
-                        modalComponent={<LoginFormModal/>}
-                        />
-                    </li>
-                    <li>
-                        <OpenModalButton 
-                        buttonText="Sign Up"
-                        modalComponent={<SignupFormModal/>}
-                        />
-                    </li>
-                </>
+        ): (
+            <>
+                 <li>
+                    <OpenModalButton 
+                    buttonText="Log In"
+                    onButtonClick={closeMenu}
+                    modalComponent={<LoginFormModal/>}
+                    />
+                </li>
+                <li>
+                    <OpenModalButton 
+                    buttonText="Sign Up"
+                    onButtonClick={closeMenu}
+                    modalComponent={<SignupFormModal/>}
+                    />
+                </li>
+            </>
             )}
         </ul>
        </> 
