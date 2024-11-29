@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom"
 import { useSelector} from 'react-redux'
 import ProfileButton from './ProfileButton'
+import { LuLocateFixed } from "react-icons/lu"; // add font icon for destination locator
 import './Navigation.css'
 
 function Navigation({isLoaded}) {
@@ -10,7 +11,10 @@ function Navigation({isLoaded}) {
     return (
             <ul>
                 <li>
-                    <NavLink to='/'>Home</NavLink>
+                    <NavLink to='/' className="icon-home">
+                    <LuLocateFixed />
+                    Destination Locator
+                    </NavLink>
                 </li>
                 {isLoaded && (
                     <li>

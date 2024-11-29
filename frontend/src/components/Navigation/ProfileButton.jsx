@@ -5,6 +5,7 @@ import * as sessionActions from '../../store/session'
 import OpenModalMenuItem from './OpenModalMenuItem'
 import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from "../SignUpFormModal/SignUpFormModal";
+import { GiHamburgerMenu } from "react-icons/gi";
 import './ProfileButton.css'
 
 function ProfileButton({user}) {
@@ -41,9 +42,14 @@ function ProfileButton({user}) {
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");  
     return (
        <>
-       <button onClick={toggleMenu}>
-            <FaUserCircle/>
+       <div className="profile-menu-container" onClick={toggleMenu}>
+       <button className="user-button">
+            <GiHamburgerMenu/>
         </button>
+        <div className="profile-icon">
+            <FaUserCircle/>
+        </div>
+       </div>
         <ul className={ulClassName} ref={ulRef}>
             {user ? (
             <>
@@ -62,6 +68,7 @@ function ProfileButton({user}) {
                 modalComponent={<LoginFormModal/>}
               />
               <OpenModalMenuItem
+                className="signup"
                 itemText="Sign Up"
                 onItemClick={closeMenu}
                 modalComponent={<SignupFormModal/>}

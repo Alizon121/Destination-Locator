@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500;600;700&display=swap');
+
+ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 40px;
+    border-bottom: 1px solid #CCCCCC;
+    box-sizing: border-box;
+}
+
+.icon-home{
+    font-size: 25px;
+    padding-bottom: 5px;
+    font-family: karma 700;
+    color: #FF5A5F;
+    cursor: pointer;
+}
+
+.icon-home svg{
+    color: #FF5A5F;
+    position: relative;
+    top: 4px;
+}
+
+.icon {
+    display: inline-flex;
+    border: 5px;
+}
+
+svg {
+    margin-top: 0px;
+}

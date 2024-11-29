@@ -1,3 +1,38 @@
 .hidden {
     display: none;
   }
+
+  .user-button:hover {
+    cursor: pointer;
+  }
+
+  .icon-home {
+    text-decoration: none;
+    font-family: 700 karma;
+  }
+
+  .user-button {
+    font-size: 18px;
+    background-color: #FFFFFF;
+    border: none;
+    margin-right: 5px;
+    color: #000000
+  }
+
+  .profile-menu-container {
+    border: solid 2px #CCCCCC;
+    border-radius: 12px;
+    margin-right: 4px;
+    padding: 6px;
+    margin-bottom: 5px;
+  }
+
+  .profile-icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .login {
+    display: block;
+    cursor: pointer;
+  }
