@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation/Navigation';
-
+import LandingPageSpots from './components/Spots/LandingPageSpots';
 
 function Layout () {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <LandingPageSpots/> //We need to render a component here that displays all spots: '/api/spots'
       }
     ]
   }
