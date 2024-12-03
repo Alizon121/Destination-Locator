@@ -1,0 +1,57 @@
+.spot_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .spot_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+  }
+  
+  .spot_image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .spots_data {
+    list-style-type: none;
+    padding: 0;
+    text-align:left;
+    /* border: 1px solid #ccc; */
+    margin-top: 10px; /* Adds space between the image and the list */
+    display: flex;
+  }
+
+  .spot_city_state {
+    display: inline;
+  }
+
+    .spot_price {
+    display: inline-block;
+    padding-bottom: 10px;
+  }
+
+  ul.spots_data {
+    flex-direction: column;
+    padding-left: 0px;
+    width: 311px;
+  }
+
+  span {
+    position: relative;
+    display: block;
+  }
+  .spot_rating {
+    /* display: inline-flex;
+    justify-content: end;
+    position: relative; */
+    position: absolute; /* Positions the rating relative to the span */
+    top: 0;            /* Aligns to the top */
+    right: 0;          /* Aligns to the right */
+    background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
+    padding: 2px 5px;  /* Optional: Add some padding for aesthetics */
+    border-radius: 3px; /* Optional: Round the corners of the background */
+  }
