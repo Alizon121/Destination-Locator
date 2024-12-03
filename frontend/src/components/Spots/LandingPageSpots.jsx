@@ -17,8 +17,8 @@ function LandingPageSpots() {
         <div className='spot_grid'>
             {spotsData.map((spot) => {
                 return (
-                    <NavLink key={spot.name} to={`/spots/${spots.id}`}>
-                        <div key={spot.id} className='spot_item'> {/* Add a key and a wrapper for each spot */}
+                    <NavLink key={spot.name} to={`/spots/${spot.id}`}>
+                        <div className='spot_item'> {/* Add a key and a wrapper for each spot */}
                             <img className="spot_image" src={spot.previewImage} alt="Spot Preview" />
                             <div className="tooltip-container">
                                 <span className="hover-element">{spot.name}</span>
