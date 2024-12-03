@@ -45,6 +45,18 @@ module.exports = {
       name: "Condo on the Strip",
       price: 128.00,
       description: "Lively night life and clean stay."
+    },
+    {
+      ownerId: 4,
+      address: "1818 Miners Ave",
+      city: "Chicago",
+      state: "IL",
+      country: "United States of America",
+      lat: 30.1241249,
+      lng: -100.1191904,
+      name: "Apartment in loop",
+      price: 128.00,
+      description: "Lively night life and clean stay."
     }
    ], {validate: true})
   },
@@ -53,7 +65,7 @@ module.exports = {
     options.tableName = "Spots";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      lat: {[Op.in]: [28.0825000, 89.1010190, 70.1241249]}
+      lat: {[Op.in]: [28.0825000, 89.1010190, 70.1241249, 30.1241249]}
     }, {})
   }
 };

@@ -12,19 +12,39 @@ module.exports = {
     await SpotImage.bulkCreate([
       {
         spotId: 1,
-        url: 'http://coolspotsbro.com',
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
         preview: true
       },
       {
         spotId: 2,
-        url: 'http://coolestspoteverrr.com',
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
         preview: false
       },
       {
         spotId: 3,
-        url: 'http://yeahsomething.com',
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
         preview: true
-      }
+      },
+      {
+        spotId: 4,
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        preview: true
+      },
+      {
+        spotId: 5,
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        preview: true
+      },
+      {
+        spotId: 6,
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        preview: true
+      },
+      {
+        spotId: 7,
+        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        preview: true
+      },
     ], {validate: true})
   },
 
@@ -32,7 +52,7 @@ module.exports = {
     options.tableName = "ReviewImages";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-     spotId: {[Op.in]: [1, 2, 3]}
+     spotId: {[Op.in]: [1, 2, 3, 4, 5, 6, 7]}
     }, {})
   }
 };
