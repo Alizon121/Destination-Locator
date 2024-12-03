@@ -88,6 +88,9 @@ function getAverage(arr) {
     return count;
 }
 
+function roundToTenths(num) {
+    return Math.round(num * 10) / 10;
+  }
 /*************************Get All Spots ************************************/
 //   router.get("/", validateSpot, async (req,res,next) => {
 //     const {page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice} = req.query;
@@ -254,7 +257,7 @@ router.get("/", async (req, res, next) => {
             const spotData = spot.toJSON();
 
             const avgRating = spotData.Reviews && spotData.Reviews.length > 0
-            ? spotData.Reviews.reduce((acc, review) => acc + review.stars, 0) / spotData.Reviews.length
+            ? roundToTenths(spotData.Reviews.reduce((acc, review) => acc + review.stars, 0) / spotData.Reviews.length)
             : 0;
 
             const previewImage = spot.SpotImages[0] ? spot.SpotImages[0].url : null;
