@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { loadSpotsData } from '../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import './LandingPageSpots.css'
 function LandingPageSpots() {
     // Local state variable for obtaining the spots
@@ -16,18 +17,18 @@ function LandingPageSpots() {
         <div className='spot_grid'>
             {spotsData.map((spot) => {
                 return (
-                    <>
+                    <NavLink key={spot.name} to={`/spots/${spots.id}`}>
                         <div key={spot.id} className='spot_item'> {/* Add a key and a wrapper for each spot */}
                             <img className="spot_image" src={spot.previewImage} alt="Spot Preview" />
-                            <span>
-                                <ul className='spots_data'>
-                                    <li className='spot_city_state'>{`${spot.city}, ${spot.state}`}</li>
-                                    <li className='spot_price'>{`$${spot.price}.00/night`}</li>
-                                    <li className='spot_rating'>★{spot.avgRating}</li>
-                                </ul>
-                            </span>
+                            <div className="tooltip-container">
+                                <span className="hover-element">{spot.name}</span>
+                            </div>
+                                <span className='spot_city_state'>{`${spot.city}, ${spot.state}`}
+                                    <span className='spot_rating'>{`★${spot.avgRating}`}</span>
+                                </span>
+                                <span className='spot_price'>{`$${spot.price}.00/night`}</span>
                         </div>
-                    </>
+                    </NavLink>
                 )
             })
             }

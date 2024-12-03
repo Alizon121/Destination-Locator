@@ -26,32 +26,47 @@
   }
 
   .spot_city_state {
-    display: inline;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
-    .spot_price {
-    display: inline-block;
+  .spot_rating{
+    padding-right: 5px;;
+  }
+
+  .spot_price {
+    display: flex;
+    width: 100%;
     padding-bottom: 10px;
-  }
-
-  ul.spots_data {
-    flex-direction: column;
-    padding-left: 0px;
-    width: 311px;
   }
 
   span {
     position: relative;
     display: block;
   }
-  .spot_rating {
-    /* display: inline-flex;
-    justify-content: end;
-    position: relative; */
-    position: absolute; /* Positions the rating relative to the span */
-    top: 0;            /* Aligns to the top */
-    right: 0;          /* Aligns to the right */
-    background-color: rgba(255, 255, 255, 0.8); /* Optional: Add a background for better visibility */
-    padding: 2px 5px;  /* Optional: Add some padding for aesthetics */
-    border-radius: 3px; /* Optional: Round the corners of the background */
+  
+  a {
+    color: #716b6b;
+    text-decoration: none;
+  }
+
+  .hover-element {
+    visibility: hidden;
+    border-style: solid;
+    left: 20%;  
+    margin-top: -5px;
+    border-width: 1px;
+    background-color: #FFFFFF;
+    color: #999999
+  }
+
+  .spot_item:hover .hover-element {
+    cursor: pointer;
+    visibility: visible;
+    
+  }
+
+  .spot_item {
+    position: relative; /* Make the parent element a positioned container */
   }
