@@ -13,8 +13,9 @@ function SpotDetails() {
         dispatch(loadSpotDetails(spotId))
     }, [dispatch, spotId])
 
+     
     if (!spotDetails || !spotDetails.SpotImages) return null
-    else {
+
         return (
                 <div className="spot_details">
                     <h2>{spotDetails.name}</h2>
@@ -25,14 +26,26 @@ function SpotDetails() {
                     </ul>
                     <div>
                     {spotDetails.SpotImages.map((image, index) => 
-                        ( <img key={index} src={image.url} alt={`Spot Image ${index + 1}`} /> 
+                        ( <img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} /> 
                     ))}
                     </div>
-                    <h2>Hosted by</h2>
+                    <h2>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h2>
+                    <p>{spotDetails.description}</p>
+                    <span className="button_spot_info">
+                       <div>${spotDetails.price}.00/night</div>   
+                       <div>★{spotDetails.avgStarRating}</div>
+                       <div>{spotDetails.numReviews} reviews</div>
+                       <button>Reserve</button>
+                    </span>
+                    <div className="reviews_header">
+                        <div>★{spotDetails.avgStarRating}</div>
+                        <div>{spotDetails.numReviews} reviews</div>
+                        {/* Render the reviews component */}
+                    </div>
                     
                 </div>
             )
-    }
+    
 
 }
 

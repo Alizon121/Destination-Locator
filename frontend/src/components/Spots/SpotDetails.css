@@ -9,3 +9,10 @@
     border: 1px #ccc solid;
     margin: 3px
 }
+
+.reviews_header {
+    display: flex;
+    border-top: solid 1px;
+    margin-top: 5px;
+    padding: 5px;
+}
