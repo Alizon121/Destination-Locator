@@ -2,21 +2,20 @@ import { csrfFetch } from "./csrf"
 
 // create action creator for loading the reviews for spot detail
 const LOAD_REVIEWS_SPOTS_DETAILS = 'reviews/LOAD_REVIEWS_SPOTS_DETAILS'
-const load = (review) => {
+const load = (reviews) => {
     return {
         type: LOAD_REVIEWS_SPOTS_DETAILS,
-        review
+        reviews
     }
 }
 
 // create a thunk action that fetches the review info
-export const loadReviews = (id) => async dispatch => {
-    const response = await csrfFetch(`/api/spots/${id}/reviews`)
+export const loadReviews = (spotId) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
     if (response.ok) {
         const result = await response.json();
-        console.log(result)
-        dispatch(load(result))
+        dispatch(load({ spotId, reviews: result}))
     }
 }
 
@@ -24,19 +23,15 @@ export const loadReviews = (id) => async dispatch => {
 const reviewReducer = (state = {}, action) => {
     switch(action.type) {
         case LOAD_REVIEWS_SPOTS_DETAILS: {
-            const newState = {}
-            action.review.forEach(review => {
-                newState[review.id] = review
-            })
-            return {
+            const newState = {
                 ...state,
-                ...newState
-            }
+                [action.reviews.spotId]: action.reviews.reviews // Use spotId as key
+            };
+            return newState;
         }
         default:
-            return state
+            return state;
     }
-
 }
 
 export default reviewReducer
