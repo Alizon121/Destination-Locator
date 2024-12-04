@@ -10,8 +10,6 @@ function SpotDetails() {
     const spotDetails = useSelector(state => state.spots[spotId])
     const reviews = useSelector(state => state.reviews[spotId]);
     const dispatch = useDispatch();
-    
-    console.log(reviews.Reviews.map(review => review.User.firstName))
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
         dispatch(loadReviews(spotId))

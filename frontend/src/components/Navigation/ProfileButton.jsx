@@ -39,7 +39,7 @@ function ProfileButton({user}) {
         closeMenu();
     }
     
-    const ulClassName = "profile-dropdown" + (showMenu ? "hello world" : " hidden");  
+    const ulClassName = "profile-dropdown" + (showMenu ? " " : " hidden");  
     return (
        <>
        <div className="profile-menu-container" onClick={toggleMenu}>
@@ -61,18 +61,22 @@ function ProfileButton({user}) {
                 </li>
             </>
         ): (
-            <>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal/>}
-              />
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal/>}
-              />
-            </>
+            <div className="base_menu">
+                <div className="profile_login">
+                    <OpenModalMenuItem
+                        itemText="Log In"
+                        onItemClick={closeMenu}
+                        modalComponent={<LoginFormModal/>}
+                    />
+                </div>
+                <div className="profile_signup">
+                    <OpenModalMenuItem
+                        itemText="Sign Up"
+                        onItemClick={closeMenu}
+                        modalComponent={<SignupFormModal/>}
+                    />
+                </div>
+            </div>
             )}
         </ul>
        </> 
