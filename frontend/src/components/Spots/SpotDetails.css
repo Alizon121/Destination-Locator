@@ -1,0 +1,11 @@
+.spot_details {
+    max-width: 1000px;
+    display: block;
+}
+
+.spot_img {
+    height: 300px;
+    width: 300px;
+    border: 1px #ccc solid;
+    margin: 3px
+}
