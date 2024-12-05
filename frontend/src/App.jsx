@@ -1,13 +1,15 @@
 import {useState, useEffect} from 'react'
 import { useDispatch } from 'react-redux';
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet, useNavigate } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation/Navigation';
 import LandingPageSpots from './components/Spots/LandingPageSpots';
 import SpotDetails from './components/Spots/SpotDetails';
+import CreateSpotModal from './components/CreateSpotModal';
 
 function Layout () {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -24,6 +26,10 @@ function Layout () {
   )
 }
 
+function CreateSpotWrapper() {
+  const navigate = useNavigate();
+  return <CreateSpotModal navigate={navigate}/>
+}
 const router = createBrowserRouter([
   {
     element: <Layout/>,
@@ -35,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/spots/:spotId',
         element: <SpotDetails/>
+      },
+      {
+        path: '/create-spot',
+        element: <CreateSpotModal/>
       }
     ]
   }

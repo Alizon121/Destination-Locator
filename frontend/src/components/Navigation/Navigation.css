@@ -31,3 +31,12 @@ ul {
 svg {
     margin-top: 0px;
 }
+
+li.create_spot_profile_buttons {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-family: karma bold 700;
+}
