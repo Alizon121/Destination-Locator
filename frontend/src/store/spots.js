@@ -54,10 +54,13 @@ export const createSpotThunk = (spot) => async dispatch => {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(spot)
     })
-    if (response.ok) {
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData)
+    }
         const result = await response.json()
         dispatch(createSpot(result))
-    }
+        return result
 }
 // create reducer for updating the store
 const spotsReducer = (state = {}, action) => {
@@ -84,7 +87,7 @@ const spotsReducer = (state = {}, action) => {
         case CREATE_SPOT: {
             const newState = {...state }
             const newSpot = action.spots
-            return {...newState, ...newSpot}
+            return {newState, newSpot}
         }
         default: 
         return state

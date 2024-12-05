@@ -15,7 +15,10 @@ function CreateSpotModal({navigate}) {
     const [description, setDescription] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-    const [url, setUrl] = useState('');
+    const [url1, setUrl1] = useState('');
+    const [url2, setUrl2] = useState('');
+    const [url3, setUrl3] = useState('');
+    const [url4, setUrl4] = useState('');
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
     const {closeModal} = useModal();
@@ -32,7 +35,12 @@ function CreateSpotModal({navigate}) {
             description, 
             name,
             price,
-            SpotImages: [url1, url2, url3, url4]
+            SpotImages: [
+                {url: url1},
+                {url: url2},
+                {url: url3},
+                {url: url4}
+            ]
         }
         
         setErrors({})
@@ -41,14 +49,17 @@ function CreateSpotModal({navigate}) {
             const newSpot = await dispatch(createSpotThunk(payload))
             if (newSpot) {
                 closeModal()
-                navigate(`/api/spots/${newSpot.spots.id}`)
+                navigate(`/api/spots/${newSpot.id}`)
             }
-        } catch (res){
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors)
-                else setErrors({general: "An error occured. Please try again."})
+        } catch (error){
+                if (error instanceof Error) {
+                    setErrors({general: error.message})
+                } else {
+                    setErrors({general: "An error occured. Please try again."})
+                }
         }
     }
+
     const handleCancelClick = (e) => {
         e.preventDefault();
         closeModal();
@@ -97,14 +108,14 @@ function CreateSpotModal({navigate}) {
                 {errors.state && <p className="error">{errors.state}</p>}
                   <input 
                     type="text"
-                    placeholder="latitude (Optional)"
+                    placeholder="latitude"
                     value={lat}
                     onChange={e => setLat(e.target.value)}
                 />
                 {errors.latitude && <p className="error">{errors.latitude}</p>}
                 <input 
                     type="text"
-                    placeholder="longitude (Optional)"
+                    placeholder="longitude"
                     value={lng}
                     onChange={e => setLng(e.target.value)}
                 />
@@ -151,33 +162,33 @@ function CreateSpotModal({navigate}) {
                 <p>Submit a link with at least one photo to submit your spot</p>
                 <input
                     type="url"
-                    placeholder="Photo URL (Preview Image)"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
+                    placeholder="Photo URL"
+                    value={url1}
+                    onChange={e => setUrl1(e.target.value)}
                     required
                 />
-                {errors.url && <p className="error">{errors.url}</p>}
-                <input
+                {errors.url1 && <p className="error">{errors.url1}</p>}
+                 <input
                     type="url"
                     placeholder="Photo URL"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
+                    value={url2}
+                    onChange={e => setUrl2(e.target.value)}
                 />
-                {errors.url && <p className="error">{errors.url}</p>}
-                <input
+                {errors.url2 && <p className="error">{errors.url2}</p>}
+                 <input
                     type="url"
                     placeholder="Photo URL"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
+                    value={url3}
+                    onChange={e => setUrl3(e.target.value)}
                 />
-                {errors.url && <p className="error">{errors.url}</p>}
-                <input
+                {errors.url3 && <p className="error">{errors.url3}</p>}
+                 <input
                     type="url"
                     placeholder="Photo URL"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
+                    value={url4}
+                    onChange={e => setUrl4(e.target.value)}
                 />
-                {errors.url && <p className="error">{errors.url}</p>}
+                {errors.url4 && <p className="error">{errors.url4}</p>}
             </div>
             <button type="submit">Create New Spot</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
