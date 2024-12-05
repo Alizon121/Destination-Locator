@@ -4,6 +4,10 @@
     display: none;
   }
 
+.show {
+  display: block;
+}
+
   .user-button:hover {
     cursor: pointer;
   }
@@ -39,6 +43,7 @@
     cursor: pointer;
   }
 
+  /* Stylings when user not logged in */
   .base_menu {
     top: 100%;
     display: flex;
@@ -84,7 +89,6 @@
   font-size: 15px
 }
 
-/* Optional: Change background color on hover */
 .base_menu .dropdown-item:hover {
     background-color: #FF4A4F;
 }

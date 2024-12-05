@@ -8,7 +8,7 @@ const ModalContext = createContext();
 export function ModalProvider({children}) {
     const modalRef = useRef();
     const [modalContent, setModalContent] = useState(null);
-    const [onModalClose, setOnModalClose] = useState(null)
+    const [onModalClose, setOnModalClose] = useState(null);
 
     // Callback to trigger the modal to close
     const closeModal = () => {

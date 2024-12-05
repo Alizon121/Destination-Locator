@@ -1,21 +1,74 @@
-html {
-    height: 100%
-}
+@import url('https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500;600;700&display=swap');
 
-label {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
+html {
+    height: 100%;
+    font-family: karma;
 }
 
 h1 {
-    text-align: center
+    text-align: center;
+}
+
+div#modal-content {
+    height: 320px;
+    width: 306px;
+    border-radius: 2px;
+}
+
+.login_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px; /* Add space between elements */
+    width: 100%; /* Ensure the form takes the full width */
+}
+
+.login_form label {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure labels take the full width */
+    margin-bottom: 10px; /* Add space below labels */
+}
+
+.credential, .password {
+    width: 90%; /* Make input fields take full width */
+    padding: 10px;
+    margin-left: 3px;
+    margin-top: 5px; /* Add space above input fields */
+    font-size: 16px;
+    background-color: #E8F0FE;
+    border-radius: 4px;
+    font-family: karma;
 }
 
 .submit_button {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    border-radius: 4px;
+    width: 40%; 
+    padding: 10px;
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    border: 1px solid #CCCC;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-family: karma;
+    font-size: 18px
 }
+
+.submit_button:hover {
+    background-color: #FF4A4F;
+}
+
+.submit_button:disabled { 
+    background-color: #ccc; 
+    cursor: not-allowed; 
+}
+
+.error { 
+    color: red;
+    font-size: 14px; 
+    font-family: karma;
+    margin: 0px;
+    text-align: center;
+}
+
+
