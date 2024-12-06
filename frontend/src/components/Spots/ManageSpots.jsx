@@ -2,11 +2,10 @@ import { loadCurrentUserSpot } from "../../store/spots"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import DeleteSpotModal from "../DeleteSpotModal/DeleteSpotModal"
 import CreateSpotModal from "../CreateSpotModal"
 import './ManageSpots.css'
 function ManageSpots() {
-// We want to display the current user's spots
-// We want to have a button for updating and deleting the spot
 const spots = useSelector(state => state.spots)
 const dispatch = useDispatch();
 
@@ -15,7 +14,7 @@ useEffect(() => {
 }, [dispatch])
 
 const spotsData = Object.values(spots)
-// console.log(spotsData.map(spot => spot.name));
+
 return (
     <div className="manage_spots_info">
     <h1>Manage Spots</h1>
@@ -43,8 +42,17 @@ return (
                     </span>
                 </span>
                 <div className="manage_spot_buttons">
-                    <button>Update Spot</button>
-                    <button>Delete Spot</button>
+                    <button>
+                        <OpenModalMenuItem
+                        itemText={"Update Spot"}
+                        />
+                    </button>
+                    <button>
+                        <OpenModalMenuItem
+                        itemText={"Delete Spot"}
+                        modalComponent={<DeleteSpotModal spotId = {spot.id}/>}
+                        />
+                    </button>
                 </div>
             </div>
         </div>
