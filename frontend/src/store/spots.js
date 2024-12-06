@@ -59,8 +59,16 @@ export const createSpotThunk = (spot) => async dispatch => {
         throw new Error(errorData)
     }
         const result = await response.json()
+        console.log(result)
         dispatch(createSpot(result))
-        return result
+        for (const image of spot.SpotImages) { 
+            await csrfFetch(`/api/spots/${result.id}/images`, 
+                { method: 'POST', 
+                  headers: { 'Content-Type': 'application/json' }, 
+                  body: JSON.stringify(image), 
+                }); 
+            }
+            return result
 }
 // create reducer for updating the store
 const spotsReducer = (state = {}, action) => {

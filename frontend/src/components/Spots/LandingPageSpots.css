@@ -20,7 +20,6 @@
     list-style-type: none;
     padding: 0;
     text-align:left;
-    /* border: 1px solid #ccc; */
     margin-top: 10px; /* Adds space between the image and the list */
     display: flex;
   }

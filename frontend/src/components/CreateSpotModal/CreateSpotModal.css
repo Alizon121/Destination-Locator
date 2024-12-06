@@ -46,23 +46,43 @@ div#modal-content {
 }
 
 .create_spot_form button {
-    width: 80%;
+    width: 84%;
     padding: 10px;
     margin: 10px 0;
     border: none;
     border-radius: 4px;
-    background: #007BFF;
+    background: #FF5A5F;
     color: white;
     cursor: pointer;
     font-size: 16px;
 }
 
 .create_spot_form button:hover {
-    background: #0056b3;
+    background: #f5353b;
 }
 
-.create_spot_form .error {
+.create_spot_form.error {
     color: red;
     font-size: 14px;
     margin: 5px 0;
+}
+
+.prelim_info input {
+    background-color: #E8F0FE;
+}
+
+.description_container textarea {
+    background-color: #E8F0FE;
+}
+
+.name_input_container input {
+    background-color: #E8F0FE;
+}
+
+.price_input input {
+    background-color: #E8F0FE;
+}
+
+.url_inputs input {
+    background-color: #E8F0FE;
 }

@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { createSpotThunk } from "../../store/spots";
@@ -25,6 +25,58 @@ function CreateSpotModal({navigate}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        // Handle validations here:
+       const newErrors = {}
+       if (!country) {
+            newErrors.country = "Country is required"
+       }
+       if (!address) {
+        newErrors.address = "Address is required"
+        }
+        if (!city) {
+        newErrors.city = "City is required"
+        }
+        if (!state) {
+            newErrors.state = "State is required"
+       }
+       if (!lat) {
+        newErrors.lat = "Latitude is required"
+        }
+        if (!lng) {
+            newErrors.lng = "Longitude is required"
+       }
+       if (!country) {
+        newErrors.country = "Country is required"
+        }
+       if (description.length < 30) {
+            newErrors.description = "Description must be at least 30 characters long"
+        }
+        if (!name) {
+            newErrors.name = "Name is required"
+       }
+       if (!price) {
+        newErrors.price = "Price is required"
+        }
+       const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
+       if (url1 && !urlPattern.test(url1)) { 
+            newErrors.url1 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+         }
+       if (url2 && !urlPattern.test(url2)) { 
+            newErrors.url2 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+        }
+        if (url3 && !urlPattern.test(url3)) { 
+            newErrors.url3 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+        }
+        if (url4 && !urlPattern.test(url4)) { 
+            newErrors.url4 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+        }
+
+        if (Object.keys(newErrors).length > 0) { 
+            setErrors(newErrors); 
+            return; 
+        }
+
         const payload = {
             country,
             address,
@@ -39,14 +91,18 @@ function CreateSpotModal({navigate}) {
                 {url: url1},
                 {url: url2},
                 {url: url3},
-                {url: url4}
-            ]
+                {url: url4},
+            ] // An array that is referring to url from spotImages backend router
         }
-        
+
         setErrors({})
+
         // We need to create a thunk action for creating a spot
         try {
             const newSpot = await dispatch(createSpotThunk(payload))
+
+            // make a thunk aciton for making a fetch request to spot image creation at '/api/spots/:spotId/images'
+            console.log(newSpot)
             if (newSpot) {
                 closeModal()
                 navigate(`/api/spots/${newSpot.id}`)
@@ -133,7 +189,7 @@ function CreateSpotModal({navigate}) {
                 />
                 {errors.description && <p className="error">{errors.description}</p>}
             </div>
-            <div>
+            <div className="name_input_container">
                 <h2>Create a Title for Your Spot</h2>
                 <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
                 <input 
@@ -145,7 +201,7 @@ function CreateSpotModal({navigate}) {
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
             </div>
-            <div>
+            <div className="price_input">
                 <h2>Set a Base Price for Your Spot</h2>
                 <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                 <input 
@@ -157,7 +213,7 @@ function CreateSpotModal({navigate}) {
                 />
                 {errors.price && <p className="error">{errors.price}</p>}
             </div>
-            <div>
+            <div className="url_inputs">
                 <h2>Live Up Your Spot with Photos</h2>
                 <p>Submit a link with at least one photo to submit your spot</p>
                 <input
@@ -167,7 +223,7 @@ function CreateSpotModal({navigate}) {
                     onChange={e => setUrl1(e.target.value)}
                     required
                 />
-                {errors.url1 && <p className="error">{errors.url1}</p>}
+                {errors.previewImage && <p className="error">{errors.previewImage}</p>}
                  <input
                     type="url"
                     placeholder="Photo URL"

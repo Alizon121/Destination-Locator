@@ -6,6 +6,7 @@ import Navigation from './components/Navigation/Navigation';
 import LandingPageSpots from './components/Spots/LandingPageSpots';
 import SpotDetails from './components/Spots/SpotDetails';
 import CreateSpotModal from './components/CreateSpotModal';
+import ManageSpots from './components/Spots/ManageSpots';
 
 function Layout () {
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/create-spot',
         element: <CreateSpotModal/>
+      },
+      {
+        path: '/manage-spots',
+        element: <ManageSpots.jsx/>
       }
     ]
   }
