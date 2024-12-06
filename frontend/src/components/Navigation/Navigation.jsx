@@ -18,13 +18,19 @@ function Navigation({isLoaded}) {
                     </NavLink>
                 </div>
             {isLoaded && sessionUser ? (
-                <div className="left-menu">
-                    <OpenModalMenuItem
-                        itemText={'Create a New Spot'}
-                        modalComponent={<CreateSpotModal />}
-                    />
-                    <ProfileButton user={sessionUser} />
-                    </div>
+                 <>
+                 <li className="create_spot_profile_buttons">
+                     <span id="new_spot">
+                         <OpenModalMenuItem
+                             itemText={'Create a New Spot'}
+                             modalComponent={<CreateSpotModal />}
+                         />
+                     </span>
+                     <span id="profile_button">
+                         <ProfileButton user={sessionUser} />
+                     </span>
+                 </li>
+             </>
             ): (
                 <li>
                     <ProfileButton user={sessionUser} />

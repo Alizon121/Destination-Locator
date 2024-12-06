@@ -143,3 +143,11 @@ svg {
 .hidden {
     display: none;
 }
+
+.create_spot_profile_buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight:600;
+    cursor: pointer;
+}

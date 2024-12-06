@@ -10,7 +10,6 @@ function LoginFormModal() {
     const [errors, setErrors] = useState({})
     const [disabled, setDisabled] = useState(true)
     const dispatch = useDispatch();
-    // const sessionUser = useSelector((state) => state.session.user)
     const { closeModal } = useModal();
 
     useEffect(() => {
