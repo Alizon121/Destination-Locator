@@ -1,6 +1,8 @@
 import { loadCurrentUserSpot } from "../../store/spots"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
+import CreateSpotModal from "../CreateSpotModal"
 import './ManageSpots.css'
 function ManageSpots() {
 // We want to display the current user's spots
@@ -15,8 +17,14 @@ useEffect(() => {
 const spotsData = Object.values(spots)
 // console.log(spotsData.map(spot => spot.name));
 return (
-    <>
+    <div className="manage_spots_info">
     <h1>Manage Spots</h1>
+    <button className="manage_spots_create_spot_button">
+        <OpenModalMenuItem
+            itemText={'Create a Spot'}
+            modalComponent={<CreateSpotModal/>}
+        />
+    </button>
    <div className="current_data">
        {spotsData.map((spot) => {
         return (
@@ -24,11 +32,16 @@ return (
             {spot.previewImage ? (
                 <img className="preview_image" src={spot.previewImage} alt={`${spot.name} preview`} />
             ): (
-                <img src="" alt="Placeholder" />
+                <img className="manage_spots_placeholder_image" src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg" alt="Placeholder" />
             )}
             <div className="spot_details">
                 <h2>{spot.name}</h2>
-                <span>{spot.description}</span>
+                <span id="manage_spots_price_rating">
+                    ${spot.price}.00/night
+                    <span>
+                        ★{spot.avgRating}
+                    </span>
+                </span>
                 <div className="manage_spot_buttons">
                     <button>Update Spot</button>
                     <button>Delete Spot</button>
@@ -38,7 +51,7 @@ return (
         )
        })}
    </div>
-    </>
+    </div>
 )
 }
 
