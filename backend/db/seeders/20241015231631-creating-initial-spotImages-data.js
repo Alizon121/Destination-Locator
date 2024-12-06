@@ -21,9 +21,19 @@ module.exports = {
         preview: false
       },
       {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        preview: false
+      },
+      {
         spotId: 3,
         url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
         preview: true
+      },
+      {
+        spotId: 3,
+        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        preview: false
       },
       {
         spotId: 4,
