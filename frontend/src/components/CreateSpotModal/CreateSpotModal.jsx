@@ -223,7 +223,7 @@ function CreateSpotModal({navigate}) {
                     onChange={e => setUrl1(e.target.value)}
                     required
                 />
-                {errors.previewImage && <p className="error">{errors.previewImage}</p>}
+                {errors.url1 && <p className="error">{errors.url1}</p>}
                  <input
                     type="url"
                     placeholder="Photo URL"

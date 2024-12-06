@@ -105,8 +105,13 @@ export const deleteSpotThunk = (spotId) => async dispatch => {
     })
 
     if (response.ok) {
-        dispatch(deleteSpot(result))
+        dispatch(deleteSpot(spotId))
     }
+}
+
+// Create a thunk action for updating a spot
+export const editSpotThunk = (spotId) => async dispatch => {
+    const respone = await csrfFetch(`/api/spots`)
 }
 
 // create reducer for updating the store
@@ -148,7 +153,7 @@ const spotsReducer = (state = {}, action) => {
         }
         case DELETE_SPOT: {
             const newState = {...state};
-            delete newState[action.spotId]
+            delete newState[action.spotsId]
             return newState
         }
         default: 

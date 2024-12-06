@@ -86,3 +86,7 @@ div#modal-content {
 .url_inputs input {
     background-color: #E8F0FE;
 }
+
+#modal-content .create_spot_container{
+    background: none;
+}
