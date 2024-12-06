@@ -1,7 +1,7 @@
 import { loadCurrentUserSpot } from "../../store/spots"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-
+import './ManageSpots.css'
 function ManageSpots() {
 // We want to display the current user's spots
 // We want to have a button for updating and deleting the spot
@@ -9,14 +9,15 @@ const spots = useSelector(state => state.spots)
 const dispatch = useDispatch();
 
 useEffect(() => {
-    dispatch(loadCurrentUserSpot(spots))
-}, [dispatch, spots])
+    dispatch(loadCurrentUserSpot())
+}, [dispatch])
 
 const spotsData = Object.values(spots)
-console.log(spotsData.map(spot => spot.name));
+// console.log(spotsData.map(spot => spot.name));
 return (
+    <>
+    <h1>Manage Spots</h1>
    <div className="current_data">
-        <h1>Manage Spots</h1>
        {spotsData.map((spot) => {
         return (
         <div key={spot.id} className="manage_image_container">
@@ -28,13 +29,16 @@ return (
             <div className="spot_details">
                 <h2>{spot.name}</h2>
                 <span>{spot.description}</span>
-                <button>Update Spot</button>
-                <button>Delete Spot</button>
+                <div className="manage_spot_buttons">
+                    <button>Update Spot</button>
+                    <button>Delete Spot</button>
+                </div>
             </div>
         </div>
         )
        })}
    </div>
+    </>
 )
 }
 

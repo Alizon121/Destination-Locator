@@ -1,0 +1,27 @@
+.preview_image {
+    height: 80%;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 2px;
+}
+
+.current_data {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.manage_spot_buttons {
+    display: flex;
+    justify-content: space-around
+}
+
+.spot_details {
+    text-align: center;
+}
+
+.manage_image_container h2 {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+

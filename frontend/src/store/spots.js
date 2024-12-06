@@ -27,6 +27,14 @@ const createSpot = (spot) => {
     }
 }
 
+// Make an action creator for deleting a spot
+const DELETE_SPOT = 'spots/DELETE_SPOT'
+const deleteSpot = (spot) => {
+    return {
+        type: DELETE_SPOT,
+        spot
+    }
+}
 
 // Create a thunk action that will fetch spots data from the db
 export const loadSpotsData = () => async dispatch => {
