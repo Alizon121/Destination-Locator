@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { loadSpotDetails } from "../../store/spots";
-import { loadReviews } from "../../store/reviews";
+import { loadSpotDetails } from "../../../store/spots";
+import { loadReviews } from "../../../store/reviews";
 import './SpotDetails.css'
 
 function SpotDetails() {

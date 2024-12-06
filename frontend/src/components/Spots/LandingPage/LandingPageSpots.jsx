@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { loadSpotsData } from '../../store/spots';
+import { loadSpotsData } from '../../../store/spots';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import './LandingPageSpots.css'

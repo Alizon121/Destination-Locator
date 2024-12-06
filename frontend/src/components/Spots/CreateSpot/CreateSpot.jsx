@@ -1,10 +1,10 @@
-import {useState, useEffect} from "react"
+import {useState} from "react"
 import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
-import { createSpotThunk } from "../../store/spots";
-import './CreateSpotModal.css'
+import { useModal } from "../../../context/Modal";
+import { createSpotThunk } from "../../../store/spots";
+import './CreateSpot.css'
 
-function CreateSpotModal({navigate}) {
+function CreateSpot({navigate}) {
     // We need to make a form for making a new spot
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
@@ -102,7 +102,6 @@ function CreateSpotModal({navigate}) {
             const newSpot = await dispatch(createSpotThunk(payload))
 
             // make a thunk aciton for making a fetch request to spot image creation at '/api/spots/:spotId/images'
-            console.log(newSpot)
             if (newSpot) {
                 closeModal()
                 navigate(`/api/spots/${newSpot.id}`)
@@ -135,7 +134,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="country"
                     value={country}
                     onChange={e => setCountry(e.target.value)}
-                    required
                 />
                 {errors.country && <p className="error">{errors.country}</p>}
                   <input 
@@ -143,7 +141,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="address"
                     value={address}
                     onChange={e => setAddress(e.target.value)}
-                    required
                 />
                 {errors.address && <p className="error">{errors.address}</p>}
                  <input 
@@ -151,7 +148,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="city"
                     value={city}
                     onChange={e => setCity(e.target.value)}
-                    required
                 />
                 {errors.city && <p className="error">{errors.city}</p>}
                   <input 
@@ -159,7 +155,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="state"
                     value={state}
                     onChange={e => setState(e.target.value)}
-                    required
                 />
                 {errors.state && <p className="error">{errors.state}</p>}
                   <input 
@@ -185,7 +180,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="Please write at least 20 characters"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    required
                 />
                 {errors.description && <p className="error">{errors.description}</p>}
             </div>
@@ -197,7 +191,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="Name of Your Spot"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    required
                 />
                 {errors.title && <p className="error">{errors.title}</p>}
             </div>
@@ -209,7 +202,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="Price per night (USD)"
                     value={price}
                     onChange={e => setPrice(e.target.value)}
-                    required
                 />
                 {errors.price && <p className="error">{errors.price}</p>}
             </div>
@@ -221,7 +213,6 @@ function CreateSpotModal({navigate}) {
                     placeholder="Photo URL"
                     value={url1}
                     onChange={e => setUrl1(e.target.value)}
-                    required
                 />
                 {errors.url1 && <p className="error">{errors.url1}</p>}
                  <input
@@ -253,4 +244,4 @@ function CreateSpotModal({navigate}) {
     )
 }
 
-export default CreateSpotModal
+export default CreateSpot

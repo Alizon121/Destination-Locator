@@ -3,14 +3,13 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate } from "react-router-dom";
 import * as sessionActions from "./store/session";
 import Navigation from './components/Navigation/Navigation';
-import LandingPageSpots from './components/Spots/LandingPageSpots';
-import SpotDetails from './components/Spots/SpotDetails';
-import CreateSpotModal from './components/CreateSpotModal';
-import ManageSpots from './components/Spots/ManageSpots';
+import LandingPageSpots from './components/Spots/LandingPage/LandingPageSpots';
+import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
+import CreateSpot from './components/Spots/CreateSpot/CreateSpot';
+import ManageSpots from './components/Spots/ManageSpots/ManageSpots';
 
 function Layout () {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
@@ -29,7 +28,7 @@ function Layout () {
 
 function CreateSpotWrapper() {
   const navigate = useNavigate();
-  return <CreateSpotModal navigate={navigate}/>
+  return <CreateSpot navigate={navigate}/>
 }
 const router = createBrowserRouter([
   {
@@ -45,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/create-spot',
-        element: <CreateSpotModal/>
+        element: <CreateSpotWrapper/>
       },
       {
         path: '/manage-spots',

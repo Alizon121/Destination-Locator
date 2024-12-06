@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom"
 import { useSelector} from 'react-redux'
 import ProfileButton from './ProfileButton'
 import { LuLocateFixed } from "react-icons/lu"; // add font icon for destination locator
-import OpenModalMenuItem from "./OpenModalMenuItem";
-import CreateSpotModal from "../CreateSpotModal";
+// import CreateSpot from "../Spots/CreateSpot";
 import './Navigation.css'
+
 
 function Navigation({isLoaded}) {
     // Use the useSelector hook to check for user
@@ -19,17 +19,12 @@ function Navigation({isLoaded}) {
                 </div>
             {isLoaded && sessionUser ? (
                  <>
-                 <li className="create_spot_profile_buttons">
-                     <span id="new_spot">
-                         <OpenModalMenuItem
-                             itemText={'Create a New Spot'}
-                             modalComponent={<CreateSpotModal />}
-                         />
-                     </span>
+                 <div className="create_spot_profile_buttons">
+                <NavLink to={'/create-spot'}>Create a Spot</NavLink>
                      <span id="profile_button">
                          <ProfileButton user={sessionUser} />
                      </span>
-                 </li>
+                 </div>
              </>
             ): (
                 <li>

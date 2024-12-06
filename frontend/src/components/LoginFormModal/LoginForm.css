@@ -26,8 +26,8 @@ div#modal-content {
 .login_form label {
     display: flex;
     flex-direction: column;
-    width: 100%; /* Ensure labels take the full width */
-    margin-bottom: 10px; /* Add space below labels */
+    width: 50%;
+    margin-bottom: 10px; 
 }
 
 .credential, .password {
@@ -51,7 +51,8 @@ div#modal-content {
     cursor: pointer;
     text-align: center;
     font-family: karma;
-    font-size: 18px
+    font-size: 18px;
+    margin-bottom: 10px
 }
 
 .submit_button:hover {
@@ -69,6 +70,12 @@ div#modal-content {
     font-family: karma;
     margin: 0px;
     text-align: center;
+}
+
+.login_inputs {
+    background: #ffffff;
+    border-radius: 3px;
+    border: 2px solid #ffffff
 }
 
 

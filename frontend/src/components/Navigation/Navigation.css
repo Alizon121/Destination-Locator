@@ -86,6 +86,7 @@ svg {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    height: 57px;
 }
 
  .profile-dropdown {
@@ -150,4 +151,8 @@ svg {
     gap: 10px;
     font-weight:600;
     cursor: pointer;
+}
+
+.base_menu div {
+    width: 70px;
 }

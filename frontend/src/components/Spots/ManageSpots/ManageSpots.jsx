@@ -1,9 +1,10 @@
-import { loadCurrentUserSpot } from "../../store/spots"
+import { loadCurrentUserSpot } from "../../../store/spots"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem"
-import DeleteSpotModal from "../DeleteSpotModal/DeleteSpotModal"
-import CreateSpotModal from "../CreateSpotModal"
+import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem"
+import UpdateSpotModal from "../../UpdateSpotModal/UpdateSpotModal"
+import DeleteSpotModal from "../../DeleteSpotModal/DeleteSpotModal"
+import CreateSpot from "../CreateSpot"
 import './ManageSpots.css'
 function ManageSpots() {
 const spots = useSelector(state => state.spots)
@@ -19,10 +20,8 @@ return (
     <div className="manage_spots_info">
     <h1>Manage Spots</h1>
     <button className="manage_spots_create_spot_button">
-        <OpenModalMenuItem
             itemText={'Create a Spot'}
-            modalComponent={<CreateSpotModal/>}
-        />
+            modalComponent={<CreateSpot/>}
     </button>
    <div className="current_data">
        {spotsData.map((spot) => {
@@ -45,6 +44,7 @@ return (
                     <button>
                         <OpenModalMenuItem
                         itemText={"Update Spot"}
+                        modalComponent={<UpdateSpotModal spotId={spot.id}/>}
                         />
                     </button>
                     <button>

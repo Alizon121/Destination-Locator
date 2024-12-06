@@ -35,7 +35,7 @@ function LoginFormModal() {
 
    
     return (
-        <>
+        <div className="login_inputs">
             <h1>Log In </h1>
             {errors.general && <p className="error">{errors.general}</p>}
             <form className="login_form" onSubmit={handleSubmit}>
@@ -65,7 +65,7 @@ function LoginFormModal() {
                 </label>
                 <button className="submit_button" type='submit' disabled={disabled}>Log In</button>
             </form>
-        </>
+        </div>
     )
 }
 
