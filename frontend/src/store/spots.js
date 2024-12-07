@@ -38,7 +38,7 @@ const deleteSpot = (spot) => {
 
 // Create a thunk action that will fetch spots data from the db
 export const loadSpotsData = () => async dispatch => {
-    const response = await fetch('/api/spots/');
+    const response = await csrfFetch('/api/spots/');
     
     if (response.ok) {
         const result = await response.json();
@@ -57,7 +57,7 @@ const loadUsersSpots = (spots) => {
 
 // Create a thunk action that will fetch spots details
 export const loadSpotDetails = (spotId) => async dispatch => {
-    const response = await fetch(`/api/spots/${spotId}`)
+    const response = await csrfFetch(`/api/spots/${spotId}`)
 
     if (response.ok) {
         const result = await response.json();
@@ -123,7 +123,7 @@ export const editSpotThunk = (payload, spotId) => async dispatch => {
 
     if (response.ok) {
         const result = await response.json();
-        dispatch(loadDetails(result))
+        dispatch(loadCurrentUserSpot(result))
         return result
     }
 }

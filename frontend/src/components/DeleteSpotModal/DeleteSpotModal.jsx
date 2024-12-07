@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import './DeleteSpotModal.css'
 
-function DeleteSpotModal({spotId}) {
+function DeleteSpotModal({spotId, onDelete}) {
     // we want to create a modal that can delete a spot
     const dispatch = useDispatch();
     const {closeModal} = useModal();
     const handleDelete = async () => {
         await dispatch(deleteSpotThunk(spotId))
+        onDelete(spotId)
         closeModal()
     }
 

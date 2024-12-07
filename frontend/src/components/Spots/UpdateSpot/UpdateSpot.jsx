@@ -1,11 +1,10 @@
-import {useState} from "react"
+import { editSpotThunk } from "../../../store/spots";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { createSpotThunk } from "../../../store/spots";
-import './CreateSpot.css'
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import './UpdateSpot.css'
 
-function CreateSpot() { // remove {navigate} from argument
-    // We need to make a form for making a new spot
+function UpdateSpot() {
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
@@ -17,14 +16,14 @@ function CreateSpot() { // remove {navigate} from argument
     const [price, setPrice] = useState('');
     const [images, setImages] = useState([{ url: '', preview: false }])
     const [errors, setErrors] = useState({})
+    const {spotId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const handleUpdate = async (e) => {
+        e.preventDefault();
 
-        // Handle validations here:
-       const newErrors = {}
+        const newErrors = {}
         if (!country) newErrors.country = "Country is required"
         if (!address) newErrors.address = "Address is required"
         if (!city) newErrors.city = "City is required"
@@ -36,16 +35,15 @@ function CreateSpot() { // remove {navigate} from argument
         if (!name) newErrors.name = "Name is required"
         if (!price) newErrors.price = "Price is required"
 
-       const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
-       images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
-            newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-            } 
-        });
-        
-        if (Object.keys(newErrors).length > 0) { 
-            setErrors(newErrors); 
-            return; 
-        }
+        const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
+        images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
+             newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+             } 
+         });
+         if (Object.keys(newErrors).length > 0) { 
+             setErrors(newErrors); 
+             return; 
+         }
 
         const payload = {
             country,
@@ -56,24 +54,21 @@ function CreateSpot() { // remove {navigate} from argument
             lng,
             description, 
             name,
-            price,
+            price
         }
 
         setErrors({})
-
-        // We need to create a thunk action for creating a spot
         try {
-            const newSpot = await dispatch(createSpotThunk(payload, images))
-            // make a thunk aciton for making a fetch request to spot image creation at '/api/spots/:spotId/images'
-            if (newSpot) {
-                navigate(`/spots/${newSpot.id}`)
+            const updatedSpot = await dispatch(editSpotThunk(payload, spotId))
+            if (updatedSpot) {
+                navigate(`/manage-spots`)
+            }  
+        } catch(error) {
+            if (error instanceof Error) {
+                setErrors({general: error.message})
+            } else {
+                setErrors({general: "An error occured. Please try again."})
             }
-        } catch (error){
-                if (error instanceof Error) {
-                    setErrors({general: error.message})
-                } else {
-                    setErrors({general: "An error occured. Please try again."})
-                }
         }
     }
 
@@ -89,96 +84,80 @@ function CreateSpot() { // remove {navigate} from argument
 
     const handleCancelClick = (e) => {
         e.preventDefault();
+        navigate('/manage-spots')
       };
 
+
     return (
-        <div className="create_spot_container">
-        <form className="create_spot_form" onSubmit={handleSubmit}>
-            <div>
-                <h1>Create A Spot</h1>
-                <h2>Where's Your Spot Located</h2>
-                <p>Guests will only get the exact location when booking a reservation.</p>
-            </div>
-            <div className="prelim_info">
-                <input 
+        <div className="update_spot_container" >
+            <form onSubmit={handleUpdate}>
+                <div>
+                    <h1>Update Spot</h1>
+                </div>
+                <div className="update_spot_inputs">
+                <input
                     type="text"
                     placeholder="Country"
                     value={country}
                     onChange={e => setCountry(e.target.value)}
                 />
-                {errors.country && <p className="error">{errors.country}</p>}
-                  <input 
+                {errors.address && <p className="error">{errors.address}</p>}
+                <input
                     type="text"
                     placeholder="Address"
                     value={address}
                     onChange={e => setAddress(e.target.value)}
                 />
-                {errors.address && <p className="error">{errors.address}</p>}
-                 <input 
+                {errors.city && <p className="error">{errors.city}</p>}
+                <input
                     type="text"
                     placeholder="City"
                     value={city}
                     onChange={e => setCity(e.target.value)}
                 />
-                {errors.city && <p className="error">{errors.city}</p>}
-                  <input 
+                {errors.country && <p className="error">{errors.country}</p>}
+                <input
                     type="text"
                     placeholder="State"
                     value={state}
                     onChange={e => setState(e.target.value)}
                 />
                 {errors.state && <p className="error">{errors.state}</p>}
-                  <input 
+                <input
                     type="text"
                     placeholder="Latitude"
                     value={lat}
                     onChange={e => setLat(e.target.value)}
                 />
-                {errors.latitude && <p className="error">{errors.latitude}</p>}
-                <input 
+                {errors.lat && <p className="error">{errors.lat}</p>}
+                <input
                     type="text"
                     placeholder="Longitude"
                     value={lng}
                     onChange={e => setLng(e.target.value)}
                 />
-                {errors.longitude && <p className="error">{errors.longitude}</p>}
-            </div>
-            <div className="description_container">
-                <h2>Describe Your Place to Guests</h2>
-                <p>Mention the best features of your space, any special amenities, and what you love about the neighborhood.</p>
-                <textarea
+                {errors.lng && <p className="error">{errors.lng}</p>}
+                <input
                     type="text"
-                    placeholder="Please write at least 30 characters"
+                    placeholder="description"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                 />
                 {errors.description && <p className="error">{errors.description}</p>}
-            </div>
-            <div className="name_input_container">
-                <h2>Create a Title for Your Spot</h2>
-                <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
-                <input 
+                <input
                     type="text"
-                    placeholder="Name of Your Spot"
+                    placeholder="name"
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />
                 {errors.name && <p className="error">{errors.name}</p>}
-            </div>
-            <div className="price_input">
-                <h2>Set a Base Price for Your Spot</h2>
-                <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
-                <input 
+                <input
                     type="text"
-                    placeholder="Price per night (USD)"
+                    placeholder="price"
                     value={price}
                     onChange={e => setPrice(e.target.value)}
                 />
                 {errors.price && <p className="error">{errors.price}</p>}
-            </div>
-            <div className="url_inputs">
-                <h2>Live Up Your Spot with Photos</h2>
-                <p>Submit a link with at least one photo to submit your spot</p>
                 {images.map((image, index) => ( 
                     <div key={index} className="image_input_container"> 
                         <input 
@@ -188,22 +167,24 @@ function CreateSpot() { // remove {navigate} from argument
                         onChange={(e) => handleImageChange(index, 'url', e.target.value)} 
                         /> 
                         {errors[`image${index}`] && <p className="error">{errors[`image${index}`]}</p>} 
-                        <label> 
+                        <div className="update_spot_preview_image_container"> 
+                            Preview
                             <input 
                             type="checkbox" 
                             checked={image.preview} 
                             onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
                             /> 
-                        Preview 
-                        </label> 
-                    </div> ))} 
-                    <button type="button" onClick={handleAddImage}>Add Another Image</button> 
-            </div> 
-            <button type="submit">Create New Spot</button>
-            <button type="button" onClick={handleCancelClick}>Cancel</button>
+                        <button type="button" onClick={handleAddImage}>Add Another Image</button> 
+                        </div> 
+                        </div> ))}
+                </div>
+                <div className="update_spot_buttons">
+                    <button type="submit">Update</button>
+                    <button onClick={handleCancelClick}>Cancel</button>
+                </div>
             </form>
         </div>
     )
 }
 
-export default CreateSpot
+export default UpdateSpot;
