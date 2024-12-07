@@ -1,8 +1,9 @@
 import { editSpotThunk } from "../../../store/spots";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import './UpdateSpot.css'
+
 
 function UpdateSpot() {
     const [country, setCountry] = useState('');
@@ -19,6 +20,23 @@ function UpdateSpot() {
     const {spotId} = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const spots = useSelector(state => state.spots)
+    const spot = spots[spotId]
+    
+    useEffect(() => {
+        if (spot) {
+            setCountry(spot.country || '');
+            setAddress(spot.address || '');
+            setCity(spot.city || '');
+            setState(spot.state || '');
+            setLat(spot.lat || '');
+            setLng(spot.lng || '');
+            setDescription(spot.description || '');
+            setName(spot.name || '');
+            setPrice(`${spot.price}.00` || '');
+            setCountry(spot.country || '');
+        }
+    }, [spot])
 
     const handleUpdate = async (e) => {
         e.preventDefault();
