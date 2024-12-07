@@ -1,10 +1,10 @@
 import {useState} from "react"
 import { useDispatch } from "react-redux";
-import { useModal } from "../../../context/Modal";
+import { useNavigate } from "react-router-dom";
 import { createSpotThunk } from "../../../store/spots";
 import './CreateSpot.css'
 
-function CreateSpot({navigate}) {
+function CreateSpot() { // remove {navigate} from argument
     // We need to make a form for making a new spot
     const [country, setCountry] = useState('');
     const [address, setAddress] = useState('');
@@ -16,13 +16,9 @@ function CreateSpot({navigate}) {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [images, setImages] = useState([{ url: '', preview: false }])
-    // const [url1, setUrl1] = useState('');
-    // const [url2, setUrl2] = useState('');
-    // const [url3, setUrl3] = useState('');
-    // const [url4, setUrl4] = useState('');
     const [errors, setErrors] = useState({})
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {closeModal} = useModal();
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -45,19 +41,6 @@ function CreateSpot({navigate}) {
             newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
             } 
         });
-    //    if (url1 && !urlPattern.test(url1)) { 
-    //         newErrors.url1 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-    //      }
-    //    if (url2 && !urlPattern.test(url2)) { 
-    //         newErrors.url2 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-    //     }
-    //     if (url3 && !urlPattern.test(url3)) { 
-    //         newErrors.url3 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-    //     }
-    //     if (url4 && !urlPattern.test(url4)) { 
-    //         newErrors.url4 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-    //     }
-
         if (Object.keys(newErrors).length > 0) { 
             setErrors(newErrors); 
             return; 
@@ -73,12 +56,6 @@ function CreateSpot({navigate}) {
             description, 
             name,
             price,
-        //     SpotImages: [
-        //         {url: url1},
-        //         {url: url2},
-        //         {url: url3},
-        //         {url: url4},
-        //     ] // An array that is referring to url from spotImages backend router
         }
 
         setErrors({})
@@ -86,11 +63,10 @@ function CreateSpot({navigate}) {
         // We need to create a thunk action for creating a spot
         try {
             const newSpot = await dispatch(createSpotThunk(payload, images))
-
+            console.log(newSpot)
             // make a thunk aciton for making a fetch request to spot image creation at '/api/spots/:spotId/images'
             if (newSpot) {
-                closeModal()
-                navigate(`/api/spots/${newSpot.id}`)
+                navigate(`/spots/${newSpot.id}`)
             }
         } catch (error){
                 if (error instanceof Error) {
@@ -113,7 +89,6 @@ function CreateSpot({navigate}) {
 
     const handleCancelClick = (e) => {
         e.preventDefault();
-        closeModal();
       };
 
     return (

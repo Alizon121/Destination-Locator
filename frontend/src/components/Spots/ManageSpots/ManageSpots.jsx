@@ -8,12 +8,11 @@ import { NavLink } from "react-router-dom"
 import './ManageSpots.css'
 function ManageSpots() {
 const spots = useSelector(state => state.spots)
-console.log(spots)
 const dispatch = useDispatch();
 
 useEffect(() => {
     dispatch(loadCurrentUserSpot())
-}, [dispatch])
+}, [dispatch, spots])
 
 const spotsData = Object.values(spots)
 
