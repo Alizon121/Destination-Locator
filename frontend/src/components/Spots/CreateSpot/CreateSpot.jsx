@@ -15,10 +15,11 @@ function CreateSpot({navigate}) {
     const [description, setDescription] = useState('');
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
-    const [url1, setUrl1] = useState('');
-    const [url2, setUrl2] = useState('');
-    const [url3, setUrl3] = useState('');
-    const [url4, setUrl4] = useState('');
+    const [images, setImages] = useState([{ url: '', preview: false }])
+    // const [url1, setUrl1] = useState('');
+    // const [url2, setUrl2] = useState('');
+    // const [url3, setUrl3] = useState('');
+    // const [url4, setUrl4] = useState('');
     const [errors, setErrors] = useState({})
     const dispatch = useDispatch();
     const {closeModal} = useModal();
@@ -28,49 +29,34 @@ function CreateSpot({navigate}) {
 
         // Handle validations here:
        const newErrors = {}
-       if (!country) {
-            newErrors.country = "Country is required"
-       }
-       if (!address) {
-        newErrors.address = "Address is required"
-        }
-        if (!city) {
-        newErrors.city = "City is required"
-        }
-        if (!state) {
-            newErrors.state = "State is required"
-       }
-       if (!lat) {
-        newErrors.lat = "Latitude is required"
-        }
-        if (!lng) {
-            newErrors.lng = "Longitude is required"
-       }
-       if (!country) {
-        newErrors.country = "Country is required"
-        }
-       if (description.length < 30) {
-            newErrors.description = "Description must be at least 30 characters long"
-        }
-        if (!name) {
-            newErrors.name = "Name is required"
-       }
-       if (!price) {
-        newErrors.price = "Price is required"
-        }
+        if (!country) newErrors.country = "Country is required"
+        if (!address) newErrors.address = "Address is required"
+        if (!city) newErrors.city = "City is required"
+        if (!state) newErrors.state = "State is required"
+        if (!lat) newErrors.lat = "Latitude is required"
+        if (!lng) newErrors.lng = "Longitude is required"
+        if (!country) newErrors.country = "Country is required"
+        if (description.length < 30) newErrors.description = "Description must be at least 30 characters long"
+        if (!name) newErrors.name = "Name is required"
+        if (!price) newErrors.price = "Price is required"
+
        const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
-       if (url1 && !urlPattern.test(url1)) { 
-            newErrors.url1 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-         }
-       if (url2 && !urlPattern.test(url2)) { 
-            newErrors.url2 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-        }
-        if (url3 && !urlPattern.test(url3)) { 
-            newErrors.url3 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-        }
-        if (url4 && !urlPattern.test(url4)) { 
-            newErrors.url4 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
-        }
+       images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
+            newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+            } 
+        });
+    //    if (url1 && !urlPattern.test(url1)) { 
+    //         newErrors.url1 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+    //      }
+    //    if (url2 && !urlPattern.test(url2)) { 
+    //         newErrors.url2 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+    //     }
+    //     if (url3 && !urlPattern.test(url3)) { 
+    //         newErrors.url3 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+    //     }
+    //     if (url4 && !urlPattern.test(url4)) { 
+    //         newErrors.url4 = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+    //     }
 
         if (Object.keys(newErrors).length > 0) { 
             setErrors(newErrors); 
@@ -87,19 +73,19 @@ function CreateSpot({navigate}) {
             description, 
             name,
             price,
-            SpotImages: [
-                {url: url1},
-                {url: url2},
-                {url: url3},
-                {url: url4},
-            ] // An array that is referring to url from spotImages backend router
+        //     SpotImages: [
+        //         {url: url1},
+        //         {url: url2},
+        //         {url: url3},
+        //         {url: url4},
+        //     ] // An array that is referring to url from spotImages backend router
         }
 
         setErrors({})
 
         // We need to create a thunk action for creating a spot
         try {
-            const newSpot = await dispatch(createSpotThunk(payload))
+            const newSpot = await dispatch(createSpotThunk(payload, images))
 
             // make a thunk aciton for making a fetch request to spot image creation at '/api/spots/:spotId/images'
             if (newSpot) {
@@ -114,6 +100,16 @@ function CreateSpot({navigate}) {
                 }
         }
     }
+
+    const handleAddImage = () => { 
+        setImages([...images, { url: '', preview: false }]); 
+    };
+
+    const handleImageChange = (index, field, value) => { 
+        const newImages = [...images]; 
+        newImages[index][field] = value; 
+        setImages(newImages); 
+    };
 
     const handleCancelClick = (e) => {
         e.preventDefault();
@@ -177,7 +173,7 @@ function CreateSpot({navigate}) {
                 <p>Mention the best features of your space, any special amenities, and what you love about the neighborhood.</p>
                 <textarea
                     type="text"
-                    placeholder="Please write at least 20 characters"
+                    placeholder="Please write at least 30 characters"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                 />
@@ -192,7 +188,7 @@ function CreateSpot({navigate}) {
                     value={name}
                     onChange={e => setName(e.target.value)}
                 />
-                {errors.title && <p className="error">{errors.title}</p>}
+                {errors.name && <p className="error">{errors.name}</p>}
             </div>
             <div className="price_input">
                 <h2>Set a Base Price for Your Spot</h2>
@@ -208,6 +204,27 @@ function CreateSpot({navigate}) {
             <div className="url_inputs">
                 <h2>Live Up Your Spot with Photos</h2>
                 <p>Submit a link with at least one photo to submit your spot</p>
+                {images.map((image, index) => ( 
+                    <div key={index} className="image_input_container"> 
+                        <input 
+                        type="url" 
+                        placeholder="Photo URL" 
+                        value={image.url} 
+                        onChange={(e) => handleImageChange(index, 'url', e.target.value)} 
+                        /> 
+                        {errors[`image${index}`] && <p className="error">{errors[`image${index}`]}</p>} 
+                        <label> 
+                            <input 
+                            type="checkbox" 
+                            checked={image.preview} 
+                            onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
+                            /> 
+                        Preview 
+                        </label> 
+                    </div> ))} 
+                    <button type="button" onClick={handleAddImage}>Add Another Image</button> 
+                    {/* </div> */}
+                {/* 
                 <input
                     type="url"
                     placeholder="Photo URL"
@@ -235,8 +252,8 @@ function CreateSpot({navigate}) {
                     value={url4}
                     onChange={e => setUrl4(e.target.value)}
                 />
-                {errors.url4 && <p className="error">{errors.url4}</p>}
-            </div>
+                {errors.url4 && <p className="error">{errors.url4}</p>} */}
+            </div> 
             <button type="submit">Create New Spot</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
             </form>

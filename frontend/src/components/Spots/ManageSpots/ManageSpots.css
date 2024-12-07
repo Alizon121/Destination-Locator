@@ -51,9 +51,12 @@
     list-style: none;
     margin-bottom: 5px;
     background-color: #FF5A5F;
-    color: #FFF;
     border: 1px solid #FFF;
     border-radius: 3px;
+}
+
+.manage_spots_create_spot_button a {
+    color: white
 }
 
 #manage_spots_price_rating {

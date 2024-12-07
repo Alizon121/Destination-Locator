@@ -150,9 +150,13 @@ svg {
     align-items: center;
     gap: 10px;
     font-weight:600;
-    cursor: pointer;
+
 }
 
 .base_menu div {
     width: 70px;
+}
+
+.create_spot_profile_buttons a {
+    cursor: pointer;
 }

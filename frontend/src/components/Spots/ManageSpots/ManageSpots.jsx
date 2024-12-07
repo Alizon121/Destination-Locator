@@ -4,10 +4,11 @@ import { useEffect } from "react"
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem"
 import UpdateSpotModal from "../../UpdateSpotModal/UpdateSpotModal"
 import DeleteSpotModal from "../../DeleteSpotModal/DeleteSpotModal"
-import CreateSpot from "../CreateSpot"
+import { NavLink } from "react-router-dom"
 import './ManageSpots.css'
 function ManageSpots() {
 const spots = useSelector(state => state.spots)
+console.log(spots)
 const dispatch = useDispatch();
 
 useEffect(() => {
@@ -20,8 +21,7 @@ return (
     <div className="manage_spots_info">
     <h1>Manage Spots</h1>
     <button className="manage_spots_create_spot_button">
-            itemText={'Create a Spot'}
-            modalComponent={<CreateSpot/>}
+            <NavLink to={'/create-spot'}>Create a Spot</NavLink>
     </button>
    <div className="current_data">
        {spotsData.map((spot) => {

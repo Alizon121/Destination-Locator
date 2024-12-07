@@ -66,26 +66,30 @@ export const loadSpotDetails = (spotId) => async dispatch => {
 }
 
 // Create a thunk action that will create spot
-export const createSpotThunk = (spot) => async dispatch => {
+export const createSpotThunk = (spotData, images) => async dispatch => {
     const response = await csrfFetch('/api/spots/', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(spot)
+        body: JSON.stringify(spotData)
     })
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData)
     }
+
+    if (response.ok) {
         const result = await response.json()
-        dispatch(createSpot(result))
-        for (const image of spot.SpotImages) { 
+        for (const image of images) { 
             await csrfFetch(`/api/spots/${result.id}/images`, 
                 { method: 'POST', 
                   headers: { 'Content-Type': 'application/json' }, 
                   body: JSON.stringify(image), 
                 }); 
             }
+            dispatch(createSpot(result))
+            dispatch(loadCurrentUserSpot())
             return result
+    }
 }
 
 // Create a thunk action that will load current user's spots
@@ -152,7 +156,7 @@ const spotsReducer = (state = {}, action) => {
             return {newState, newSpot}
         }
         case LOAD_CURRENT_USER_SPOTS: {
-            const newState = {...state};
+            const newState = {};
             action.spots.Spots.forEach((spot) => {
                 newState[spot.id] = {
                     ...spot
