@@ -76,8 +76,9 @@ export const createSpotThunk = (spotData, images) => async dispatch => {
         const errorData = await response.json();
         throw new Error(errorData)
     }
-
+    
     if (response.ok) {
+        console.log(response)
         const result = await response.json()
         for (const image of images) { 
             await csrfFetch(`/api/spots/${result.id}/images`, 
