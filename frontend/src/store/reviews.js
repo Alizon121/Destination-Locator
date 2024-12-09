@@ -61,6 +61,22 @@ export const createReviewThunk = (review, spotId) => async dispatch => {
     }
 };
 
+// Create a thunk action for updating state
+export const updateReviewThunk = (payload, reviewId) => async dispatch => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`,{
+        method: 'PUT',
+        headers: {"Content-Type": "appplication/json"},
+        body: JSON.stringify(payload)
+    })
+
+    if (response.ok) {
+        const result = await response.json()
+        // We do not need a new action creator for edit
+        dispatch(load(result))
+        return result
+    }
+}
+
 // Create a thunk action that will delete a review
 export const deleteReviewThunk = (reviewId) => async dispatch => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {

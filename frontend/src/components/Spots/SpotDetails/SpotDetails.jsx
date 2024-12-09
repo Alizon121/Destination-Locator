@@ -8,6 +8,7 @@ import { loadReviewsThunk } from "../../../store/reviews";
 import CreateReviewModal from "../../CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
 import DeleteReviewModal from "../../Reviews/DeleteReviewModal/DeleteReviewModal";
+import UpdateReviewModal from "../../Reviews/UpdateReviewModal/UpdateReviewModal";
 
 function SpotDetails() {
     const {spotId} = useParams();
@@ -110,12 +111,20 @@ function SpotDetails() {
                             <div key={review.id}>
                                 <LoadReviews spotId={spotId} />
                                 {review.userId === userId ? (
+                                    <div>
                                     <button type="button">
                                         <OpenModalMenuItem
                                             itemText={'Delete'}
                                             modalComponent={<DeleteReviewModal reviewId={review.id} onDelete={() => handleReviewDelete(review.id)} />}
                                         />
                                     </button>
+                                    <button>
+                                        <OpenModalMenuItem
+                                        itemText={'Update'}
+                                        modalComponent={<UpdateReviewModal reviewId={review.id}/>}
+                                        />
+                                    </button>
+                                    </div>
                                 ) : (
                                     <button type="button">
                                         <OpenModalMenuItem
