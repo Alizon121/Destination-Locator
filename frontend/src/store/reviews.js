@@ -11,10 +11,19 @@ const load = (reviews) => {
 
 // create an action creator for making a review
 const CREATE_REVIEW = 'reviews/CREATE_REVIEW'
-const createReview = (payload) => {
+const createReview = (review) => {
     return {
         type: CREATE_REVIEW,
-        payload
+        review
+    }
+}
+
+// Make an action creator for deleting a review
+const DELETE_REVIEW = 'reviews/DELETE_REVIEW'
+const deleteReview = (review) => {
+    return {
+        type: DELETE_REVIEW,
+        review
     }
 }
 
@@ -24,22 +33,23 @@ export const loadReviewsThunk = (spotId) => async dispatch => {
 
     if (response.ok) {
         const result = await response.json();
-        dispatch(load({ spotId, reviews: result}))
+        dispatch(load({spotId, reviews: result}))
     }
 }
 
 // Create a thunk action that creates a review
-export const createReviewThunk = (payload, spotId) => async dispatch => {
+export const createReviewThunk = (review, spotId) => async dispatch => {
     try {
         const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(review)
         });
 
         if (response.ok) {
             const result = await response.json();
             dispatch(createReview(result));
+            return result
         } 
         else {
             const errorResult = await response.json();
@@ -51,21 +61,35 @@ export const createReviewThunk = (payload, spotId) => async dispatch => {
     }
 };
 
+// Create a thunk action that will delete a review
+export const deleteReviewThunk = (reviewId) => async dispatch => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE'
+    })
+
+    if (response.ok) {
+        dispatch(deleteReview(reviewId))
+    }
+}
+
 
 // Make the reducer
 const reviewReducer = (state = {}, action) => {
     switch(action.type) {
         case LOAD_REVIEWS_SPOTS_DETAILS: {
-            const newState = {
-                ...state,
-                [action.reviews.spotId]: action.reviews.reviews // Use spotId as key
-            };
+            const newState = {...state};
+            newState[action.reviews.spotId] = action.reviews.reviews // Use spotId as key
             return newState;
         }
         case CREATE_REVIEW: {
             const newState = {...state};
-            const newReview = action.payload
+            const newReview = action.reviews.reviews
             newState[newReview.id] = newReview
+            return newState
+        }
+        case DELETE_REVIEW: {
+            const newState = {...state}
+            delete newState[action.reviewId]
             return newState
         }
         default:

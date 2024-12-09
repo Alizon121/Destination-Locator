@@ -1,19 +1,37 @@
-// import { useEffect } from "react";
-// import { loadReviewsThunk } from "../../../store/reviews";
-// import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { loadReviewsThunk } from "../../../store/reviews";
+import { useDispatch, useSelector } from "react-redux";
 
-// function loadReviews() {
-//     // We want to render the reviews from the slice of state
-//     // const dispatch = useDispatch();
-//     // const reviews = useSelector(state => state.reviews);
+function LoadReviews({spotId}) {
+    // We want to render the reviews from the slice of state
+    const dispatch = useDispatch();
+    const reviews = useSelector(state => state.reviews[spotId]);
+    useEffect(() => {
+        dispatch(loadReviewsThunk(spotId))
+    }, [dispatch, spotId]);
 
-//     // useEffect(() => {
-//     //     dispatch(loadReviewsThunk())
-//     // }, dispatch);
+    return (
+        <div>
+            {reviews? (
+                reviews.Reviews.map((review) => {
+                    const date = new Date(review.createdAt);
+                    const options = { year: 'numeric', month: 'long' };
+                    const formattedDate = date.toLocaleDateString('en-US', options);
 
-//     return (
-//         <h1>Reviews</h1>
-//     )
-// }
+                    return(
+                        <div key={review.id}>
+                            <h3>{review.User.firstName}</h3>
+                            <h4>{formattedDate}</h4>
+                            <span>{review.review}</span>
+                        </div>
+                    )
+                })
+            ) : (
+                <span>Loading reviews...</span>
+            )}
 
-// export default loadReviews;
+        </div>
+    )
+}
+
+export default LoadReviews;

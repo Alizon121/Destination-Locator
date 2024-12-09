@@ -1,7 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import * as sessionActions from '../../store/session'
 import { NavLink } from "react-router-dom";
 import OpenModalMenuItem from './OpenModalMenuItem'

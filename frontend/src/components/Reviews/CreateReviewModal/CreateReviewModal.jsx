@@ -14,10 +14,6 @@ function CreateReviewModal({spotId}) {
     const user = useSelector(state => state.session)
     const userId = user.user.id;
 
-    // console.log(typeof userId)// number
-    // console.log(typeof stars) //number
-    // console.log(typeof spotId)// number
-    // console.log(typeof review)// string
 
     const handleCreate = async (e) => {
         e.preventDefault();
@@ -26,18 +22,14 @@ function CreateReviewModal({spotId}) {
             setErrors({ stars: "Stars must be an integer from 1 to 5" }); 
             return; 
         }
-        
-        const spotIdString = spotId.toString()
     
         const payload = {
-            userId,
-            spotId,
             review,
             stars  // Use 'stars' instead of 'rating' to match the server-side
         };
 
     try {
-        const newReview = await dispatch(createReviewThunk(payload, spotIdString));
+        const newReview = await dispatch(createReviewThunk(payload, spotId));
         if (newReview) {
             closeModal();
         } 
@@ -45,8 +37,8 @@ function CreateReviewModal({spotId}) {
             setErrors({ general: "Failed to create the review. Please try again." });
         } 
     } catch(error) {
+        console.error('Error creating review:', error);
         setErrors({ general: "Failed to create the review. Please try again." });
-
     }
     };
     
