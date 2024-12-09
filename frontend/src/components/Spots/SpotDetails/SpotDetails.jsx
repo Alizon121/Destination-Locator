@@ -69,7 +69,7 @@ function SpotDetails() {
                                 <button>
                                 <OpenModalMenuItem 
                                 itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId}/>}
+                                modalComponent={<CreateReviewModal spotId={Number(spotId)}/>} //spotId={spotId}
                                 />
                                 </button>
                         </div>
@@ -129,7 +129,7 @@ function SpotDetails() {
                                     <button type="button">
                                         <OpenModalMenuItem
                                             itemText={'Post a Review'}
-                                            modalComponent={<CreateReviewModal spotId={spotId} />}
+                                            modalComponent={<CreateReviewModal spotId={Number(spotId)}/>}
                                         />
                                     </button>
                                 )}
