@@ -11,15 +11,15 @@ const load = (reviews) => {
 
 // create an action creator for making a review
 const CREATE_REVIEW = 'reviews/CREATE_REVIEW'
-const createReview = (review) => {
+const createReview = (payload) => {
     return {
         type: CREATE_REVIEW,
-        review
+        payload
     }
 }
 
 // create a thunk action that fetches the review info
-export const loadReviews = (spotId) => async dispatch => {
+export const loadReviewsThunk = (spotId) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
     if (response.ok) {
@@ -29,18 +29,19 @@ export const loadReviews = (spotId) => async dispatch => {
 }
 
 // Create a thunk action that creates a review
-export const createReviewThunk = (review, spotId) => async dispatch => {
+export const createReviewThunk = (payload, spotId) => async dispatch => {
     try {
         const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
             method: 'POST',
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(review)
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
         });
 
         if (response.ok) {
             const result = await response.json();
             dispatch(createReview(result));
-        } else {
+        } 
+        else {
             const errorResult = await response.json();
             console.error('Server Error:', errorResult);
             throw new Error('Failed to create review');
@@ -63,9 +64,9 @@ const reviewReducer = (state = {}, action) => {
         }
         case CREATE_REVIEW: {
             const newState = {...state};
-            const newReview = action.review
-            return {...newState,
-                [newReview.id]: newReview}
+            const newReview = action.payload
+            newState[newReview.id] = newReview
+            return newState
         }
         default:
             return state;

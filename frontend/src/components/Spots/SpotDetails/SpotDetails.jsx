@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
-import { loadReviews } from "../../../store/reviews";
+// import { loadReviews } from "../../../store/reviews";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import CreateReviewModal from "../../CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
@@ -11,16 +11,14 @@ function SpotDetails() {
     const {spotId} = useParams();
     const spotDetails = useSelector(state => state.spots[spotId])
     const reviews = useSelector(state => state.reviews[spotId]);
-    console.log(Object.values(reviews));
-
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
-        dispatch(loadReviews(spotId))
+        // dispatch(loadReviews(spotId))
     }, [dispatch, spotId])
 
      
-    if (!spotDetails || !spotDetails.SpotImages || !reviews) return null
+    if (!spotDetails || !spotDetails.SpotImages) return null
 
         return (
                 <div className="spot_details_container">
@@ -54,7 +52,7 @@ function SpotDetails() {
                             <div>{spotDetails.numReviews} reviews</div>
                         </div>
                     <div>
-                        <div> 
+                        {/* <div> 
                             {reviews.Reviews.map(review => {
                                 const date = new Date(review.createdAt);
                                 const options = { year: 'numeric', month: 'long' };
@@ -78,7 +76,7 @@ function SpotDetails() {
                                     </span> 
                                 );
                             })}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 </div>
