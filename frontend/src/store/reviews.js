@@ -96,13 +96,19 @@ const reviewReducer = (state = {}, action) => {
             newState[action.reviews.spotId] = action.reviews.reviews // Use spotId as key
             return newState;
         }
+        // case CREATE_REVIEW: {
+        //     const newState = {...state.reviews};
+        //     const newReview = newState[action.review.spotId]
+        //     return {...state, ...newState, newReview}
+        // }
+        // case CREATE_REVIEW: {
+        //     return [...state, action.reviews.reviews.Reviews]; // Append the new review
+        // }
         case CREATE_REVIEW: {
-            const newState = {...state.reviews};
-            // const newReview = action.reviews.Reviews.forEach((review) => {
-            //     newState[review.spotId] = review
-            // })
-            const newReview = newState[action.review.spotId]
-            return {...state, ...newState, newReview}
+            const newState = { ...state };
+            const newReview = action.review; // Ensure this matches the dispatched payload
+            newState[newReview.id] = newReview; // Add/update the review by its ID
+            return newState;
         }
         case DELETE_REVIEW: {
             const newState = {...state}
