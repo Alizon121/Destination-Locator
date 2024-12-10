@@ -358,8 +358,6 @@ router.get("/:spotId/reviews", async (req, res, next) => {
     const reviews = findReview.map(element => {
             return element
     })
-    console.log(reviews)
-    // const user = reviews.map
 
         return res.json({
             Reviews: reviews
@@ -663,16 +661,7 @@ router.post("/:spotId/reviews", requireAuth,  validateReview, async (req,res,nex
         return res.status(201).json(newReview);
     }
     catch(error) {
-        // let options = {}
-        // error.errors.map(element => {
-        //      if(element.path === "review") element.message = options.review = "Review text is required";
-        //      if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
-        //  })
-        //      res.status(400).json({
-        //          "message": "Bad Request",
-        //          "errors": options
-        //      })
-             next(error)
+        next(error)
     }
 })
 

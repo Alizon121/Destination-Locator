@@ -47,7 +47,7 @@ module.exports = {
       description: "Lively night life and clean stay."
     },
     {
-      ownerId: 4,
+      ownerId: 3,
       address: "1818 Miners Ave",
       city: "Chicago",
       state: "IL",
@@ -59,7 +59,7 @@ module.exports = {
       description: "Lively night life and clean stay."
     },
     {
-      ownerId: 5,
+      ownerId: 2,
       address: "425 Western Ave",
       city: "Monaco",
       state: "AL",
@@ -71,7 +71,7 @@ module.exports = {
       description: "Lively night life and clean stay."
     },
     {
-      ownerId: 6,
+      ownerId: 2,
       address: "987 New Almond Ave",
       city: "Lebanon",
       state: "GA",
@@ -83,7 +83,7 @@ module.exports = {
       description: "Lively night life and clean stay."
     },
     {
-      ownerId: 7,
+      ownerId: 1,
       address: "101 Hane Ave",
       city: "Lander",
       state: "MN",

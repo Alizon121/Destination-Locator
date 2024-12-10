@@ -7,12 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Review.belongsTo(models.User, {
         foreignKey: 'userId',
-        as: "User"
+        // as: "User"
       })
 
       Review.belongsTo(models.Spot, {
         foreignKey: 'spotId',
-        as: "Spot"
+        // as: "Spot"
       })
 
       Review.hasMany(models.ReviewImage, {
@@ -50,7 +50,8 @@ module.exports = (sequelize, DataTypes) => {
     stars: {
       type: DataTypes.INTEGER,
       validate: {
-        len: [1,1],
+        min: 1,
+        max: 5,
         isInt: true,
         notEmpty: true
       }
@@ -58,6 +59,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Review',
+    indexes: [
+      {
+        unique: true,
+        fields: ['spotId', 'userId']
+      }
+    ]
   });
   return Review;
 };

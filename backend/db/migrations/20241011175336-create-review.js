@@ -19,18 +19,30 @@ module.exports = {
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Spots', // Matches the name of the table, not the model
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'Users', // Matches the name of the table, not the model
+          key: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
       },
       review: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: false
       },
       stars: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -43,6 +55,11 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
+    await queryInterface.addConstraint('Reviews', {
+      fields: ['spotId', 'userId'],
+      type: 'unique',
+      name: 'unique_user_review_per_spot'
+  });
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Reviews";

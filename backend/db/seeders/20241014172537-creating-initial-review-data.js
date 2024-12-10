@@ -28,6 +28,30 @@ module.exports = {
       userId: 3,
       review: "All around great, I will be coming back!",
       stars: 5
+    },
+    {
+      spotId: 4,
+      userId: 3,
+      review: "All around great, I will be coming back!",
+      stars: 5
+    },
+    {
+      spotId: 5,
+      userId: 3,
+      review: "All around great, I will be coming back!",
+      stars: 5
+    },
+    {
+      spotId: 6,
+      userId: 3,
+      review: "All around great, I will be coming back!",
+      stars: 5
+    },
+    {
+      spotId: 7,
+      userId: 3,
+      review: "All around great, I will be coming back!",
+      stars: 5
     }
    ], {validate: true})
   },
