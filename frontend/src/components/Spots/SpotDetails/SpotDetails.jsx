@@ -4,31 +4,26 @@ import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
 import LoadReviews from "../../Reviews/LoadReviews/LoadReviews";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import { loadReviewsThunk } from "../../../store/reviews";
 import CreateReviewModal from "../../Reviews/CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
-import DeleteReviewModal from "../../Reviews/DeleteReviewModal/DeleteReviewModal";
-import UpdateReviewModal from "../../Reviews/UpdateReviewModal/UpdateReviewModal";
+// We need to get the reviews to update when a review is created.
+// Should we use useState and useEffect to do this?
 
 function SpotDetails() {
     const {spotId} = useParams();
     const spotDetails = useSelector(state => state.spots[spotId])
-    const [deletedReviewId, setDeletedReviewId] = useState(null);
+   
+    // Create a variable for createReviewId
+    // const [createReviewId, setCreatedReviewId] = useState();
     const reviews = useSelector(state => state.reviews);
-    const userId = useSelector(state => state.session.user.id)
+    // const userId = useSelector(state => state.session.user.id)
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
-        dispatch(loadReviewsThunk(spotId))
-    }, [dispatch, spotId, deletedReviewId])
-    
-    
-    const handleReviewDelete = async (reviewId) => {
-        setDeletedReviewId(reviewId)
-    }
+    }, [dispatch, spotId])
 
-    
+
     if (!spotDetails || !spotDetails.SpotImages ) return null
 
     return (
@@ -69,7 +64,7 @@ function SpotDetails() {
                                 <button>
                                 <OpenModalMenuItem 
                                 itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId}/>}
+                                modalComponent={<CreateReviewModal spotId={spotId} />} //onCreate={()=> handleReviewCreation()}
                                 />
                                 </button>
                         </div>
@@ -106,7 +101,8 @@ function SpotDetails() {
                     <div>{spotDetails.numReviews} reviews</div>
                 </div>
                 <div>
-                    {
+                    <LoadReviews spotId={spotId}/>
+                    {/* {
                         Object.values(reviews).map((review) => (
                             <div key={review.id}>
                                 <LoadReviews spotId={spotId} />
@@ -129,13 +125,13 @@ function SpotDetails() {
                                     <button type="button">
                                         <OpenModalMenuItem
                                             itemText={'Post a Review'}
-                                            modalComponent={<CreateReviewModal spotId={spotId}/>} 
+                                            modalComponent={<CreateReviewModal spotId={spotId}/>} // onCreate={()=> handleReviewCreation()}
                                         />
                                     </button>
                                 )}
                             </div>
                         ))
-                    } 
+                    }  */}
                 </div>
             </div>
         </div>

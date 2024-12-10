@@ -98,6 +98,7 @@ const reviewReducer = (state = {}, action) => {
                     allReviews[review.id] = review;
                 });
                 return {
+                    // ...state,
                     ...allReviews
                 };
             }
