@@ -6,17 +6,11 @@ import LoadReviews from "../../Reviews/LoadReviews/LoadReviews";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import CreateReviewModal from "../../Reviews/CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
-// We need to get the reviews to update when a review is created.
-// Should we use useState and useEffect to do this?
 
 function SpotDetails() {
     const {spotId} = useParams();
     const spotDetails = useSelector(state => state.spots[spotId])
-   
-    // Create a variable for createReviewId
-    // const [createReviewId, setCreatedReviewId] = useState();
     const reviews = useSelector(state => state.reviews);
-    // const userId = useSelector(state => state.session.user.id)
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -102,44 +96,12 @@ function SpotDetails() {
                 </div>
                 <div>
                     <LoadReviews spotId={spotId}/>
-                    {/* {
-                        Object.values(reviews).map((review) => (
-                            <div key={review.id}>
-                                <LoadReviews spotId={spotId} />
-                                {review.userId == userId ? (
-                                    <div>
-                                    <button type="button">
-                                        <OpenModalMenuItem
-                                            itemText={'Delete'}
-                                            modalComponent={<DeleteReviewModal reviewId={review.id} onDelete={() => handleReviewDelete(review.id)} />}
-                                        />
-                                    </button>
-                                    <button>
-                                        <OpenModalMenuItem
-                                        itemText={'Update'}
-                                        modalComponent={<UpdateReviewModal reviewId={review.id}/>}
-                                        />
-                                    </button>
-                                    </div>
-                                ) : (
-                                    <button type="button">
-                                        <OpenModalMenuItem
-                                            itemText={'Post a Review'}
-                                            modalComponent={<CreateReviewModal spotId={spotId}/>} // onCreate={()=> handleReviewCreation()}
-                                        />
-                                    </button>
-                                )}
-                            </div>
-                        ))
-                    }  */}
                 </div>
             </div>
         </div>
-                )
-            }
-
-        </div>
-    );
+            )}
+    </div>
+);
 }
 
 export default SpotDetails

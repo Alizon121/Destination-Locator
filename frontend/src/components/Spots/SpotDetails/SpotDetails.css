@@ -110,3 +110,28 @@
 .star_rating .off .star {
     color: #ccc;
 }
+
+.delete_review_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #CCCCCC;
+    border-radius: 4px;
+    padding: 15px;
+    border: solid 1px;
+}
+
+.delete_review_container button{
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#review_delete_button {
+    margin-right: 5px;
+}
+/* .review_buttons_update_delete {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+} */

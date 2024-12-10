@@ -65,7 +65,6 @@ export const createReviewThunk = (review, spotId) => async dispatch => {
 export const updateReviewThunk = (payload, reviewId) => async dispatch => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`,{
         method: 'PUT',
-        headers: {"Content-Type": "appplication/json"},
         body: JSON.stringify(payload)
     })
 

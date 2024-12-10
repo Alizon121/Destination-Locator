@@ -4,7 +4,7 @@ import { useModal } from "../../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 
 
-function CreateReviewModal({spotId, onCreate}) { 
+function CreateReviewModal({spotId}) { 
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
     const [hover, setHover] = useState(0)
@@ -38,8 +38,6 @@ function CreateReviewModal({spotId, onCreate}) {
         }
     
         const payload = {
-            // spotId: spotIdNumber,
-            // userId,
             review,
             stars
         };
@@ -47,7 +45,6 @@ function CreateReviewModal({spotId, onCreate}) {
         try {
             const newReview = await dispatch(createReviewThunk(payload, spotId));
             if (newReview) {
-                // onCreate(newReview.id)
                 closeModal();
             } else {
                 setErrors({ general: "Failed to create the review. Please try again." });

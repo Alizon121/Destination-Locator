@@ -1,30 +1,45 @@
 import { updateReviewThunk } from "../../../store/reviews";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 
 function UpdateReviewModal({reviewId}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
+    const updateReview = useSelector(state => state.reviews[reviewId])
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
     const {closeModal} = useModal();
+    const reviewIdString = reviewId.toString();
+
+    useEffect(() => {
+        if (updateReview) {
+            setReview(updateReview.review || '');
+            setStars(updateReview.stars || '');
+        }
+    }, [updateReview])
 
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        if (stars < 1 || stars > 5) { 
-            setErrors({ stars: "Stars must be an integer from 1 to 5" }); 
-            return; 
-        }
+       // validations
+       const newErrors = {};
+       if (stars < 1 || stars > 5) { 
+           newErrors.stars = "Stars must be an integer from 1 to 5.";
+       }
+
+       if (Object.keys(newErrors).length > 0) {
+           setErrors(newErrors)
+           return
+       }
 
         const payload = {
             review,
             stars
         }
 
-        const updatedReview = await dispatch(updateReviewThunk(payload, reviewId))
+        const updatedReview = await dispatch(updateReviewThunk(payload, reviewIdString))
         if (updatedReview) {
             closeModal();
         } else {
@@ -57,6 +72,7 @@ function UpdateReviewModal({reviewId}){
                     })} 
                 </div>
             {errors.stars && <p className="error">{errors.stars}</p>}
+            {errors.user && <p className="error">{errors.user}</p>}
             <div className="update_review_buttons">
                 <button type="submit">Submit</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
