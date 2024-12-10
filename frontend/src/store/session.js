@@ -34,7 +34,7 @@ export const login = (user) => async dispatch => {
 
 // Make a thunk action for restoring user
 export const restoreUser = () => async dispatch => {
-    const response = await csrfFetch("api/session");
+    const response = await csrfFetch("/api/session");
     const data = await response.json();
     dispatch(setUser(data.user))
     return response

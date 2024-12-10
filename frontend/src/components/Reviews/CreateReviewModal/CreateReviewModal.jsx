@@ -25,6 +25,9 @@ function CreateReviewModal({spotId}) {
             setErrors({ stars: "Stars must be an integer from 1 to 5" }); 
             return; 
         }
+
+        // Make a validation for a user that already has a review
+        
     
         const spotIdNumber = Number(spotId);
         if (isNaN(spotIdNumber)) {

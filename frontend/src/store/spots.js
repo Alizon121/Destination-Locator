@@ -69,7 +69,7 @@ export const loadSpotDetails = (spotId) => async dispatch => {
 export const createSpotThunk = (spotData, images) => async dispatch => {
     const response = await csrfFetch('/api/spots/', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        // headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(spotData)
     })
     if (!response.ok) {
@@ -83,7 +83,7 @@ export const createSpotThunk = (spotData, images) => async dispatch => {
         for (const image of images) { 
             await csrfFetch(`/api/spots/${result.id}/images`, 
                 { method: 'POST', 
-                  headers: { 'Content-Type': 'application/json' }, 
+                //   headers: { 'Content-Type': 'application/json' }, 
                   body: JSON.stringify(image), 
                 }); 
             }

@@ -33,7 +33,8 @@ export const loadReviewsThunk = (spotId) => async dispatch => {
 
     if (response.ok) {
         const result = await response.json();
-        dispatch(load({spotId, reviews: result}))
+        // console.log(result)
+        dispatch(load(result))
     }
 }
 
@@ -92,24 +93,21 @@ export const deleteReviewThunk = (reviewId) => async dispatch => {
 const reviewReducer = (state = {}, action) => {
     switch(action.type) {
         case LOAD_REVIEWS_SPOTS_DETAILS: {
-            const newState = {...state};
-            newState[action.reviews.spotId] = action.reviews.reviews // Use spotId as key
-            return newState;
-        }
-        // case CREATE_REVIEW: {
-        //     const newState = {...state.reviews};
-        //     const newReview = newState[action.review.spotId]
-        //     return {...state, ...newState, newReview}
-        // }
-        // case CREATE_REVIEW: {
-        //     return [...state, action.reviews.reviews.Reviews]; // Append the new review
-        // }
+                const allReviews = {};
+                action.reviews.Reviews.forEach(review => {
+                    allReviews[review.id] = review;
+                });
+                return {
+                    ...allReviews
+                };
+            }
         case CREATE_REVIEW: {
-            const newState = { ...state };
-            const newReview = action.review; // Ensure this matches the dispatched payload
-            newState[newReview.id] = newReview; // Add/update the review by its ID
-            return newState;
-        }
+            return {
+                ...state,
+            [action.review.id]: {
+                ...action.review
+            }
+        }}
         case DELETE_REVIEW: {
             const newState = {...state}
             delete newState[action.reviewId]
