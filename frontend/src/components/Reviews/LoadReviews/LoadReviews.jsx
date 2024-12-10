@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 function LoadReviews({spotId}) {
     // We want to render the reviews from the slice of state
     const dispatch = useDispatch();
-    const reviews = useSelector(state => state.reviews[spotId]);
+    const reviews = useSelector(state => state.reviews);
+    // console.log(Object.values(reviews).map(review => review.User.firstName))
+    
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId))
     }, [dispatch, spotId]);
@@ -13,15 +15,15 @@ function LoadReviews({spotId}) {
     return (
         <div>
             {reviews? (
-                reviews.Reviews.map((review) => {
+                Object.values(reviews).map((review) => {
                     const date = new Date(review.createdAt);
                     const options = { year: 'numeric', month: 'long' };
                     const formattedDate = date.toLocaleDateString('en-US', options);
 
                     return(
                         <div key={review.id}>
-                            <h3>{review.User.firstName}</h3>
-                            <h4>{formattedDate}</h4>
+                            <span>{review.User.firstName}</span>
+                            <span>{formattedDate}</span>
                             <span>{review.review}</span>
                         </div>
                     )
