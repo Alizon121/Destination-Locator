@@ -1,0 +1,80 @@
+.manage_spots_info h1 {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
+.preview_image {
+    height: 80%;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 2px;
+}
+
+.manage_spots_placeholder_image {
+    height: 80%;
+    width: 100%
+}
+
+.current_data {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.manage_spot_buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3px;
+}
+
+.manage_spot_buttons button {
+    background-color: #FF5A5F;
+    color: #FFF;
+    border: 1px solid #FFF;
+    border-radius: 3px;
+    list-style: none;
+}
+
+.manage_spot_buttons a {
+    color: #FFF;
+}
+
+.spot_details {
+    text-align: center;
+}
+
+.spot_details h2 {
+    text-align: left;
+}
+
+.manage_image_container h2 {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.manage_spots_create_spot_button {
+    list-style: none;
+    margin-bottom: 5px;
+    background-color: #FF5A5F;
+    border: 1px solid #FFF;
+    border-radius: 3px;
+}
+
+.manage_spots_create_spot_button a {
+    color: white
+}
+
+#manage_spots_price_rating {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.manage_spots_create_spot_button:hover {
+    cursor: pointer;
+}
+
+.manage_spot_buttons button:hover {
+    cursor: pointer;
+}

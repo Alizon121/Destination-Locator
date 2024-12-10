@@ -45,7 +45,55 @@ module.exports = {
       name: "Condo on the Strip",
       price: 128.00,
       description: "Lively night life and clean stay."
-    }
+    },
+    {
+      ownerId: 3,
+      address: "1818 Miners Ave",
+      city: "Chicago",
+      state: "IL",
+      country: "United States of America",
+      lat: 30.1241249,
+      lng: -100.1191904,
+      name: "Apartment in loop",
+      price: 128.00,
+      description: "Lively night life and clean stay."
+    },
+    {
+      ownerId: 2,
+      address: "425 Western Ave",
+      city: "Monaco",
+      state: "AL",
+      country: "United States of America",
+      lat: 40.1241249,
+      lng: -90.1191904,
+      name: "House on Prarie",
+      price: 128.00,
+      description: "Lively night life and clean stay."
+    },
+    {
+      ownerId: 2,
+      address: "987 New Almond Ave",
+      city: "Lebanon",
+      state: "GA",
+      country: "United States of America",
+      lat: 20.1241249,
+      lng: -90.1191904,
+      name: "Quiet barn",
+      price: 128.00,
+      description: "Lively night life and clean stay."
+    },
+    {
+      ownerId: 1,
+      address: "101 Hane Ave",
+      city: "Lander",
+      state: "MN",
+      country: "United States of America",
+      lat: 80.1241249,
+      lng: -90.1191904,
+      name: "Treehouse in the woods",
+      price: 128.00,
+      description: "Quiet and cozy treehouse in the forest."
+    },
    ], {validate: true})
   },
 
@@ -53,7 +101,7 @@ module.exports = {
     options.tableName = "Spots";
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      lat: {[Op.in]: [28.0825000, 89.1010190, 70.1241249]}
+      lat: {[Op.in]: [28.0825000, 89.1010190, 70.1241249, 30.1241249, 40.1241249, 20.1241249, 80.1241249]}
     }, {})
   }
 };

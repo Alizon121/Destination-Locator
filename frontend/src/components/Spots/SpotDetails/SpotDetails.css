@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500;600;700&display=swap');
+
+.spot_details_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 20px;
+}
+
+.spot_details {
+    text-align: center;
+}
+
+.spot_img {
+    height: auto;
+    max-width: 300px;
+    border: 1px #ccc solid;
+    margin: 3px
+}
+
+.reviews_header {
+    display: flex;
+    border-top: solid 1px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.city_state_country_container {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    align-items: start;
+}
+
+.spot_details_images {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+
+.spot_details_images img {
+    border-radius: 3px;
+    border: 1px solid black;
+
+}
+
+.create_review_container {
+    list-style: none;
+}
+
+.create_review_modal-info {
+    display: flex;
+    flex-direction: column;
+    background-color: #CCCCCC;
+    width: 342px;
+}
+
+.create_review_modal_form {
+    margin-bottom: 10px;
+}
+
+.create_review_text_area {
+    flex: 1;
+    width: 300px;
+    height: 100px;
+    border-radius: 4px;
+    background: #E8F0FE;
+}
+
+.create_review_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.create_review_buttons button {
+    font-family: karma;
+    background-color: #FF5A5F;
+    color: #FFFF;
+    border: 1px solid black;
+}
+
+#modal-content {
+    align-items: center;
+}
+
+.star_rating {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.star_rating button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; /* Adjust size as needed */
+    padding: 0 5px;
+}
+
+.star_rating .on .star {
+    color: gold;
+}
+
+.star_rating .off .star {
+    color: #ccc;
+}

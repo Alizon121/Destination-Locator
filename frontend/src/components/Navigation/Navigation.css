@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Karma:wght@300;400;500;600;700&display=swap');
+
+.nav-bar {
+    list-style: none; 
+    display: flex;
+    justify-content: space-between;
+    padding-right: 40px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.nav-bar li {
+    position: relative;
+
+}
+
+.icon-home{
+    font-size: 25px;
+    padding-bottom: 5px;
+    font-family: karma;
+    color: #FF5A5F;
+    cursor: pointer;
+}
+
+.icon-home svg{
+    color: #FF5A5F;
+    position: relative;
+    top: 4px;
+}
+
+.icon {
+    display: inline-flex;
+    border: 5px;
+}
+
+svg {
+    margin-top: 0px;
+}
+
+.left-menu {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-family: karma bold 700;
+}
+
+  .user-button:hover {
+    cursor: pointer;
+  }
+
+  .icon-home {
+    text-decoration: none;
+    font-family: 700 karma;
+  }
+
+  .user-button {
+    font-size: 18px;
+    background-color: #FFFFFF;
+    border: none;
+    margin-right: 5px;
+    color: #000000
+  }
+
+  .profile-menu-container {
+    border: solid 2px #CCCCCC;
+    border-radius: 12px;
+    margin-right: 4px;
+    padding: 6px;
+    margin-bottom: 5px;
+  }
+
+  .profile-icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+
+  .login {
+    display: block;
+    cursor: pointer;
+  } 
+
+  /* Stylings when user not logged in */
+.base_menu {
+    top: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 57px;
+}
+
+ .profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    border: 1px solid #000; 
+    background-color: #FFFFFF; 
+    padding: 10px; 
+    margin: 5px 0; 
+    border-radius: 4px;
+    text-align: center; 
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.profile-dropdown li {
+  list-style: none;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.profile_login {
+  cursor: pointer; 
+  border: 1px solid #00525E;
+  background-color: #FF4A4F;
+  color: #FFFFFF;
+  border-radius: 3px;
+  font-family: karma;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+
+.profile_signup {
+  cursor: pointer; 
+  border: 1px solid #00525E;
+  background-color: #FF4A4F;
+  color: #FFFFFF;
+  border-radius: 3px;
+  font-family: karma;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px
+}
+
+.base_menu .dropdown-item:hover {
+    background-color: #FF4A4F;
+}
+
+.hidden {
+    display: none;
+}
+
+.create_spot_profile_buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight:600;
+
+}
+
+.base_menu div {
+    width: 70px;
+}
+
+.create_spot_profile_buttons a {
+    cursor: pointer;
+}

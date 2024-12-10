@@ -1,3 +1,37 @@
-form {
+.sign_up_form {
     display: flex;
+    flex-direction: column;
+    background: #FFFF;
+    border-radius: 4px;
+}
+
+.sign_up_form h1 {
+    margin-bottom: 10px;
+}
+
+.sign_up_inputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sign_up_inputs input {
+    background-color: #E8F0FE;
+    margin: 3px;
+    border: 1px solid black;
+    border-radius: 3px;
+    width: 200px;
+    height: 20px;
+}
+
+.sign_up_button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #FF5A5F;
+    border: 1px solid #FFFF;
+    color:#E8F0FE;
+    border-radius: 4px;
+    height:25px;
+    width: 75px;
+    cursor: pointer;
 }

@@ -1,0 +1,30 @@
+#modal-content {
+    background: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.delete_spot_container {
+    background-color: #f2f2f2;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+}
+
+.delete_spot_buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding-bottom: 10px;
+}
+
+.delete_spot_buttons button {
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+}

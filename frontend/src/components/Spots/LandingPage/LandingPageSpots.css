@@ -1,0 +1,71 @@
+.spot_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .spot_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+  }
+  
+  .spot_image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .spots_data {
+    list-style-type: none;
+    padding: 0;
+    text-align:left;
+    margin-top: 10px; /* Adds space between the image and the list */
+    display: flex;
+  }
+
+  .spot_city_state {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .spot_rating{
+    padding-right: 5px;;
+  }
+
+  .spot_price {
+    display: flex;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  span {
+    position: relative;
+    display: block;
+  }
+  
+  a {
+    color: #716b6b;
+    text-decoration: none;
+  }
+
+  .hover-element {
+    visibility: hidden;
+    border-style: solid;
+    left: 20%;  
+    margin-top: -5px;
+    border-width: 1px;
+    background-color: #FFFFFF;
+    color: #999999
+  }
+
+  .spot_item:hover .hover-element {
+    cursor: pointer;
+    visibility: visible;
+    
+  }
+
+  .spot_item {
+    position: relative; /* Make the parent element a positioned container */
+  }
