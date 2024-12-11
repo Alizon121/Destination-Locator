@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
@@ -11,12 +11,41 @@ function SpotDetails() {
     const {spotId} = useParams();
     const spotDetails = useSelector(state => state.spots[spotId])
     const reviews = useSelector(state => state.reviews);
+    const [numReviews, setNumReviews] = useState(spotDetails?.numReviews || 0)
+    const [avgRating, setAvgRating] = useState(spotDetails?.avgStarRating || 0)
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
     }, [dispatch, spotId])
 
+    useEffect(() => {
+        if (spotDetails) {
+            setNumReviews(spotDetails.numReviews)
+            setAvgRating(spotDetails.avgStarRating)
+        }
+    }, [spotDetails])
+
+    const updateReviewStats = (newReview, isDelete = false) => {
+        // Calculate new average rating and update the local state
+        const currentTotalRating = avgRating * numReviews;
+
+        if (isDelete) {
+            const updatedNumReviews = numReviews - 1;
+            const updatedAvgStarRating =
+                updatedNumReviews > 0 ? (currentTotalRating - newReview.stars) / updatedNumReviews : 0;
+
+            setNumReviews(updatedNumReviews);
+            setAvgRating(updatedAvgStarRating.toFixed(1));
+        } else {
+            const updatedNumReviews = numReviews + 1;
+            const updatedAvgStarRating =
+                (currentTotalRating + newReview.stars) / updatedNumReviews;
+
+            setNumReviews(updatedNumReviews);
+            setAvgRating(updatedAvgStarRating.toFixed(1));
+        }
+    };
 
     if (!spotDetails || !spotDetails.SpotImages ) return null
 
@@ -55,7 +84,7 @@ function SpotDetails() {
                                 <button>
                                 <OpenModalMenuItem 
                                 itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId} />}
+                                modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
                                 />
                                 </button>
                         </div>
@@ -78,8 +107,8 @@ function SpotDetails() {
                             <div className="reserve_spot_container">
                                 <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
                                 <span className="reserve_">
-                                    ${spotDetails.price}.00/night ★{spotDetails.avgStarRating}
-                                    {spotDetails.numReviews} reviews
+                                    ${spotDetails.price}.00/night ★{avgRating}
+                                    {numReviews} reviews
                                     <button>Reserve</button>
                                 </span>
                             </div>
@@ -88,11 +117,11 @@ function SpotDetails() {
                     </div>
                 </div>
                 <div className="reviews_header">
-                    <div>★{spotDetails.avgStarRating}</div>
-                    <div>{spotDetails.numReviews} reviews</div>
+                    <div>★{avgRating}</div>
+                    <div>{numReviews} reviews</div>
                 </div>
                 <div>
-                    <LoadReviews spotId={spotId}/>
+                    <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
                 </div>
             </div>
         </div>

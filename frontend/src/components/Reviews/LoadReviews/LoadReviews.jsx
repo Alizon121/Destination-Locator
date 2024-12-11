@@ -6,7 +6,7 @@ import CreateReviewModal from "../CreateReviewModal/CreateReviewModal";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 
-function LoadReviews({ spotId }) {
+function LoadReviews({ spotId,updateReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const [deletedReviewId, setDeletedReviewId] = useState(null);
@@ -17,8 +17,15 @@ function LoadReviews({ spotId }) {
     }, [dispatch, spotId, deletedReviewId]);
 
     const handleReviewDelete = (reviewId) => {
-        setDeletedReviewId(reviewId)
+            setDeletedReviewId(reviewId)
+            updateReviewStats(Object.values(reviews).find(review => review.id === deletedReviewId), true)
     };
+
+
+    // const handleReviewDelete = (reviewId) => {
+    //     updateReviewStats(reviews[reviewId], true)
+    //     setDeletedReviewId(reviewId);
+    // };
 
     const renderReview = (review) => {
         const date = new Date(review.createdAt);
@@ -37,13 +44,13 @@ function LoadReviews({ spotId }) {
                         <button id="review_delete_button" type="button">
                             <OpenModalMenuItem
                                 itemText="Delete"
-                                modalComponent={<DeleteReviewModal reviewId={review.id} onDelete={() => handleReviewDelete(review.id)} />}
+                                modalComponent={<DeleteReviewModal reviewId={review.id} onDelete={() => handleReviewDelete(review.id)} updateReviewStats={updateReviewStats}/>}
                             />
                         </button>
                         <button  id="review_update_button" type="button">
                             <OpenModalMenuItem
                                 itemText="Update"
-                                modalComponent={<UpdateReviewModal reviewId={review.id}/>}
+                                modalComponent={<UpdateReviewModal reviewId={review.id} updateReviewStats={updateReviewStats}/>}
                             />
                         </button>
                     </div>
@@ -52,7 +59,7 @@ function LoadReviews({ spotId }) {
                             <button type="button">
                                 <OpenModalMenuItem
                                     itemText="Post a Review"
-                                    modalComponent={<CreateReviewModal spotId={spotId} />}
+                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
                                 />
                             </button>
                         </div>
@@ -67,6 +74,7 @@ function LoadReviews({ spotId }) {
             {reviews && Object.keys(reviews).length > 0 ? (
                 Object.values(reviews).map(renderReview)
             ) : (
+                // Add logic for adding a review to a spot without reviews
                 <p>Loading reviews...</p>
             )}
         </div>

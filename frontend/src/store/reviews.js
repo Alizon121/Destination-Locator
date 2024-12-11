@@ -114,6 +114,11 @@ export const deleteReviewThunk = (reviewId) => async dispatch => {
     }
 }
 
+// const calculateNewAverage = (currAverage, totalReviews, newStarRating) => {
+//     const newTotal = totalReviews + 1;
+//     const updatedStarRating = currAverage * totalReviews + newStarRating;
+//     return updatedStarRating / newTotal;
+// }
 
 // Make the reducer
 const reviewReducer = (state = {}, action) => {
