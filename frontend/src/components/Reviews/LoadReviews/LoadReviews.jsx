@@ -10,29 +10,24 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const [deletedReviewId, setDeletedReviewId] = useState(null);
-    // const [updatedReviewId, setUpdatedReviewId] = useState(null);
-    const userId = useSelector((state) => state.session.user.id);
+    // const userId = useSelector((state) => state.session.user.id);
+    const user = useSelector((state) => state.session.user);
+    const userId = user ? user.id : null;
 
-    // console.log(Object.values(reviews).some((review) => review.userId === userId))
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
-    }, [dispatch, spotId, deletedReviewId]); //updatedReviewId May need to add this if editReviewStats does not work
+    }, [dispatch, spotId, deletedReviewId]); 
 
     const handleReviewDelete = (reviewId) => {
             setDeletedReviewId(reviewId)
             updateReviewStats(Object.values(reviews).find(review => review.id == reviewId), true)
     };
 
-//     const handleReviewUpdate = (reviewId) => {
-//         setUpdatedReviewId(reviewId)
-//         updateReviewStats(Object.values(reviews).find(review => review.id == reviewId), true)
-// };
-
     const renderReview = (review) => {
         const date = new Date(review.createdAt);
         const options = { year: "numeric", month: "long" };
         const formattedDate = date.toLocaleDateString("en-US", options);
-
+        
             return (
                 <div key={review.id}>
                     <div>
@@ -51,13 +46,13 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
                         <button  id="review_update_button" type="button">
                             <OpenModalMenuItem
                                 itemText="Update"
-                                modalComponent={<UpdateReviewModal reviewId={review.id} prevRating={review.stars} editReviewStats={editReviewStats}/>} //May need to add this helper funciton for editing rating and reviews 'onUpdate={() => handleReviewUpdate(review.id)}'
+                                modalComponent={<UpdateReviewModal reviewId={review.id} prevRating={review.stars} editReviewStats={editReviewStats}/>} 
                             />
                         </button>
                     </div>
-                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?(
+                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?( // If the 
                         <div></div>
-                    ): (
+                    ): ( user!== null ? (
                         <div key={review.id}>
                             <button type="button">
                                 <OpenModalMenuItem
@@ -66,7 +61,9 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
                                 />
                             </button>
                         </div>
-
+                    ): (
+                        <div></div>
+                    )
                     )
                     )}
                 </div>
