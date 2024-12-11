@@ -2,29 +2,33 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
+    border-bottom: 1px solid;
 }
 
-.manage_review_date {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.manage_review_review {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.manage_review_buttons_container {
+.review_buttons_update_delete {
     display: flex;
+    flex-direction: row;
     justify-content: left;
-    gap: 10px;
-    list-style: none;
 }
 
-.manage_review_update_button {
+.manage_review_date{
+    margin-top:5px;
+    margin-bottom: 5px;
+}
+.review_buttons_update_delete button{
+    list-style: none;
+    gap: 10px;
+    border-radius: 3px;
+    border: 1px #ccc;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background-color: #FF5A5F;
+}
+
+#review_delete_button{
     max-width: 100px;
 }
 
-.manage_review_delete_container {
+#review_update_button{
     max-width: 100px;
 }

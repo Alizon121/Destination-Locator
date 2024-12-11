@@ -27,10 +27,10 @@ function ManageReviews() {
         const formattedDate = date.toLocaleDateString("en-US", options);
 
             return (
-                <div key={review.id}>
+                <div className="manage_reviews_container" key={review.id}>
                     <div>
-                        <span>{review.User?.firstName || "Unknown User"}</span>
-                        <span>{formattedDate}</span>
+                        <h3>{review.User?.firstName || "Unknown User"}</h3>
+                        <span className='manage_review_date'>{formattedDate}</span>
                         <span>{review.review}</span>
                     </div>
                     <div className="review_buttons_update_delete">
@@ -53,6 +53,7 @@ function ManageReviews() {
 
     return (
         <div>
+            <h2>Manage Reviews</h2>
             {reviews && Object.keys(reviews).length > 0 ? (
                 Object.values(reviews).map(renderReview)
             ) : (
