@@ -51,7 +51,7 @@ function SpotDetails() {
 
     return (
         <div>
-            {!reviews ? (
+            {(Object.values(reviews).length <= 0) ? (
                     <div className="spot_details_container">
                         <div className="spot_details">
                             <h1>{spotDetails.name}</h1>
@@ -87,6 +87,7 @@ function SpotDetails() {
                                 modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
                                 />
                                 </button>
+                                <p>Be the first to post a review!</p>
                         </div>
                     </div>
                 ) : (

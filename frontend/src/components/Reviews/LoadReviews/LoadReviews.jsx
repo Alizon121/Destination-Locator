@@ -21,12 +21,6 @@ function LoadReviews({ spotId,updateReviewStats }) {
             updateReviewStats(Object.values(reviews).find(review => review.id === deletedReviewId), true)
     };
 
-
-    // const handleReviewDelete = (reviewId) => {
-    //     updateReviewStats(reviews[reviewId], true)
-    //     setDeletedReviewId(reviewId);
-    // };
-
     const renderReview = (review) => {
         const date = new Date(review.createdAt);
         const options = { year: "numeric", month: "long" };

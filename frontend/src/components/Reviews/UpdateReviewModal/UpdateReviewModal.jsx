@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 
-function UpdateReviewModal({reviewId}){
+function UpdateReviewModal({reviewId, updateReviewStats}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
@@ -46,6 +46,7 @@ function UpdateReviewModal({reviewId}){
 
         const updatedReview = await dispatch(updateReviewThunk(payload, reviewIdString))
         if (updatedReview) {
+            updateReviewStats(updatedReview, false)
             closeModal();
         } else {
             setErrors({general: "Failed to update review."})
