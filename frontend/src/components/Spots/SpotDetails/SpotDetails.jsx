@@ -49,6 +49,13 @@ function SpotDetails() {
         }
     };
 
+    const editReviewStats = (prevRating, editReview) => {
+        const currentTotalRating = avgRating * numReviews
+        const newTotalRating = currentTotalRating - prevRating + editReview.stars
+        const updatedAvgStarRating = (newTotalRating/ numReviews).toFixed(1)
+        setAvgRating(updatedAvgStarRating)
+    }
+
     if (!spotDetails || !spotDetails.SpotImages ) return null
 
     return (
@@ -124,7 +131,7 @@ function SpotDetails() {
                         <div>{numReviews} review</div>
                     </div>
                     <div>
-                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
+                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>
             </div>
@@ -160,7 +167,7 @@ function SpotDetails() {
                         <div>{numReviews} reviews</div>
                     </div>
                     <div>
-                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
+                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>
             </div>
