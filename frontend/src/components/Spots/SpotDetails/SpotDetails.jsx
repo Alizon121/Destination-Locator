@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
@@ -41,8 +41,6 @@ function SpotDetails() {
                                             <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
                                             <span className="reserve_">
                                                 ${spotDetails.price}.00/night 
-                                                {/* ★{spotDetails.avgStarRating} */}
-                                                {/* {spotDetails.numReviews} reviews */}
                                                 ★ New
                                                 <button>Reserve</button>
                                             </span>
@@ -53,12 +51,11 @@ function SpotDetails() {
                             </div>
                             <div className="reviews_header">
                                 <h2>★ New</h2>
-                                {/* <div>{spotDetails.numReviews} reviews</div> */}
                             </div>
                                 <button>
                                 <OpenModalMenuItem 
                                 itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId} />} //onCreate={()=> handleReviewCreation()}
+                                modalComponent={<CreateReviewModal spotId={spotId} />}
                                 />
                                 </button>
                         </div>

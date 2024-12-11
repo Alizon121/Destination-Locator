@@ -25,7 +25,6 @@ function LoadReviews({ spotId }) {
         const options = { year: "numeric", month: "long" };
         const formattedDate = date.toLocaleDateString("en-US", options);
 
-        if (review.userId === userId) {
             return (
                 <div key={review.id}>
                     <div>
@@ -33,6 +32,7 @@ function LoadReviews({ spotId }) {
                         <span>{formattedDate}</span>
                         <span>{review.review}</span>
                     </div>
+                    {review.userId === userId ? (
                     <div className="review_buttons_update_delete">
                         <button id="review_delete_button" type="button">
                             <OpenModalMenuItem
@@ -47,25 +47,19 @@ function LoadReviews({ spotId }) {
                             />
                         </button>
                     </div>
+                    ) : (
+                        <div key={review.id}>
+                            <button type="button">
+                                <OpenModalMenuItem
+                                    itemText="Post a Review"
+                                    modalComponent={<CreateReviewModal spotId={spotId} />}
+                                />
+                            </button>
+                        </div>
+                        )
+                    }
                 </div>
             );
-        }
-
-        return (
-            <div key={review.id}>
-                <div>
-                    <span>{review.User?.firstName || "Unknown User"}</span>
-                    <span>{formattedDate}</span>
-                    <span>{review.review}</span>
-                </div>
-                <button type="button">
-                    <OpenModalMenuItem
-                        itemText="Post a Review"
-                        modalComponent={<CreateReviewModal spotId={spotId} />}
-                    />
-                </button>
-            </div>
-        );
     };
 
     return (

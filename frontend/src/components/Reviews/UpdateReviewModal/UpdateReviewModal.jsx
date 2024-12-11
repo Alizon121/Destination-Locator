@@ -7,11 +7,16 @@ function UpdateReviewModal({reviewId}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
+    const reviews = useSelector(state => state.reviews)
     const updateReview = useSelector(state => state.reviews[reviewId])
+    const spots = useSelector(state => state.spots)
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
     const {closeModal} = useModal();
     const reviewIdString = reviewId.toString();
+
+    const spotId = Object.values(reviews).map((review) => review.spotId)[0]
+    const spotName = spots[spotId].name
 
     useEffect(() => {
         if (updateReview) {
@@ -49,7 +54,7 @@ function UpdateReviewModal({reviewId}){
 
     return (
         <div>
-            <h1>How Was Your Stay?</h1>
+            <h1>How Was Your Stay at {spotName}?</h1>
             <form className="update_review_modal_form" onSubmit={handleUpdate}>
                 <textarea 
                 placeholder="Leave your review here"
