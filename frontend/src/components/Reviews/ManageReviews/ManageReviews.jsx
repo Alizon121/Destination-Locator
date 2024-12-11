@@ -1,20 +1,21 @@
-import { useState, useEffect } from "react";
-import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import { loadReviewsThunk } from "../../../store/reviews";
-import { useDispatch, useSelector } from "react-redux";
-import CreateReviewModal from "../CreateReviewModal/CreateReviewModal";
-import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
-import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
+import { loadCurrentUserReviews } from '../../../store/reviews';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import OpenModalMenuItem from '../../Navigation/OpenModalMenuItem';
+// import { useModal } from '../../../context/Modal';
+import UpdateReviewModal from '../UpdateReviewModal/UpdateReviewModal';
+import DeleteReviewModal from '../DeleteReviewModal/DeleteReviewModal';
+import './ManageReviews.css'
 
-function LoadReviews({ spotId }) {
-    const dispatch = useDispatch();
+function ManageReviews() {
+    const dispatch = useDispatch()
     const reviews = useSelector((state) => state.reviews);
     const [deletedReviewId, setDeletedReviewId] = useState(null);
-    const userId = useSelector((state) => state.session.user.id);
+
 
     useEffect(() => {
-        dispatch(loadReviewsThunk(spotId));
-    }, [dispatch, spotId, deletedReviewId]);
+        dispatch(loadCurrentUserReviews())
+    }, [dispatch, deletedReviewId])
 
     const handleReviewDelete = (reviewId) => {
         setDeletedReviewId(reviewId)
@@ -25,7 +26,6 @@ function LoadReviews({ spotId }) {
         const options = { year: "numeric", month: "long" };
         const formattedDate = date.toLocaleDateString("en-US", options);
 
-        if (review.userId === userId) {
             return (
                 <div key={review.id}>
                     <div>
@@ -49,23 +49,6 @@ function LoadReviews({ spotId }) {
                     </div>
                 </div>
             );
-        }
-
-        return (
-            <div key={review.id}>
-                <div>
-                    <span>{review.User?.firstName || "Unknown User"}</span>
-                    <span>{formattedDate}</span>
-                    <span>{review.review}</span>
-                </div>
-                <button type="button">
-                    <OpenModalMenuItem
-                        itemText="Post a Review"
-                        modalComponent={<CreateReviewModal spotId={spotId} />}
-                    />
-                </button>
-            </div>
-        );
     };
 
     return (
@@ -79,4 +62,4 @@ function LoadReviews({ spotId }) {
     );
 }
 
-export default LoadReviews;
+export default ManageReviews;
