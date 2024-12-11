@@ -90,42 +90,79 @@ function SpotDetails() {
                                 <p>Be the first to post a review!</p>
                         </div>
                     </div>
-                ) : (
-        <div className="spot_details_container">
-            <div className="spot_details">
-                <h1>{spotDetails.name}</h1>
-                <div className="city_state_country_container">
-                    <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
-                </div>
-                <div className="spot_details_images">
-                    {spotDetails.SpotImages.map((image, index) =>
-                        (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                    )}
-                </div>
-                <div className="host_reserve_container">
-                    <div className="host_info_details">
-                        <div>
-                            <div className="reserve_spot_container">
-                                <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                <span className="reserve_">
-                                    ${spotDetails.price}.00/night ★{avgRating}
-                                    {numReviews} reviews
-                                    <button>Reserve</button>
-                                </span>
+                ) : ( (Object.values(reviews).length === 1) ? (
+                    <div className="spot_details_container">
+                <div className="spot_details">
+                    <h1>{spotDetails.name}</h1>
+                    <div className="city_state_country_container">
+                        <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
+                    </div>
+                    <div className="spot_details_images">
+                        {spotDetails.SpotImages.map((image, index) =>
+                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                        )}
+                    </div>
+                    <div className="host_reserve_container">
+                        <div className="host_info_details">
+                            <div>
+                                <div className="reserve_spot_container">
+                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                    <span className="reserve_">
+                                        ${spotDetails.price}.00/night ★{avgRating}
+                                        {numReviews} review
+                                        <button>Reserve</button>
+                                    </span>
+                                </div>
                             </div>
+                            <p>{spotDetails.description}</p>
                         </div>
-                        <p>{spotDetails.description}</p>
+                    </div>
+                    <div className="reviews_header">
+                        <div>★{avgRating}</div>
+                        <div>{numReviews} review</div>
+                    </div>
+                    <div>
+                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
                     </div>
                 </div>
-                <div className="reviews_header">
-                    <div>★{avgRating}</div>
-                    <div>{numReviews} reviews</div>
-                </div>
-                <div>
-                    <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
+            </div>
+                ) : (
+            <div className="spot_details_container">
+                <div className="spot_details">
+                    <h1>{spotDetails.name}</h1>
+                    <div className="city_state_country_container">
+                        <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
+                    </div>
+                    <div className="spot_details_images">
+                        {spotDetails.SpotImages.map((image, index) =>
+                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                        )}
+                    </div>
+                    <div className="host_reserve_container">
+                        <div className="host_info_details">
+                            <div>
+                                <div className="reserve_spot_container">
+                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                    <span className="reserve_">
+                                        ${spotDetails.price}.00/night ★{avgRating}
+                                        {numReviews} reviews
+                                        <button>Reserve</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <p>{spotDetails.description}</p>
+                        </div>
+                    </div>
+                    <div className="reviews_header">
+                        <div>★{avgRating}</div>
+                        <div>{numReviews} reviews</div>
+                    </div>
+                    <div>
+                        <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats}/>
+                    </div>
                 </div>
             </div>
-        </div>
+                )
             )}
     </div>
 );
