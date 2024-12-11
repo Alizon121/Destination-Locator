@@ -12,13 +12,14 @@ function LoadReviews({ spotId,updateReviewStats }) {
     const [deletedReviewId, setDeletedReviewId] = useState(null);
     const userId = useSelector((state) => state.session.user.id);
 
+    // console.log(Object.values(reviews).some((review) => review.userId === userId))
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
     }, [dispatch, spotId, deletedReviewId]);
 
     const handleReviewDelete = (reviewId) => {
             setDeletedReviewId(reviewId)
-            updateReviewStats(Object.values(reviews).find(review => review.id === deletedReviewId), true)
+            updateReviewStats(Object.values(reviews).find(review => review.id == reviewId), true)
     };
 
     const renderReview = (review) => {
@@ -48,7 +49,9 @@ function LoadReviews({ spotId,updateReviewStats }) {
                             />
                         </button>
                     </div>
-                    ) : (
+                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?(
+                        <div></div>
+                    ): (
                         <div key={review.id}>
                             <button type="button">
                                 <OpenModalMenuItem
@@ -57,8 +60,9 @@ function LoadReviews({ spotId,updateReviewStats }) {
                                 />
                             </button>
                         </div>
-                        )
-                    }
+
+                    )
+                    )}
                 </div>
             );
     };
@@ -68,7 +72,6 @@ function LoadReviews({ spotId,updateReviewStats }) {
             {reviews && Object.keys(reviews).length > 0 ? (
                 Object.values(reviews).map(renderReview)
             ) : (
-                // Add logic for adding a review to a spot without reviews
                 <p>Loading reviews...</p>
             )}
         </div>

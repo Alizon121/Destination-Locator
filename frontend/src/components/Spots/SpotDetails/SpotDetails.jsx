@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
+import { loadReviewsThunk } from "../../../store/reviews";
 import LoadReviews from "../../Reviews/LoadReviews/LoadReviews";
 import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
 import CreateReviewModal from "../../Reviews/CreateReviewModal/CreateReviewModal";
@@ -17,6 +18,7 @@ function SpotDetails() {
 
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
+        dispatch(loadReviewsThunk(spotId))
     }, [dispatch, spotId])
 
     useEffect(() => {
@@ -126,7 +128,7 @@ function SpotDetails() {
                     </div>
                 </div>
             </div>
-                ) : (
+                ) : ( //Object.values(reviews).length > 1
             <div className="spot_details_container">
                 <div className="spot_details">
                     <h1>{spotDetails.name}</h1>
