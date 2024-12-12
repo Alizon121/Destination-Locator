@@ -12,8 +12,10 @@
   
   .spot_image {
     display: block;
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 220px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
   }
   
   .spots_data {
@@ -52,12 +54,14 @@
 
   .hover-element {
     visibility: hidden;
-    border-style: solid;
+    border: 1px solid #000;
     left: 20%;  
     margin-top: -5px;
     border-width: 1px;
     background-color: #FFFFFF;
-    color: #999999
+    color: #000;
+    border-radius: 3px;
+    padding: 5px;
   }
 
   .spot_item:hover .hover-element {

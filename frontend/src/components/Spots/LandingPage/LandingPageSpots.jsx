@@ -13,6 +13,7 @@ function LandingPageSpots() {
         dispatch(loadSpotsData())
     }, [dispatch])
 
+    // console.log(spotsData.map(spot => spot.avgRating))
     return (
         <div className='spot_grid'>
             {spotsData.map((spot) => {
@@ -24,7 +25,11 @@ function LandingPageSpots() {
                                 <span className="hover-element">{spot.name}</span>
                             </div>
                                 <span className='spot_city_state'>{`${spot.city}, ${spot.state}`}
-                                    <span className='spot_rating'>{`★${spot.avgRating}`}</span>
+                                    { spot.avgRating > 0 ?( 
+                                        <span className='spot_rating'>{`★${spot.avgRating}`}</span>
+                                    ) : (
+                                        <span className='spot_rating'>★ New</span>
+                                    )}
                                 </span>
                                 <span className='spot_price'>{`$${spot.price}.00/night`}</span>
                         </div>
