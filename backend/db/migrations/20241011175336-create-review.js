@@ -23,6 +23,7 @@ module.exports = {
           model: 'Spots', // Matches the name of the table, not the model
           key: 'id'
         },
+        unique: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
@@ -33,6 +34,7 @@ module.exports = {
           model: 'Users', // Matches the name of the table, not the model
           key: 'id'
       },
+      unique: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
       },
@@ -55,11 +57,11 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-    await queryInterface.addConstraint('Reviews', {
-      fields: ['spotId', 'userId'],
-      type: 'unique',
-      name: 'unique_user_review_per_spot'
-  });
+  //   await queryInterface.addConstraint('Reviews', {
+  //     fields: ['spotId', 'userId'],
+  //     type: 'unique',
+  //     name: 'unique_user_review_per_spot'
+  // });
   },
   async down(queryInterface, Sequelize) {
     options.tableName = "Reviews";
