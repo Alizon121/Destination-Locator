@@ -5,15 +5,22 @@ html {
     font-family: karma;
 }
 
+.login_inputs {
+    height: 335px;
+    width: 400px;
+    background: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #ccc
+}
 h1 {
     text-align: center;
 }
 
-div#modal-content {
+/* div#modal-content {
     height: 320px;
     width: 306px;
     border-radius: 2px;
-}
+} */
 
 .login_form {
     display: flex;
@@ -70,12 +77,6 @@ div#modal-content {
     font-family: karma;
     margin: 0px;
     text-align: center;
-}
-
-.login_inputs {
-    background: #ffffff;
-    border-radius: 3px;
-    border: 2px solid #ffffff
 }
 
 

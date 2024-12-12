@@ -64,9 +64,9 @@ function ProfileButton({user}) {
                         <NavLink to={'/manage-reviews'}>Manage Reviews</NavLink>    
                     </span>
                 </div>
-                <li>
-                    <button onClick={logout}>Log Out</button>
-                </li>
+                <div>
+                    <button onClick={logout}><NavLink to={'/'}>Log Out</NavLink></button>
+                </div>
             </>
         ): (
             <div className="base_menu">
