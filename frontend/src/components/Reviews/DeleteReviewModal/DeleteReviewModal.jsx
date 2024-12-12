@@ -6,10 +6,11 @@ import { deleteReviewThunk } from "../../../store/reviews";
 function DeleteReviewModal({reviewId, onDelete}) {
     const dispatch = useDispatch();
     const {closeModal} = useModal();
+
     const handleDelete = async () => {
         await dispatch(deleteReviewThunk(reviewId))
-        onDelete(reviewId)
         closeModal()
+        onDelete(reviewId)
     }
 
     return (

@@ -1,31 +1,52 @@
 import { updateReviewThunk } from "../../../store/reviews";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
 
-function UpdateReviewModal({reviewId}){
+function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
+    const reviews = useSelector(state => state.reviews)
+    const updateReview = useSelector(state => state.reviews[reviewId])
+    const spots = useSelector(state => state.spots)
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
     const {closeModal} = useModal();
+    const reviewIdString = reviewId.toString();
+    const spotId = Object.values(reviews).map((review) => review.spotId)[0]
+    const spotName = spots[spotId].name
+
+    useEffect(() => {
+        if (updateReview) {
+            setReview(updateReview.review || '');
+            setStars(updateReview.stars || '');
+        }
+    }, [updateReview])
 
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        if (stars < 1 || stars > 5) { 
-            setErrors({ stars: "Stars must be an integer from 1 to 5" }); 
-            return; 
-        }
+       // validations
+       const newErrors = {};
+       if (stars < 1 || stars > 5) { 
+           newErrors.stars = "Stars must be an integer from 1 to 5.";
+       }
+
+       if (Object.keys(newErrors).length > 0) {
+           setErrors(newErrors)
+           return
+       }
 
         const payload = {
             review,
             stars
         }
 
-        const updatedReview = await dispatch(updateReviewThunk(payload, reviewId))
+        const updatedReview = await dispatch(updateReviewThunk(payload, reviewIdString))
         if (updatedReview) {
+            // onUpdate(updatedReview.id)
+            editReviewStats(prevRating, updatedReview)
             closeModal();
         } else {
             setErrors({general: "Failed to update review."})
@@ -34,7 +55,7 @@ function UpdateReviewModal({reviewId}){
 
     return (
         <div>
-            <h1>How Was Your Stay?</h1>
+            <h1>How Was Your Stay at {spotName}?</h1>
             <form className="update_review_modal_form" onSubmit={handleUpdate}>
                 <textarea 
                 placeholder="Leave your review here"
@@ -57,6 +78,7 @@ function UpdateReviewModal({reviewId}){
                     })} 
                 </div>
             {errors.stars && <p className="error">{errors.stars}</p>}
+            {errors.user && <p className="error">{errors.user}</p>}
             <div className="update_review_buttons">
                 <button type="submit">Submit</button>
                 <button type="button" onClick={closeModal}>Cancel</button>

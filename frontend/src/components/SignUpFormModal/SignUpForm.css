@@ -35,3 +35,8 @@
     width: 75px;
     cursor: pointer;
 }
+
+.sign_up_button:disabled{
+    cursor: not-allowed;
+    background-color: rgb(65, 67, 67);
+}

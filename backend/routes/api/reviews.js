@@ -8,10 +8,15 @@ const review = require('../../db/models/review');
 
 const validateReview = (req, res, next) => {
     const { review, stars } = req.body;
+    console.log('REVIEW', review)
     const errors = {};
-    if (!review) errors.review = "Review text is required";
-    if (!stars || stars < 1 || stars > 5) errors.stars = "Stars must be an integer from 1 to 5";
-  
+    if (!review || typeof review !== "string" || review.trim() === "") {
+      errors.review = "Review text is required";
+  }
+
+  if (stars === undefined || stars === null || stars < 1 || stars > 5 || !Number.isInteger(stars)) {
+      errors.stars = "Stars must be an integer from 1 to 5";
+  }
     if (Object.keys(errors).length > 0) {
       return res.status(400).json({
         "message": "Validation error",
@@ -83,24 +88,55 @@ router.put("/:reviewId", requireAuth, validateReview, async (req, res, next) => 
 
         if (req.user.id !== findingReview.userId) return res.status(403).json({message: "Forbidden"})
 
-        const updateReview = await Review.findOne({ where: {id: reviewId} });
-        updateReview.set({ review, stars })
-
-        await updateReview.save();
-        res.json(updateReview)
+        findingReview.set({ review, stars })
+        await findingReview.save();
+        
+        const reviewWithAssociations = await Review.findByPk(findingReview.id, {
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'firstName', 'lastName'], // Only include necessary fields
+            },
+            {
+              model: ReviewImage,
+              attributes: ['id', 'url'], // Only include necessary fields
+            },
+          ],
+        });
+        res.json(reviewWithAssociations)
     } catch(error) {
-    //    let options = {}
-    //    error.errors.map(element => {
-    //         if(element.path === "review") element.message = options.review = "Review text is required";
-    //         if(element.path === "stars") element.message = options.stars = "Stars must be an integer from 1 to 5";
-    //     })
-    //         res.status(400).json({
-    //             "message": "Bad request",
-    //             "errors": options
-    //         })
             next(error)
     }
 })
+
+// router.put("/:reviewId", requireAuth, validateReview, async (req, res, next) => {
+//   const { reviewId } = req.params;
+//   const { review, stars } = req.body;
+
+//   try {
+//       // Find the review by its ID
+//       const reviewInstance = await Review.findByPk(reviewId);
+
+//       if (!reviewInstance) {
+//           return res.status(404).json({ message: "Review couldn't be found" });
+//       }
+
+//       // Check ownership
+//       if (req.user.id !== reviewInstance.userId) {
+//           return res.status(403).json({ message: "Forbidden" });
+//       }
+
+//       // Update the review
+//       reviewInstance.set({ review, stars });
+//       await reviewInstance.save();
+
+//       // Return the updated review
+//       res.json(reviewInstance);
+//   } catch (error) {
+//       next(error);
+//   }
+// });
+
 
 /******************* Add an Image to a Review ************/
 router.post('/:reviewId/images', requireAuth, async (req, res, next) => {

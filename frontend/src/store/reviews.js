@@ -9,6 +9,15 @@ const load = (reviews) => {
     }
 }
 
+// Create an action creator for loading the current user's reviews
+const LOAD_CURRENT_USER_REVIEWS = 'reviews/LOAD_CURRENT_USER_REVIEWS'
+const loadUserReviews = (reviews) => {
+    return {
+        type: LOAD_CURRENT_USER_REVIEWS,
+        reviews
+    }
+}
+
 // create an action creator for making a review
 const CREATE_REVIEW = 'reviews/CREATE_REVIEW'
 const createReview = (review) => {
@@ -27,6 +36,14 @@ const deleteReview = (review) => {
     }
 }
 
+// Make an action creator for updating the review
+const UPDATE_REVIEW = 'reviews/UPDATE_REVIEW'
+const updateReview = (review) => {
+    return {
+        type: UPDATE_REVIEW,
+        review
+    }
+}
 // create a thunk action that fetches the review info
 export const loadReviewsThunk = (spotId) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
@@ -35,6 +52,16 @@ export const loadReviewsThunk = (spotId) => async dispatch => {
         const result = await response.json();
         // console.log(result)
         dispatch(load(result))
+    }
+}
+
+// create a thunk action that will load current user's reviews
+export const loadCurrentUserReviews = () => async dispatch => {
+    const response = await csrfFetch('/api/reviews/current')
+
+    if (response.ok) {
+        const result = await response.json();
+        dispatch(loadUserReviews(result))
     }
 }
 
@@ -65,14 +92,13 @@ export const createReviewThunk = (review, spotId) => async dispatch => {
 export const updateReviewThunk = (payload, reviewId) => async dispatch => {
     const response = await csrfFetch(`/api/reviews/${reviewId}`,{
         method: 'PUT',
-        headers: {"Content-Type": "appplication/json"},
         body: JSON.stringify(payload)
     })
 
     if (response.ok) {
         const result = await response.json()
         // We do not need a new action creator for edit
-        dispatch(load(result))
+        dispatch(updateReview(result))
         return result
     }
 }
@@ -88,6 +114,11 @@ export const deleteReviewThunk = (reviewId) => async dispatch => {
     }
 }
 
+// const calculateNewAverage = (currAverage, totalReviews, newStarRating) => {
+//     const newTotal = totalReviews + 1;
+//     const updatedStarRating = currAverage * totalReviews + newStarRating;
+//     return updatedStarRating / newTotal;
+// }
 
 // Make the reducer
 const reviewReducer = (state = {}, action) => {
@@ -98,6 +129,7 @@ const reviewReducer = (state = {}, action) => {
                     allReviews[review.id] = review;
                 });
                 return {
+                    // ...state,
                     ...allReviews
                 };
             }
@@ -108,6 +140,22 @@ const reviewReducer = (state = {}, action) => {
                 ...action.review
             }
         }}
+        case LOAD_CURRENT_USER_REVIEWS: {
+            const newState = {};
+            action.reviews.Reviews.forEach((spot) => {
+                newState[spot.id] = {
+                    ...spot
+                }
+            })
+            return newState
+        }
+        case UPDATE_REVIEW: {
+            const updatedReview = action.review
+            return {
+                ...state,
+                [updatedReview.id]: updatedReview
+            }
+        }
         case DELETE_REVIEW: {
             const newState = {...state}
             delete newState[action.reviewId]
