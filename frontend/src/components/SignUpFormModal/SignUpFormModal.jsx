@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import * as sessionActions from '../../store/session';
+import * as sessionActions from '../../store/session'
 import './SignupForm.css';
 
 function SignupFormModal() {
@@ -13,37 +13,95 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [disabled, setDisabled] = useState(true)
   const { closeModal } = useModal();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (!email.trim() || !username.trim() || !firstName.trim() || !lastName.trim() || !password.trim() || !confirmPassword.trim()) {
+      setDisabled(true) 
+    } else {
+      setDisabled(false)
+    }
+  }, [email, username, firstName, lastName, password, confirmPassword])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
-      setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
+
+    // valdiations
+    const newErrors = {}
+    if (username.length < 4) newErrors.username = "Username must be greater than 4 characters."
+    if (password.length < 6) newErrors.password = "Password must be greater than 6 characters."
+    if (password !== confirmPassword) newErrors.confirmPassword = "Confirm password must be the same as Password field."
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+
+    const payload = {
           username,
           firstName,
           lastName,
+          email,
           password
-        })
-      )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data?.errors) {
-            setErrors(data.errors);
-          }
-        });
     }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
-  };
+    
+      setErrors({});
+
+      try {
+        const newUser = await dispatch(sessionActions.signup(payload)) 
+        if (newUser) {
+          const data = await newUser.json()
+          closeModal()
+        }
+      } catch (error) {
+        // if (error instanceof Error) {
+        //   setErrors({general: error.message})
+        // } else {
+        const newErrors = {}
+        const errors = await error.json()
+            if (errors.errors?.email) {
+              newErrors.email = errors.errors.email
+            }
+            if (errors.errors?.username) {
+              newErrors.username = errors.errors.username
+            }
+            console.log(newErrors)
+          setErrors(newErrors)
+        }
+      }
+    // }
+      // return dispatch(
+      //   sessionActions.signup({
+      //     username,
+      //     firstName,
+      //     lastName,
+      //     email,
+      //     password
+      //   })
+      // )
+        // .then(closeModal)
+        // .catch(async (res) => {
+        //   const data = await res.json();
+        //   if (data?.errors) {
+        //     setErrors(data.errors);
+        //   }
+        // });
+    // return setErrors({
+    //   confirmPassword: "Confirm Password field must be the same as the Password field"
+    // });
+  // };
 
   return (
     <div className='sign_up_form'>
       <h1>Sign Up</h1>
+      {/* {errors.general && <p>{errors.general}</p>} */}
+      {errors.email && <p>{errors.email}</p>}
+      {errors.username && <p>{errors.username}</p>}
+      {errors.firstName && <p>{errors.firstName}</p>}
+      {errors.lastName && <p>{errors.lastName}</p>}
+      {errors.password && <p>{errors.password}</p>}
+      {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
       <form className="sign_up_inputs"onSubmit={handleSubmit}>
         <label>
           <input
@@ -51,63 +109,55 @@ function SignupFormModal() {
             value={email}
             placeholder='Email'
             onChange={(e) => setEmail(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
         <label>
           <input
             type="text"
             value={username}
             placeholder='Username'
             onChange={(e) => setUsername(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
         <label>
           <input
             type="text"
             value={firstName}
             placeholder='First Name'
             onChange={(e) => setFirstName(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
         <label>
           <input
             type="text"
             value={lastName}
             placeholder='Last Name'
             onChange={(e) => setLastName(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
         <label>
           <input
             type="password"
             value={password}
             placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
         <label>
           <input
             type="password"
             value={confirmPassword}
             placeholder='Confirm Password'
             onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+            // required
           />
         </label>
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
-        <button className='sign_up_button' type="submit">Sign Up</button>
+        <button className='sign_up_button' type="submit" disabled={disabled}>Sign Up</button>
       </form>
     </div>
   );
