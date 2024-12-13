@@ -13,6 +13,7 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
     // const userId = useSelector((state) => state.session.user.id);
     const user = useSelector((state) => state.session.user);
     const userId = user ? user.id : null;
+    // const reviewDates = Object.values(reviews).map((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
 
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
@@ -23,15 +24,19 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
             updateReviewStats(Object.values(reviews).find(review => review.id == reviewId), true)
     };
 
+    const sortedReviews = Object.values(reviews)
+    .filter((review) => review.createdAt) // Ensure `createdAt` exists
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
     const renderReview = (review) => {
         const date = new Date(review.createdAt);
         const options = { year: "numeric", month: "long" };
         const formattedDate = date.toLocaleDateString("en-US", options);
         
             return (
-                <div key={review.id}>
-                    <div>
-                        <span>{review.User?.firstName || "Unknown User"}</span>
+                <div key={review.id} className="load_reviews_container">
+                    <div className="load_reviews_name_review_container">
+                        <span id="load_reviews_name">{review.User?.firstName || "Unknown User"}</span>
                         <span>{formattedDate}</span>
                         <span>{review.review}</span>
                     </div>
@@ -50,11 +55,11 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
                             />
                         </button>
                     </div>
-                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?( // If the 
+                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?( 
                         <div></div>
                     ): ( user!== null ? (
                         <div key={review.id}>
-                            <button type="button">
+                            <button className="post_review_button" type="button">
                                 <OpenModalMenuItem
                                     itemText="Post a Review"
                                     modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
@@ -72,8 +77,8 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
 
     return (
         <div>
-            {reviews && Object.keys(reviews).length > 0 ? (
-                Object.values(reviews).map(renderReview)
+             {sortedReviews && sortedReviews.length > 0 ? (
+                sortedReviews.map(renderReview)
             ) : (
                 <p>Loading reviews...</p>
             )}

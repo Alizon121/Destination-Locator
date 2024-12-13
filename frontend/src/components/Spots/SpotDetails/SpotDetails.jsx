@@ -16,8 +16,6 @@ function SpotDetails() {
     const [avgRating, setAvgRating] = useState(spotDetails?.avgStarRating || 0)
     const dispatch = useDispatch();
 
-    console.log(spotDetails)
-
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
         dispatch(loadReviewsThunk(spotId))
@@ -107,13 +105,15 @@ function SpotDetails() {
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                                <button>
-                                <OpenModalMenuItem 
-                                itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                />
+                            <div className="spot_details_post_review_button_container">
+                                <button className="post_review_button" type="button">
+                                    <OpenModalMenuItem 
+                                    itemText={'Post Your Review'}
+                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
+                                    />
                                 </button>
-                                <p>Be the first to post a review!</p>
+                                    <p>Be the first to post a review!</p>
+                            </div>
                         </div>
                     </div>
                 ) : ( (Object.values(reviews).length === 1) ? (
