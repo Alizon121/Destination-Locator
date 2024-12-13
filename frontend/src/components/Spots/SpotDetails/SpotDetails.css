@@ -10,15 +10,13 @@
     padding: 20px;
 }
 
-.spot_details {
-    text-align: center;
+.spot_details_container h1 {
+    text-align: left;
+    margin-bottom: 0px;
 }
 
-.spot_img {
-    height: auto;
-    max-width: 300px;
-    border: 1px #ccc solid;
-    margin: 3px
+.spot_details {
+    text-align: center;
 }
 
 .reviews_header {
@@ -38,13 +36,57 @@
 .spot_details_images {
     display: flex;
     justify-content: start;
+    align-items: flex-start;
     flex-wrap: wrap;
+    height: 360px;
+    margin-bottom: 30px;
+    } 
+
+.spot_details_preview_image_container {
+    flex: 1; /* Allows this container to take up space proportionally */
+    display: flex;
+    justify-content: center; /* Centers the preview image horizontally */
+    align-items: center; /* Centers the preview image vertically */
 }
 
-.spot_details_images img {
+/* .spot_details_images img {
     border-radius: 3px;
     border: 1px solid black;
 
+} */
+
+/* .spot_details_preview_image {
+    height: auto;
+    max-width: 500px;
+} */
+
+.spot_details_preview_image {
+    max-width: 520px; /* Ensures the image is responsive */
+    height: 368px;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    object-fit: cover; /* Ensures the image doesn't stretch */
+    overflow: hidden;
+}
+
+/* .spot_details_other_images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    
+} */
+
+.spot_details_other_images {
+    flex: 2; /* Takes up more space than the preview container */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates a 2x2 grid */
+    gap: 8px; /* Adds spacing between grid items */
+    margin-left: 4px;
+}
+
+.spot_img {
+    width: 100%; /* Makes each grid item take up the full width of its cell */
+    height: auto;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    object-fit: cover; /* Ensures the image doesn't stretch */
 }
 
 .create_review_container {
@@ -129,6 +171,27 @@
 
 #review_delete_button {
     margin-right: 5px;
+}
+
+
+.reserve_spot_container {
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.spot_details_owner_description {
+    width: 80%;
+}
+
+.reserve_info{
+    border: 1px solid #ccc;
+    display: block;
+    height: 90%;
+    width: 30%;
+    padding: 15px;
+    border-radius: 10px;
 }
 /* .review_buttons_update_delete {
     flex: 1;

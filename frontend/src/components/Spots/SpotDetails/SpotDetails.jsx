@@ -16,6 +16,8 @@ function SpotDetails() {
     const [avgRating, setAvgRating] = useState(spotDetails?.avgStarRating || 0)
     const dispatch = useDispatch();
 
+    console.log(spotDetails)
+
     useEffect(() => {
         dispatch(loadSpotDetails(spotId))
         dispatch(loadReviewsThunk(spotId))
@@ -68,9 +70,16 @@ function SpotDetails() {
                                 <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                             </div>
                             <div className="spot_details_images">
-                                {spotDetails.SpotImages.map((image, index) =>
-                                    (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                                )}
+                                <div className="spot_details_preview_image_container">
+                                    {spotDetails.SpotImages.map((image) => 
+                                        image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                                    )}
+                                </div>
+                                <div className="spot_details_other_images">
+                                    {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                        (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                                    )}
+                                </div>
                             </div>
                             <div className="host_reserve_container">
                                 <div className="host_info_details">
@@ -107,23 +116,37 @@ function SpotDetails() {
                         <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                     </div>
                     <div className="spot_details_images">
-                        {spotDetails.SpotImages.map((image, index) =>
-                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                        )}
+                        <div className="spot_details_preview_image_container">
+                            {spotDetails.SpotImages.map((image) => 
+                                image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                            )}
+                        </div>
+                        <div className="spot_details_other_images">
+                            {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                            )}
+                        </div>
                     </div>
                     <div className="host_reserve_container">
                         <div className="host_info_details">
                             <div>
                                 <div className="reserve_spot_container">
-                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                    <span className="reserve_">
-                                        ${spotDetails.price}.00/night ★{avgRating}
-                                        {numReviews} review
-                                        <button>Reserve</button>
-                                    </span>
+                                    <div className="spot_details_owner_description">
+                                        <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                        <p>{spotDetails.description}</p>
+                                    </div>
+                                        <div className="reserve_info">
+                                            <span>
+                                             ${spotDetails.price}.00/night 
+                                            </span>
+                                            <span>★{avgRating}</span>
+                                            <div>
+                                                {numReviews} review
+                                                <button>Reserve</button>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <p>{spotDetails.description}</p>
                         </div>
                     </div>
                     <div className="reviews_header">
@@ -143,9 +166,16 @@ function SpotDetails() {
                         <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                     </div>
                     <div className="spot_details_images">
-                        {spotDetails.SpotImages.map((image, index) =>
-                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                        )}
+                        <div className="spot_details_preview_image_container">
+                            {spotDetails.SpotImages.map((image) => 
+                                image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                            )}
+                        </div>
+                        <div className="spot_details_other_images">
+                            {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                            )}
+                        </div>
                     </div>
                     <div className="host_reserve_container">
                         <div className="host_info_details">
