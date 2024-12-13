@@ -85,17 +85,37 @@ function SpotDetails() {
                                 <div className="host_info_details">
                                     <div>
                                         <div className="reserve_spot_container">
-                                            <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                            <span className="reserve_">
-                                                ${spotDetails.price}.00/night 
-                                                ★ New
-                                                <button>Reserve</button>
-                                            </span>
+                                            <div className="spot_details_owner_description">
+                                                <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                                <p>{spotDetails.description}</p>
+                                            </div>
+                                            <div className="reserve_info">
+                                                <span className="spot_details_price_rating">
+                                                    ${spotDetails.price}.00/night 
+                                                    <span>
+                                                        ★ New
+                                                    </span>
+                                                </span>
+                                                <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p>{spotDetails.description}</p>
                                 </div>
                             </div>
+                            {/* <span className="spot_details_price_rating">
+                                                 ${spotDetails.price}.00/night 
+                                                <span>
+                                                    {numReviews} review
+                                                </span>
+                                                <span>
+                                                    ★{avgRating}
+                                                </span>
+                                            </span>
+                                            <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                            </div> */}
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
@@ -136,13 +156,17 @@ function SpotDetails() {
                                         <p>{spotDetails.description}</p>
                                     </div>
                                         <div className="reserve_info">
-                                            <span>
-                                             ${spotDetails.price}.00/night 
+                                            <span className="spot_details_price_rating">
+                                                 ${spotDetails.price}.00/night 
+                                                <span>
+                                                    {numReviews} review
+                                                </span>
+                                                <span>
+                                                    ★{avgRating}
+                                                </span>
                                             </span>
-                                            <span>★{avgRating}</span>
-                                            <div>
-                                                {numReviews} review
-                                                <button>Reserve</button>
+                                            <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
                                             </div>
                                         </div>
                                 </div>
@@ -180,16 +204,27 @@ function SpotDetails() {
                     <div className="host_reserve_container">
                         <div className="host_info_details">
                             <div>
-                                <div className="reserve_spot_container">
-                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                    <span className="reserve_">
-                                        ${spotDetails.price}.00/night ★{avgRating}
-                                        {numReviews} reviews
-                                        <button>Reserve</button>
-                                    </span>
+                            <div className="reserve_spot_container">
+                                    <div className="spot_details_owner_description">
+                                        <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                        <p>{spotDetails.description}</p>
+                                    </div>
+                                        <div className="reserve_info">
+                                            <span className="spot_details_price_rating">
+                                                 ${spotDetails.price}.00/night 
+                                                <span>
+                                                    {numReviews} reviews
+                                                </span>
+                                                <span>
+                                                    ★{avgRating}
+                                                </span>
+                                            </span>
+                                            <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <p>{spotDetails.description}</p>
                         </div>
                     </div>
                     <div className="reviews_header">
