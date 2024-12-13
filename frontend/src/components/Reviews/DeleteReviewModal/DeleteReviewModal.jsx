@@ -15,9 +15,10 @@ function DeleteReviewModal({reviewId, onDelete}) {
 
     return (
         <div className="delete_review_container">
-            <p>The review cannot be restored once deleted. Continue with deletion?</p>
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this review?</p>
             <div className="delete_review_buttons">
-                <button onClick={handleDelete}>Yes</button>
+                <button id="delete_review_button_yes" onClick={handleDelete}>Yes</button>
                 <button onClick={closeModal}>No</button>
             </div> 
         </div>

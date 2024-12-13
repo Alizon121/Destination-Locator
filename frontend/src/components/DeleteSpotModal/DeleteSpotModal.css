@@ -6,25 +6,34 @@
 }
 
 .delete_spot_container {
-    background-color: #f2f2f2;
-    text-align: center;
-    padding-top: 10px;
-    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #CCCCCC;
+    border-radius: 4px;
+    padding: 15px;
+    border: solid 1px;
 }
 
 .delete_spot_buttons {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     gap: 15px;
     padding-bottom: 10px;
 }
 
 .delete_spot_buttons button {
-    background-color: #FF5A5F;
-    color: #FFFFFF;
-    border: 1px solid black;
-    border-radius: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
     cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding:10px;
+    width: 250px;
+    max-width: 250px;
+    border-radius: 8px;
+    border: none;
+}
+
+#delete_spot_button_yes {
+    background-color: #FF5A5F;
 }

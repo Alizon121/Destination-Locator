@@ -15,9 +15,10 @@ function DeleteSpotModal({spotId, onDelete}) {
 
     return (
         <div className='delete_spot_container'>
-            <p>The spot cannot be restored once deleted. Continue with deletion?</p>
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to remove this spot?</p>
             <div className='delete_spot_buttons'>
-                <button onClick={handleDelete}>Yes</button>
+                <button id='delete_spot_button_yes' onClick={handleDelete}>Yes</button>
                 <button onClick={closeModal}>No</button>
             </div>
                 
