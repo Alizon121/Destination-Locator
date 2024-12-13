@@ -104,18 +104,6 @@ function SpotDetails() {
                                     </div>
                                 </div>
                             </div>
-                            {/* <span className="spot_details_price_rating">
-                                                 ${spotDetails.price}.00/night 
-                                                <span>
-                                                    {numReviews} review
-                                                </span>
-                                                <span>
-                                                    ★{avgRating}
-                                                </span>
-                                            </span>
-                                            <div className="spot_details_reserve_button_container">
-                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
-                                            </div> */}
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>

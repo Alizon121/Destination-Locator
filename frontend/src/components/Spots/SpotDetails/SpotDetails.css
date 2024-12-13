@@ -77,7 +77,9 @@
 
 .spot_img {
     width: 100%; /* Makes each grid item take up the full width of its cell */
+    min-width: 200px;
     height: auto;
+    max-height: 170px;
     border-radius: 8px; /* Optional: adds rounded corners */
     object-fit: cover; /* Ensures the image doesn't stretch */
 }
