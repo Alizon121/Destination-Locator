@@ -147,9 +147,8 @@ function SpotDetails() {
                                             <span className="spot_details_price_rating">
                                                  ${spotDetails.price}.00/night 
                                                 <span>
-                                                    {numReviews} review
-                                                </span>
-                                                <span>
+                                                    {numReviews} review 
+                                                    ·
                                                     ★{avgRating}
                                                 </span>
                                             </span>
@@ -202,8 +201,7 @@ function SpotDetails() {
                                                  ${spotDetails.price}.00/night 
                                                 <span>
                                                     {numReviews} reviews
-                                                </span>
-                                                <span>
+                                                    ·
                                                     ★{avgRating}
                                                 </span>
                                             </span>
