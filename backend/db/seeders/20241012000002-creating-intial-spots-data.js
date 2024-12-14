@@ -20,7 +20,7 @@ module.exports = {
       lng: -155.2457809,
       name: "Cabin on Beale St",
       price: 68.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
     {
       ownerId: 2,
@@ -32,7 +32,7 @@ module.exports = {
       lng: -108.1018829,
       name: "Condo in metro area",
       price: 152.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
     {
       ownerId: 3,
@@ -44,7 +44,7 @@ module.exports = {
       lng: -101.1191904,
       name: "Condo on the Strip",
       price: 128.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
     {
       ownerId: 3,
@@ -56,7 +56,7 @@ module.exports = {
       lng: -100.1191904,
       name: "Apartment in loop",
       price: 128.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     },
     {
       ownerId: 2,
@@ -68,7 +68,7 @@ module.exports = {
       lng: -90.1191904,
       name: "House on Prarie",
       price: 128.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     },
     {
       ownerId: 2,
@@ -80,7 +80,7 @@ module.exports = {
       lng: -90.1191904,
       name: "Quiet barn",
       price: 128.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     },
     {
       ownerId: 1,
@@ -92,7 +92,7 @@ module.exports = {
       lng: -90.1191904,
       name: "Treehouse in the woods",
       price: 128.00,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
     },
    ], {validate: true})
   },
