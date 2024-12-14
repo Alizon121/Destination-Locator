@@ -19,6 +19,8 @@ function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
     // const reviewDates = Object.values(reviews).map((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
     // if the spot belongs to the user, then don't show update, delete, create review buttons
     // We need to add logic for when the userId === ownerId, the Post Review button should not appear
+
+    
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
     }, [dispatch, spotId, deletedReviewId]); 
