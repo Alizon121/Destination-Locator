@@ -57,6 +57,7 @@ function SignupFormModal() {
         const newUser = await dispatch(sessionActions.signup(payload)) 
         if (newUser) {
           // const data = await newUser.json()
+          await dispatch(sessionActions.login({credential: payload.email, password: payload.password}))
           closeModal()
         }
       } catch (error) {
@@ -88,6 +89,7 @@ function SignupFormModal() {
       {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
       <form className="sign_up_inputs"onSubmit={handleSubmit}>
         <label>
+          Email
           <input
             type="text"
             value={email}
@@ -96,6 +98,7 @@ function SignupFormModal() {
           />
         </label>
         <label>
+          Username
           <input
             type="text"
             value={username}
@@ -104,6 +107,7 @@ function SignupFormModal() {
           />
         </label>
         <label>
+          First Name
           <input
             type="text"
             value={firstName}
@@ -112,6 +116,7 @@ function SignupFormModal() {
           />
         </label>
         <label>
+          Last Name
           <input
             type="text"
             value={lastName}
@@ -120,6 +125,7 @@ function SignupFormModal() {
           />
         </label>
         <label>
+          Password
           <input
             type="password"
             value={password}
@@ -128,6 +134,7 @@ function SignupFormModal() {
           />
         </label>
         <label>
+          Confirm Password
           <input
             type="password"
             value={confirmPassword}

@@ -1,14 +1,22 @@
 import { NavLink } from "react-router-dom"
 import { useSelector} from 'react-redux'
 import ProfileButton from './ProfileButton'
+// import { useDispatch } from "react-redux";
 import { LuLocateFixed } from "react-icons/lu"; // add font icon for destination locator
 // import CreateSpot from "../Spots/CreateSpot";
+// import * as sessionActions from '../../store/session'
 import './Navigation.css'
+// import { useEffect } from "react";
 
 
 function Navigation({isLoaded}) {
     // Use the useSelector hook to check for user
     const sessionUser = useSelector(state => state.session.user)
+
+    // const dispatch = useDispatch();
+    // useEffect(() => {
+    //     dispatch(sessionActions.signup())
+    // }, [dispatch])
     return (
             <ul className="nav-bar">
                 <div className="right-menu">
