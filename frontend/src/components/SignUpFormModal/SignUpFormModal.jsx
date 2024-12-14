@@ -56,7 +56,7 @@ function SignupFormModal() {
       try {
         const newUser = await dispatch(sessionActions.signup(payload)) 
         if (newUser) {
-          const data = await newUser.json()
+          // const data = await newUser.json()
           closeModal()
         }
       } catch (error) {
