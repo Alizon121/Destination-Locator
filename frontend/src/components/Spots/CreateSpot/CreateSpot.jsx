@@ -97,7 +97,7 @@ function CreateSpot() { // remove {navigate} from argument
         <form className="create_spot_form" onSubmit={handleSubmit}>
             <div>
                 <h1>Create A Spot</h1>
-                <h2>Where's Your Spot Located</h2>
+                <h2>{`Where's Your Spot Located`}</h2>
                 <p>Guests will only get the exact location when booking a reservation.</p>
             </div>
             <div className="prelim_info">
@@ -157,7 +157,7 @@ function CreateSpot() { // remove {navigate} from argument
             </div>
             <div className="name_input_container">
                 <h2>Create a Title for Your Spot</h2>
-                <p>Catch guests' attention with a spot title that highlights what makes your place special.</p>
+                <p>{`Catch guests' attention with a spot title that highlights what makes your place special.`}</p>
                 <input 
                     type="text"
                     placeholder="Name of Your Spot"

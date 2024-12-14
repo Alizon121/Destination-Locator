@@ -10,13 +10,12 @@ import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 function LoadReviews({ spotId,updateReviewStats,editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
-    const spots = useSelector(state => state.spots)
-    const spotOwnerId = Object.values(spots).map(spot => spot.ownerId)[0]
+    // const spots = useSelector(state => state.spots)
+    // const spotOwnerId = Object.values(spots).map(spot => spot.ownerId)[0]
     const [deletedReviewId, setDeletedReviewId] = useState(null);
     // const userId = useSelector((state) => state.session.user.id);
     const user = useSelector((state) => state.session.user);
     const userId = user ? user.id : null;
-    console.log(userId)
     // const reviewDates = Object.values(reviews).map((a,b) => new Date(a.createdAt) - new Date(b.createdAt))
     // if the spot belongs to the user, then don't show update, delete, create review buttons
     // We need to add logic for when the userId === ownerId, the Post Review button should not appear
