@@ -79,7 +79,7 @@ function UpdateSpot() {
         try {
             const updatedSpot = await dispatch(editSpotThunk(payload, spotId))
             if (updatedSpot) {
-                navigate(`/manage-spots`)
+                navigate(`/spots/${spotId}`)
             }  
         } catch(error) {
             if (error instanceof Error) {
@@ -108,7 +108,7 @@ function UpdateSpot() {
 
     return (
         <div className="update_spot_container" >
-            <form onSubmit={handleUpdate}>
+            <form className="update_spot_form" onSubmit={handleUpdate}>
                 <div>
                     <h1>Update Spot</h1>
                 </div>

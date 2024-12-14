@@ -21,7 +21,6 @@ function ManageSpots() {
     };
 
     const spotsData = Object.values(spots);
-
     return (
         <div className="manage_spots_info">
             <h1>Manage Spots</h1>
@@ -31,16 +30,24 @@ function ManageSpots() {
             <div className="current_data">
                 {spotsData.map((spot) => (
                     <div key={spot.id} className="manage_image_container">
+                        <NavLink to={`/spots/${spot.id}`}>
                         {spot.previewImage ? (
                             <img className="preview_image" src={spot.previewImage} alt={`${spot.name} preview`} />
                         ) : (
                             <img className="manage_spots_placeholder_image" src="https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg" alt="Placeholder" />
                         )}
+                        </NavLink>
                         <div className="spot_details">
-                            <h2>{spot.name}</h2>
-                            <span id="manage_spots_price_rating">
+                            <span id="manage_spots_location_rating">
+                                <span>{spot.city},{spot.state}</span>
+                                {spot.avgRating > 0? (
+                                    <span>★{spot.avgRating}</span>
+                                ) : (
+                                    <span>★ New</span>
+                                )}
+                            </span>
+                            <span id="manage_spots_price">
                                 ${spot.price}.00/night
-                                <span>★{spot.avgRating}</span>
                             </span>
                             <div className="manage_spot_buttons">
                                 <button>
@@ -48,7 +55,7 @@ function ManageSpots() {
                                 </button>
                                 <button>
                                     <OpenModalMenuItem
-                                        itemText={"Delete Spot"}
+                                        itemText={"Delete"}
                                         modalComponent={<DeleteSpotModal spotId={spot.id} onDelete={() => handleDelete(spot.id)} />}
                                     />
                                 </button>

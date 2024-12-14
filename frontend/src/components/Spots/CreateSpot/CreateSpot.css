@@ -1,7 +1,7 @@
-div#modal-content {
+/* div#modal-content {
     width: 80vh;
     height: 100vh;
-}
+} */
 
 .create_spot_container {
     display: flex;
@@ -44,6 +44,7 @@ div#modal-content {
 
 .create_spot_form button {
     width: 84%;
+    max-width: 834px;
     padding: 10px;
     margin: 10px 0;
     border: none;
@@ -60,7 +61,8 @@ div#modal-content {
 
 .create_spot_form.error {
     color: red;
-    font-size: 14px;
+    font-weight: bold;
+    font-size: 18px;
     margin: 5px 0;
 }
 
@@ -70,6 +72,20 @@ div#modal-content {
 
 .description_container textarea {
     background-color: #E8F0FE;
+}
+
+.create_spot_preview_input {
+    display: flex;
+    justify-content: left;
+    align-items: flex-end;
+    font-weight: 700;
+}
+
+.create_spot_preview_input  input{
+    display: flex;
+    flex-direction: column;
+    align-items:start;
+    width: 30px;
 }
 
 .name_input_container input {

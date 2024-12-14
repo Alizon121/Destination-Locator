@@ -53,10 +53,12 @@ function ProfileButton({user}) {
         <ul className={ulClassName} ref={ulRef}>
             {user ? (
             <>
-                <li>{user.username}</li>
-                <li>{user.firstName} {user.lastName}</li>
-                <li>{user.email}</li>
-                <div>
+                <div className="dropdown_username_firstName_email">
+                    <span> {user.username}</span>
+                    <span>Hello, {user.firstName}</span>
+                    <span>{user.email}</span>
+                </div>
+                <div className="manage_spots_reviews_logout_container">
                     <span>
                         <NavLink to={'/manage-spots'}>Manage Spots</NavLink>
                     </span>
@@ -64,9 +66,9 @@ function ProfileButton({user}) {
                         <NavLink to={'/manage-reviews'}>Manage Reviews</NavLink>    
                     </span>
                 </div>
-                <li>
-                    <button onClick={logout}>Log Out</button>
-                </li>
+                <div className="dropdown_logout">
+                    <button onClick={logout}><NavLink to={'/'}>Log Out</NavLink></button>
+                </div>
             </>
         ): (
             <div className="base_menu">

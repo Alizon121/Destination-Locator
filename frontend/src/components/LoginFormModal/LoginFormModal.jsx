@@ -33,6 +33,20 @@ function LoginFormModal() {
             );
     }
 
+    const handleDemoUser = async () => {
+        // e.preventDefault();
+        const demoCredential = 'Demo-lition'
+        const demoPassword = 'password'
+        setErrors({})
+        return dispatch(login({ credential: demoCredential, password: demoPassword }))
+        .then(closeModal)
+        .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+                else setErrors({general: "The demo login failed. Please try again later"})
+            }
+            );
+    }
    
     return (
         <div className="login_inputs">
@@ -65,6 +79,9 @@ function LoginFormModal() {
                 </label>
                 <button className="submit_button" type='submit' disabled={disabled}>Log In</button>
             </form>
+                <div id="demo_user_button_container">
+                    <button className="demo_user_button" onClick={handleDemoUser}>Demo User Log In</button>
+                </div>
         </div>
     )
 }

@@ -68,35 +68,52 @@ function SpotDetails() {
                                 <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                             </div>
                             <div className="spot_details_images">
-                                {spotDetails.SpotImages.map((image, index) =>
-                                    (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                                )}
+                                <div className="spot_details_preview_image_container">
+                                    {spotDetails.SpotImages.map((image) => 
+                                        image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                                    )}
+                                </div>
+                                <div className="spot_details_other_images">
+                                    {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                        (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                                    )}
+                                </div>
                             </div>
                             <div className="host_reserve_container">
                                 <div className="host_info_details">
                                     <div>
                                         <div className="reserve_spot_container">
-                                            <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                            <span className="reserve_">
-                                                ${spotDetails.price}.00/night 
-                                                ★ New
-                                                <button>Reserve</button>
-                                            </span>
+                                            <div className="spot_details_owner_description">
+                                                <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                                <p>{spotDetails.description}</p>
+                                            </div>
+                                            <div className="reserve_info">
+                                                <span className="spot_details_price_rating">
+                                                    ${spotDetails.price}.00/night 
+                                                    <span>
+                                                        ★ New
+                                                    </span>
+                                                </span>
+                                                <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <p>{spotDetails.description}</p>
                                 </div>
                             </div>
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                                <button>
-                                <OpenModalMenuItem 
-                                itemText={'Post Your Review'}
-                                modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                />
+                            <div className="spot_details_post_review_button_container">
+                                <button className="post_review_button" type="button">
+                                    <OpenModalMenuItem 
+                                    itemText={'Post Your Review'}
+                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
+                                    />
                                 </button>
-                                <p>Be the first to post a review!</p>
+                                    <p>Be the first to post a review!</p>
+                            </div>
                         </div>
                     </div>
                 ) : ( (Object.values(reviews).length === 1) ? (
@@ -107,28 +124,44 @@ function SpotDetails() {
                         <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                     </div>
                     <div className="spot_details_images">
-                        {spotDetails.SpotImages.map((image, index) =>
-                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                        )}
+                        <div className="spot_details_preview_image_container">
+                            {spotDetails.SpotImages.map((image) => 
+                                image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                            )}
+                        </div>
+                        <div className="spot_details_other_images">
+                            {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                            )}
+                        </div>
                     </div>
                     <div className="host_reserve_container">
                         <div className="host_info_details">
                             <div>
                                 <div className="reserve_spot_container">
-                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                    <span className="reserve_">
-                                        ${spotDetails.price}.00/night ★{avgRating}
-                                        {numReviews} review
-                                        <button>Reserve</button>
-                                    </span>
+                                    <div className="spot_details_owner_description">
+                                        <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                        <p>{spotDetails.description}</p>
+                                    </div>
+                                        <div className="reserve_info">
+                                            <span className="spot_details_price_rating">
+                                                 ${spotDetails.price}.00/night 
+                                                <span>
+                                                    {numReviews} review 
+                                                    ·
+                                                    ★{avgRating}
+                                                </span>
+                                            </span>
+                                            <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <p>{spotDetails.description}</p>
                         </div>
                     </div>
                     <div className="reviews_header">
-                        <div>★{avgRating}</div>
-                        <div>{numReviews} review</div>
+                        <div>★{avgRating} · {numReviews} review</div>
                     </div>
                     <div>
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
@@ -143,28 +176,44 @@ function SpotDetails() {
                         <h2>{spotDetails.city}, {spotDetails.state} {spotDetails.country}</h2>
                     </div>
                     <div className="spot_details_images">
-                        {spotDetails.SpotImages.map((image, index) =>
-                            (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
-                        )}
+                        <div className="spot_details_preview_image_container">
+                            {spotDetails.SpotImages.map((image) => 
+                                image.preview === true ? <img className="spot_details_preview_image" key={image.url} src={image.url} alt="Spot Preview" /> : null
+                            )}
+                        </div>
+                        <div className="spot_details_other_images">
+                            {spotDetails.SpotImages?.slice(1).map((image, index) =>
+                                (<img className='spot_img' key={index} src={image.url} alt={`Spot Image ${index + 1}`} />)
+                            )}
+                        </div>
                     </div>
                     <div className="host_reserve_container">
                         <div className="host_info_details">
                             <div>
-                                <div className="reserve_spot_container">
-                                    <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
-                                    <span className="reserve_">
-                                        ${spotDetails.price}.00/night ★{avgRating}
-                                        {numReviews} reviews
-                                        <button>Reserve</button>
-                                    </span>
+                            <div className="reserve_spot_container">
+                                    <div className="spot_details_owner_description">
+                                        <h3>Hosted by {spotDetails.Owner.firstName} {spotDetails.Owner.lastName}</h3>
+                                        <p>{spotDetails.description}</p>
+                                    </div>
+                                        <div className="reserve_info">
+                                            <span className="spot_details_price_rating">
+                                                 ${spotDetails.price}.00/night 
+                                                <span>
+                                                    {numReviews} reviews
+                                                    ·
+                                                    ★{avgRating}
+                                                </span>
+                                            </span>
+                                            <div className="spot_details_reserve_button_container">
+                                                <button onClick={() => alert('Feature is coming soon!')}>Reserve</button>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
-                            <p>{spotDetails.description}</p>
                         </div>
                     </div>
                     <div className="reviews_header">
-                        <div>★{avgRating}</div>
-                        <div>{numReviews} reviews</div>
+                        <div>★{avgRating} · {numReviews} reviews</div>
                     </div>
                     <div>
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>

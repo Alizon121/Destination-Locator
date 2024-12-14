@@ -5,15 +5,22 @@ html {
     font-family: karma;
 }
 
+.login_inputs {
+    height: 45%;
+    width: 65%;
+    background: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #ccc
+}
 h1 {
     text-align: center;
 }
 
-div#modal-content {
+/* div#modal-content {
     height: 320px;
     width: 306px;
     border-radius: 2px;
-}
+} */
 
 .login_form {
     display: flex;
@@ -66,16 +73,27 @@ div#modal-content {
 
 .error { 
     color: red;
-    font-size: 14px; 
+    font-size: 16px;
+    font-weight: bold; 
     font-family: karma;
     margin: 0px;
     text-align: center;
 }
 
-.login_inputs {
-    background: #ffffff;
-    border-radius: 3px;
-    border: 2px solid #ffffff
+#demo_user_button_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-
+.demo_user_button {
+    background-color: #FF5A5F;
+    color: #FFFFFF;
+    border: 1px solid #CCCC;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-family: karma;
+    font-size: 18px;
+}

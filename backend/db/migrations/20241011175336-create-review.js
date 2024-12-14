@@ -23,6 +23,7 @@ module.exports = {
           model: 'Spots', // Matches the name of the table, not the model
           key: 'id'
         },
+        // unique: true,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
@@ -33,6 +34,7 @@ module.exports = {
           model: 'Users', // Matches the name of the table, not the model
           key: 'id'
       },
+      // unique: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
       },

@@ -95,18 +95,45 @@ svg {
     right: 0;
     border: 1px solid #000; 
     background-color: #FFFFFF; 
-    padding: 10px; 
+    padding: 15px; 
     margin: 5px 0; 
     border-radius: 4px;
     text-align: center; 
     flex-direction: column;
     z-index: 1000;
+    width: 130px;
 }
 
-.profile-dropdown li {
-  list-style: none;
-  margin: 5px 0;
-  cursor: pointer;
+.dropdown_username_firstName_email {
+    list-style: none;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.dropdown_username_firstName_email span {
+    margin-bottom: 5px;
+}
+
+.manage_spots_reviews_logout_container{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.manage_spots_reviews_logout_container span {
+    margin-top: 3px;
+}
+
+.manage_spots_reviews_logout_container a {
+    color: #000000;
+}
+
+.dropdown_logout a{
+    color: #000000
+}
+
+.dropdown_logout button {
+    border-radius: 12px;
 }
 
 .profile_login {
@@ -150,7 +177,18 @@ svg {
     align-items: center;
     gap: 10px;
     font-weight:600;
+}
 
+.create_spot_profile_buttons a {
+    color: #000000
+}
+
+.base_menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
 }
 
 .base_menu div {

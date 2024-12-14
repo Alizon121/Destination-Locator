@@ -10,22 +10,13 @@
     padding: 20px;
 }
 
+.spot_details_container h1 {
+    text-align: left;
+    margin-bottom: 0px;
+}
+
 .spot_details {
     text-align: center;
-}
-
-.spot_img {
-    height: auto;
-    max-width: 300px;
-    border: 1px #ccc solid;
-    margin: 3px
-}
-
-.reviews_header {
-    display: flex;
-    border-top: solid 1px;
-    margin-top: 5px;
-    padding: 5px;
 }
 
 .city_state_country_container {
@@ -38,24 +29,85 @@
 .spot_details_images {
     display: flex;
     justify-content: start;
+    align-items: flex-start;
     flex-wrap: wrap;
+    height: 360px;
+    margin-bottom: 30px;
+    } 
+
+.spot_details_preview_image_container {
+    flex: 1; /* Allows this container to take up space proportionally */
+    display: flex;
+    justify-content: center; /* Centers the preview image horizontally */
+    align-items: center; /* Centers the preview image vertically */
 }
 
-.spot_details_images img {
+/* .spot_details_images img {
     border-radius: 3px;
     border: 1px solid black;
 
+} */
+
+/* .spot_details_preview_image {
+    height: auto;
+    max-width: 500px;
+} */
+
+.spot_details_preview_image {
+    max-width: 520px; /* Ensures the image is responsive */
+    height: 368px;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    object-fit: cover; /* Ensures the image doesn't stretch */
+    overflow: hidden;
+}
+
+/* .spot_details_other_images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    
+} */
+
+.spot_details_other_images {
+    flex: 2; /* Takes up more space than the preview container */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Creates a 2x2 grid */
+    gap: 8px; /* Adds spacing between grid items */
+    margin-left: 4px;
+}
+
+.spot_img {
+    width: 100%; /* Makes each grid item take up the full width of its cell */
+    min-width: 200px;
+    height: auto;
+    max-height: 170px;
+    border-radius: 8px; /* Optional: adds rounded corners */
+    object-fit: cover; /* Ensures the image doesn't stretch */
 }
 
 .create_review_container {
     list-style: none;
 }
 
-.create_review_modal-info {
+.create_review_modal_info {
     display: flex;
     flex-direction: column;
-    background-color: #CCCCCC;
-    width: 342px;
+    align-items: center;
+    background-color: #FFFF;
+    width: 370px;
+    border-radius: 10px;
+
+}
+
+.create_review_modal_info textarea {
+    width: 340px;
+}
+
+#star_rating_footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .create_review_modal_form {
@@ -78,11 +130,20 @@
     margin-bottom: 10px;
 }
 
+.create_review_buttons button:disabled{
+    background-color: #ccc; 
+    cursor: not-allowed;
+    border: 1px solid #000000
+}
+
 .create_review_buttons button {
     font-family: karma;
     background-color: #FF5A5F;
     color: #FFFF;
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 15px;
+    width: 335px;
 }
 
 #modal-content {
@@ -115,23 +176,120 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #CCCCCC;
+    background-color: #FFFF;
+    border: 1px solid #ccc;
     border-radius: 4px;
     padding: 15px;
     border: solid 1px;
+}
+.delete_review_buttons {
+    display: flex;
+    flex-direction: column;
 }
 
 .delete_review_container button{
     margin-bottom: 10px;
     margin-left: 5px;
     margin-right: 5px;
+    padding:10px;
+    width: 250px;
+    max-width: 250px;
+    border-radius: 8px;
+    border: none;
+}
+
+#delete_review_button_yes {
+    background-color: #FF5A5F;
 }
 
 #review_delete_button {
     margin-right: 5px;
+    color: #FFFF;
 }
-/* .review_buttons_update_delete {
+
+#review_update_button {
+    color: #FFFF;
+}
+
+.reserve_spot_container {
     flex: 1;
     display: flex;
-    gap: 10px;
+    justify-content: space-around;
+    text-align: left;
+}
+
+.spot_details_owner_description {
+    width: 80%;
+}
+
+.reserve_info{
+    border: 1px solid #ccc;
+    display: block;
+    height: 90%;
+    width: 30%;
+    padding: 15px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.spot_details_price_rating {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.spot_details_reserve_button_container {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 5px; */
+}
+
+.spot_details_reserve_button_container button {
+    background-color: #FF5A5F;
+    color: #FFFF;
+    margin: none;
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+}
+
+.reviews_header {
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+/* Load Reviews Styling */
+.load_reviews_container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.load_reviews_name_review_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* .spot_details_post_review_button_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
 } */
+
+.spot_details_post_review_button_container p {
+    display: flex;
+    justify-content: left;
+}
+
+.post_review_button {
+    display: flex;
+    justify-content: left;
+    list-style: none;
+}
+
+.post_review_button button {
+    background-color: #FF5A5F;
+}
