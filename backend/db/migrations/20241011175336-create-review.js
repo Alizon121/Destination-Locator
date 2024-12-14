@@ -57,11 +57,11 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
     }, options);
-    await queryInterface.addConstraint('Reviews', {
-      fields: ['spotId', 'userId'],
-      type: 'unique',
-      name: 'unique_user_review_per_spot'
-  });
+  //   await queryInterface.addConstraint('Reviews', {
+  //     fields: ['spotId', 'userId'],
+  //     type: 'unique',
+  //     name: 'unique_user_review_per_spot'
+  // });
   },
   async down(queryInterface, Sequelize) {
     // options.tableName = "Reviews";
