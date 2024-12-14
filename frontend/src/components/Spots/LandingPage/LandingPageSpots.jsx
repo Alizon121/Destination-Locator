@@ -26,7 +26,7 @@ function LandingPageSpots() {
                             </div>
                                 <span className='spot_city_state'>{`${spot.city}, ${spot.state}`}
                                     { spot.avgRating > 0 ?( 
-                                        <span className='spot_rating'>{`★${spot.avgRating.toFixed(1)}`}</span>
+                                        <span className='spot_rating'>{`★${Number(spot.avgRating)?.toFixed(1)}`}</span>
                                     ) : (
                                         <span className='spot_rating'>★ New</span>
                                     )}

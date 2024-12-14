@@ -43,20 +43,17 @@ export const restoreUser = () => async dispatch => {
 
 // Make a thunk action for signing up
 export const signup = (payload) => async dispatch => {
-    const {username, firstName, lastName, email, password} = payload
+    // const {username, firstName, lastName, email, password} = payload
     const response = await csrfFetch('/api/users', {
         method: 'POST',
-        body: JSON.stringify({
-            username,
-            firstName,
-            lastName,
-            email,
-            password
-        })
+        body: JSON.stringify(payload) // removed from argument {username,firstName,lastName,email,password}
     })
-    const result = await response.json();
-    dispatch(setUser(result.payload)) // This may be keying into incorrect key
-    return response
+    if (response.ok) {
+        const result = await response.json();
+        dispatch(setUser(result.payload)) // This may be keying into incorrect key
+        return result
+        
+    }
 }
 // Make a thunk action for logging out
 export const logout = () => async dispatch => {
