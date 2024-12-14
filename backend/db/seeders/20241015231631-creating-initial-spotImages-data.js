@@ -16,44 +16,174 @@ module.exports = {
         preview: true
       },
       {
-        spotId: 2,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
-        preview: false
-      },
-      {
-        spotId: 2,
+        spotId: 1,
         url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
         preview: false
       },
       {
+        spotId: 1,
+        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        preview: false
+      },
+      {
+        spotId: 1,
+        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg',
+        preview: true
+      },
+      {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg',
+        preview: false
+      },
+      {
+        spotId: 2,
+        url: 'https://images.pexels.com/photos/259962/pexels-photo-259962.jpeg',
+        preview: false
+      },
+      {
         spotId: 3,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        url: 'https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg',
         preview: true
       },
       {
         spotId: 3,
-        url: 'https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?cs=srgb&dl=pexels-binyaminmellish-186077.jpg&fm=jpg',
+        url: 'https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg',
+        preview: false
+      },
+      {
+        spotId: 3,
+        url: 'https://images.pexels.com/photos/2121121/pexels-photo-2121121.jpeg',
         preview: false
       },
       {
         spotId: 4,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        url: 'https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg',
+        preview: true
+      },
+      {
+        spotId: 4,
+        url: "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
+        preview: false
+      },
+      {
+        spotId: 4,
+        url: "https://images.pexels.com/photos/2635038/pexels-photo-2635038.jpeg",
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://images.pexels.com/photos/1115804/pexels-photo-1115804.jpeg',
         preview: true
       },
       {
         spotId: 5,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        url: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+        preview: false
+      },
+      {
+        spotId: 5,
+        url: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://images.pexels.com/photos/1438832/pexels-photo-1438832.jpeg',
         preview: true
       },
       {
         spotId: 6,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
+        url: 'https://images.pexels.com/photos/2121120/pexels-photo-2121120.jpeg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://images.pexels.com/photos/2121120/pexels-photo-2121120.jpeg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://images.pexels.com/photos/2121120/pexels-photo-2121120.jpeg',
+        preview: false
+      },
+      {
+        spotId: 6,
+        url: 'https://images.pexels.com/photos/2121120/pexels-photo-2121120.jpeg',
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: 'https://images.pexels.com/photos/262405/pexels-photo-262405.jpeg',
         preview: true
       },
       {
         spotId: 7,
-        url: 'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
-        preview: true
+        url: 'https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg',
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: 'https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg',
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: 'https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg',
+        preview: false
+      },
+      {
+        spotId: 7,
+        url: 'https://images.pexels.com/photos/275484/pexels-photo-275484.jpeg',
+        preview: false
       },
     ], {validate: true})
   },

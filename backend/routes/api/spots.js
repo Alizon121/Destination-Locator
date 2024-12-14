@@ -169,7 +169,7 @@ router.get("/", async (req, res, next) => {
         const spots = await Spot.findAll({
             include: [
                 { model: Review, attributes: ['stars'] },
-                { model: SpotImage, attributes: ['url'] }
+                { model: SpotImage, attributes: ['url', 'preview'] }
             ],
             where,
             ...pagination
@@ -183,10 +183,10 @@ router.get("/", async (req, res, next) => {
             ? roundToTenths(spotData.Reviews.reduce((acc, review) => acc + review.stars, 0) / spotData.Reviews.length)
             : 0;
 
-            const previewImage = spot.SpotImages[0] ? spot.SpotImages[0].url : null;
-
+            const previewImage = spotData.SpotImages.find((image) => image.preview)
+            ? spotData.SpotImages.find((image) => image.preview).url
+            : null;
             delete spotData.SpotImages;
-
             delete spotData.Reviews;
 
             return {
