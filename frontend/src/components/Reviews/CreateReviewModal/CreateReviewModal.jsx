@@ -1,5 +1,5 @@
 import { createReviewThunk } from "../../../store/reviews";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "../../../context/Modal";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,16 +9,27 @@ function CreateReviewModal({spotId, updateReviewStats}) {
     const [stars, setStars] = useState(0);
     const [hover, setHover] = useState(0)
     const [errors, setErrors] = useState({});
+    const [disabled, setDisabled] = useState(true)
     const userId = useSelector(state => state.session.user.id)
     const reviews = useSelector(state => state.reviews)
     const spotIdNumber = Number(spotId);
     const dispatch = useDispatch();
     const {closeModal} = useModal();
 
+    useEffect(() => {
+        if (review.length < 10) {
+            setDisabled(true)
+        } else {
+            setDisabled(false)
+        }
+    }, [review])
+
     const handleCreate = async (e) => {
         e.preventDefault();
 
+        
         // validations
+
         const newErrors = {};
         if (stars < 1 || stars > 5) { 
             newErrors.stars = "Stars must be an integer from 1 to 5.";
@@ -58,8 +69,9 @@ function CreateReviewModal({spotId, updateReviewStats}) {
     
     
     return (
-        <div className="create_review_modal-info">
+        <div className="create_review_modal_info">
             <h1>How Was Your Stay?</h1>
+            {errors.general && <p className="error">{errors.general}</p>}
             <form className="create_review_modal_form" onSubmit={handleCreate}>
                 <textarea 
                 placeholder="Leave your review here"
@@ -80,12 +92,15 @@ function CreateReviewModal({spotId, updateReviewStats}) {
                             <span className="star">&#9733;</span> 
                         </button> ); 
                     })} 
+                    <span id="star_rating_footer">
+                        Stars
+                    </span>
                 </div>
             {errors.stars && <p className="error">{errors.stars}</p>}
             {errors.user && <p className="error">{errors.user}</p>}
             <div className="create_review_buttons">
-                <button type="submit">Submit</button>
-                <button type="button" onClick={closeModal}>Cancel</button>
+                <button type="submit" disabled={disabled}>Submit Your Review</button>
+                {/* <button type="button" onClick={closeModal}>Cancel</button> */}
             </div>
             {errors.general && <p className="error">{errors.general}</p>}
             </form>

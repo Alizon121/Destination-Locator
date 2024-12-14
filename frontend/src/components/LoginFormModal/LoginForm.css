@@ -73,7 +73,8 @@ h1 {
 
 .error { 
     color: red;
-    font-size: 14px; 
+    font-size: 16px;
+    font-weight: bold; 
     font-family: karma;
     margin: 0px;
     text-align: center;

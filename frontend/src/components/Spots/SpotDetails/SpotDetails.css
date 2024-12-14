@@ -88,11 +88,26 @@
     list-style: none;
 }
 
-.create_review_modal-info {
+.create_review_modal_info {
     display: flex;
     flex-direction: column;
-    background-color: #CCCCCC;
-    width: 342px;
+    align-items: center;
+    background-color: #FFFF;
+    width: 370px;
+    border-radius: 10px;
+
+}
+
+.create_review_modal_info textarea {
+    width: 340px;
+}
+
+#star_rating_footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .create_review_modal_form {
@@ -115,11 +130,20 @@
     margin-bottom: 10px;
 }
 
+.create_review_buttons button:disabled{
+    background-color: #ccc; 
+    cursor: not-allowed;
+    border: 1px solid #000000
+}
+
 .create_review_buttons button {
     font-family: karma;
     background-color: #FF5A5F;
     color: #FFFF;
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    padding: 15px;
+    width: 335px;
 }
 
 #modal-content {
@@ -152,7 +176,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #CCCCCC;
+    background-color: #FFFF;
+    border: 1px solid #ccc;
     border-radius: 4px;
     padding: 15px;
     border: solid 1px;
@@ -179,8 +204,12 @@
 
 #review_delete_button {
     margin-right: 5px;
+    color: #FFFF;
 }
 
+#review_update_button {
+    color: #FFFF;
+}
 
 .reserve_spot_container {
     flex: 1;
@@ -217,6 +246,7 @@
 
 .spot_details_reserve_button_container button {
     background-color: #FF5A5F;
+    color: #FFFF;
     margin: none;
     padding: 7px;
     border-radius: 5px;

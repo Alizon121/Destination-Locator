@@ -161,8 +161,7 @@ function SpotDetails() {
                         </div>
                     </div>
                     <div className="reviews_header">
-                        <div>★{avgRating}</div>
-                        <div>{numReviews} review</div>
+                        <div>★{avgRating} · {numReviews} review</div>
                     </div>
                     <div>
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
@@ -214,8 +213,7 @@ function SpotDetails() {
                         </div>
                     </div>
                     <div className="reviews_header">
-                        <div>★{avgRating}</div>
-                        <div>{numReviews} reviews</div>
+                        <div>★{avgRating} · {numReviews} reviews</div>
                     </div>
                     <div>
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>

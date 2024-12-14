@@ -35,13 +35,14 @@ function CreateSpot() { // remove {navigate} from argument
         if (description.length < 30) newErrors.description = "Description must be at least 30 characters long"
         if (!name) newErrors.name = "Name is required"
         if (!price) newErrors.price = "Price is required"
+        if (images.map(arr => arr.url.length > 1)[0] === false) newErrors.images = "One preview image is required"
 
        const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
        images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
             newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
             } 
         });
-        
+
         if (Object.keys(newErrors).length > 0) { 
             setErrors(newErrors); 
             return; 
@@ -188,18 +189,26 @@ function CreateSpot() { // remove {navigate} from argument
                         onChange={(e) => handleImageChange(index, 'url', e.target.value)} 
                         /> 
                         {errors[`image${index}`] && <p className="error">{errors[`image${index}`]}</p>} 
-                        <label> 
-                            <input 
-                            type="checkbox" 
-                            checked={image.preview} 
-                            onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
-                            /> 
-                        Preview 
-                        </label> 
+                        {errors.images && <p className="error">{errors.images}</p>}
+                        <label>
+                            <div className="create_spot_preview_input">
+                                Set Preview Image
+                                <div>
+                                    <input 
+                                    type="checkbox" 
+                                    checked={image.preview} 
+                                    onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
+                                    /> 
+                                </div>
+                            </div> 
+                        </label>
+                        <div>
+                            
+                        </div> 
                     </div> ))} 
                     <button type="button" onClick={handleAddImage}>Add Another Image</button> 
             </div> 
-            <button type="submit">Create New Spot</button>
+            <button type="submit">Create Spot</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
             </form>
         </div>
