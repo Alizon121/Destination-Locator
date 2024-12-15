@@ -4,17 +4,12 @@ import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
 import { loadReviewsThunk } from "../../../store/reviews";
 import LoadReviews from "../../Reviews/LoadReviews/LoadReviews";
-import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import CreateReviewModal from "../../Reviews/CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
 
 function SpotDetails() {
     const {spotId} = useParams();
     const spotDetails = useSelector(state => state.spots[spotId])
     const reviews = useSelector(state => state.reviews);
-    const user = useSelector(state => state.session.user)
-    const userId = user ? user.id : null
-    const userHasReview = Object.values(reviews).some(review => review.userId == userId)
     const [numReviews, setNumReviews] = useState(spotDetails?.numReviews || 0)
     const [avgRating, setAvgRating] = useState(spotDetails?.avgStarRating || 0)
     const dispatch = useDispatch();
@@ -108,18 +103,7 @@ function SpotDetails() {
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                            {/* {!userHasReview && (
-                                <div className="spot_details_post_review_button_container">
-                                    <button className="post_review_button" type="button">
-                                        <OpenModalMenuItem 
-                                        itemText={'Post Your Review'}
-                                        modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                        />
-                                    </button>
-                                        <p>Be the first to post a review!</p>
-                                </div>)
-                            } */}
-                            <LoadReviews spotId={spotId}/>
+                            <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                         </div>
                     </div>
                 ) : ( (Object.values(reviews).length === 1) ? (
