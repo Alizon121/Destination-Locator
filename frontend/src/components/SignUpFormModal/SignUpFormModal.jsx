@@ -80,13 +80,13 @@ function SignupFormModal() {
     <div className='sign_up_form'>
       <h1>Sign Up</h1>
       {/* {errors.general && <p>{errors.general}</p>} */}
-      <div className='sign_up_form_errors'>
-        {errors.email && <p>{errors.email}</p>}
-        {errors.username && <p>{errors.username}</p>}
-        {errors.firstName && <p>{errors.firstName}</p>}
-        {errors.lastName && <p>{errors.lastName}</p>}
-        {errors.password && <p>{errors.password}</p>}
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+      <div className='sign_up_form_errors_container'>
+        {errors.email && <p id='sign_up_errors_email'>{errors.email}</p>}
+        {errors.username && <p id='sign_up_errors_username'>{errors.username}</p>}
+        {errors.firstName && <p id='sign_up_errors_first_name'>{errors.firstName}</p>}
+        {errors.lastName && <p id='sign_up_errors_last_name'>{errors.lastName}</p>}
+        {errors.password && <p id='sign_up_errors_password'>{errors.password}</p>}
+        {errors.confirmPassword && <p id='sign_up_errors_confirm_password'>{errors.confirmPassword}</p>}
       </div>
       <form className="sign_up_inputs"onSubmit={handleSubmit}>
         <label>
@@ -143,7 +143,9 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </label>
-        <button className='sign_up_button' type="submit" disabled={disabled}>Sign Up</button>
+        <div className='sign_up_button_container'>
+          <button className='sign_up_button' type="submit" disabled={disabled}>Sign Up</button>
+        </div>
       </form>
     </div>
   );
