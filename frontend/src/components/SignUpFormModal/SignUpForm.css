@@ -17,6 +17,13 @@
     width: 500px
 }
 
+.sign-Up_form_errors {
+    font-size: 10px;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
 .sign_up_inputs {
     display: flex;
     flex-direction: column;
