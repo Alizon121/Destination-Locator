@@ -16,6 +16,12 @@ function SignupFormModal() {
   const [disabled, setDisabled] = useState(true)
   const { closeModal } = useModal();
 
+  // Helper funciton for validating email
+  // function validateEmail(email) {
+  //   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  //   return regex.test(email);
+  // }
+
   useEffect(() => {
     if (!email.trim() || !username.trim() || !firstName.trim() || !lastName.trim() || !password.trim() || !confirmPassword.trim()) {
       setDisabled(true) 
@@ -40,7 +46,6 @@ function SignupFormModal() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
-      return
     }
 
     const payload = {
@@ -56,23 +61,17 @@ function SignupFormModal() {
       try {
         const newUser = await dispatch(sessionActions.signup(payload)) 
         if (newUser) {
-          // const data = await newUser.json()
           await dispatch(sessionActions.login({credential: payload.email, password: payload.password}))
           closeModal()
         }
       } catch (error) {
-        // if (error instanceof Error) {
-        //   setErrors({general: error.message})
-        // } else {
-        const newErrors = {}
-        const errors = await error.json()
-            if (errors.errors?.email) {
+        const errors = await error.json() //backend errors
+        if (errors.errors?.email) {
               newErrors.email = errors.errors.email
             }
             if (errors.errors?.username) {
               newErrors.username = errors.errors.username
             }
-            console.log(newErrors)
           setErrors(newErrors)
         }
       }
@@ -81,12 +80,14 @@ function SignupFormModal() {
     <div className='sign_up_form'>
       <h1>Sign Up</h1>
       {/* {errors.general && <p>{errors.general}</p>} */}
-      {errors.email && <p>{errors.email}</p>}
-      {errors.username && <p>{errors.username}</p>}
-      {errors.firstName && <p>{errors.firstName}</p>}
-      {errors.lastName && <p>{errors.lastName}</p>}
-      {errors.password && <p>{errors.password}</p>}
-      {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+      <div className='sign_up_form_errors'>
+        {errors.email && <p>{errors.email}</p>}
+        {errors.username && <p>{errors.username}</p>}
+        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.password && <p>{errors.password}</p>}
+        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+      </div>
       <form className="sign_up_inputs"onSubmit={handleSubmit}>
         <label>
           Email
@@ -102,7 +103,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
-            placeholder='Username'
+            placeholder='Username must be 5 characters'
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
@@ -129,7 +130,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
-            placeholder='Password'
+            placeholder='Password must be 7 characters'
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>

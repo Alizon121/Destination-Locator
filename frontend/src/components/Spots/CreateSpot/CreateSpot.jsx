@@ -19,6 +19,11 @@ function CreateSpot() { // remove {navigate} from argument
     const [errors, setErrors] = useState({})
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const numberLat = parseFloat(lat);
+    const numberLng = parseFloat(lng);
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -29,15 +34,16 @@ function CreateSpot() { // remove {navigate} from argument
         if (!address) newErrors.address = "Address is required"
         if (!city) newErrors.city = "City is required"
         if (!state) newErrors.state = "State is required"
-        if (!lat) newErrors.lat = "Latitude is required"
-        if (!lng) newErrors.lng = "Longitude is required"
+        if (!numberLat || isNaN(numberLat) || numberLat < -90 || numberLat > 90) newErrors.lat = "Latitude must be between -90 and 90";
+        if (!numberLng || isNaN(numberLng) || numberLng < -180 || numberLng > 180) newErrors.lng = "Longitude must be between -180 and 180";
         if (!country) newErrors.country = "Country is required"
         if (description.length < 30) newErrors.description = "Description must be at least 30 characters long"
         if (!name) newErrors.name = "Name is required"
         if (!price) newErrors.price = "Price is required"
         if (images.map(arr => arr.url.length > 1)[0] === false) newErrors.images = "One preview image is required"
 
-       const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
+    //    const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
+       const urlPattern = /^(https?:\/\/(?:www\.)?[^\s/.?#].[^\s]*)$/i;
        images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
             newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
             } 
@@ -53,8 +59,8 @@ function CreateSpot() { // remove {navigate} from argument
             address,
             city,
             state,
-            lat,
-            lng,
+            lat: parseFloat(lat),
+            lng: parseFloat(lng),
             description, 
             name,
             price,
@@ -88,8 +94,20 @@ function CreateSpot() { // remove {navigate} from argument
         setImages(newImages); 
     };
 
+    const handleImageRemove = () => {
+        const oldImages = [...images];
+        // console.log(oldImages.length-1)
+        if (oldImages.length > 1) {
+            oldImages.splice(oldImages.length-1, 1)
+            setImages(oldImages)
+        } else {
+            return setErrors(errors.images = "Please provide at least one image.")
+        }
+    }
+
     const handleCancelClick = (e) => {
         e.preventDefault();
+        navigate('/')
       };
 
     return (
@@ -135,14 +153,14 @@ function CreateSpot() { // remove {navigate} from argument
                     value={lat}
                     onChange={e => setLat(e.target.value)}
                 />
-                {errors.latitude && <p className="error">{errors.latitude}</p>}
+                {errors.lat && <p className="error">{errors.lat}</p>}
                 <input 
                     type="text"
                     placeholder="Longitude"
                     value={lng}
                     onChange={e => setLng(e.target.value)}
                 />
-                {errors.longitude && <p className="error">{errors.longitude}</p>}
+                {errors.lng && <p className="error">{errors.lng}</p>}
             </div>
             <div className="description_container">
                 <h2>Describe Your Place to Guests</h2>
@@ -170,8 +188,9 @@ function CreateSpot() { // remove {navigate} from argument
                 <h2>Set a Base Price for Your Spot</h2>
                 <p>Competitive pricing can help your listing stand out and rank higher in search results.</p>
                 <input 
-                    type="text"
+                    type="number"
                     placeholder="Price per night (USD)"
+                    min="0"
                     value={price}
                     onChange={e => setPrice(e.target.value)}
                 />
@@ -190,23 +209,26 @@ function CreateSpot() { // remove {navigate} from argument
                         /> 
                         {errors[`image${index}`] && <p className="error">{errors[`image${index}`]}</p>} 
                         {errors.images && <p className="error">{errors.images}</p>}
-                        <label>
-                            <div className="create_spot_preview_input">
-                                Set Preview Image
-                                <div>
-                                    <input 
-                                    type="checkbox" 
-                                    checked={image.preview} 
-                                    onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
-                                    /> 
-                                </div>
-                            </div> 
-                        </label>
-                        <div>
+                            <label>
+                                <div className="create_spot_preview_input">
+                                    Set Preview Image
+                                    <div>
+                                        <input 
+                                        type="checkbox" 
+                                        checked={image.preview} 
+                                        onChange={(e) => handleImageChange(index, 'preview', e.target.checked)} 
+                                        /> 
+                                    </div>
+                                </div> 
+                            </label>
+                        {/* <div>
                             
-                        </div> 
-                    </div> ))} 
-                    <button type="button" onClick={handleAddImage}>Add Another Image</button> 
+                        </div>  */}
+                    </div> ))}
+                    {images.length <=4 &&
+                        <button type="button" onClick={handleAddImage}>Add Another Image</button> 
+                    } 
+                    <button type="button" onClick={handleImageRemove}>Remove Image</button>     
             </div> 
             <button type="submit">Create Spot</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
