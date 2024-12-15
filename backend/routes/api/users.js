@@ -127,19 +127,29 @@ const validateSignup = [
         const existingUser = await User.findOne({ where: { email } });
         const existingUsername = await User.findOne({ where: { username } });
   
-        if (existingUser) {
+        if (existingUser && !existingUsername) {
           return res.status(500).json({
             message: "User already exists",
             errors: { email: "User with that email already exists" }
           });
-        }
+        } 
   
-        if (existingUsername) {
+       else if (existingUsername && !existingUser) {
           return res.status(500).json({
             message: "User already exists",
             errors: { username: "User with that username already exists" }
           });
         }
+
+      else if (existingUser && existingUsername) {
+        return res.status(500).json({
+          message: "User and email already exist",
+          errors: {
+            email: "User with that email already exists",
+            username: "User with that username already exists"
+          }
+        });
+      }
   
         const hashedPassword = bcrypt.hashSync(password);
         const user = await User.create({ email, username, firstName, lastName, hashedPassword });
