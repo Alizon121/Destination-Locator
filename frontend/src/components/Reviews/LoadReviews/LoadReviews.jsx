@@ -11,14 +11,12 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const spots = useSelector(state => state.spots)
-    // const spotOwnerId = Object.values(spots).map(spot => spot.ownerId)[0]
     const spot = Object.values(spots).find(spot => spot.id === parseInt(spotId));
     const [deletedReviewId, setDeletedReviewId] = useState(null);
     const user = useSelector((state) => state.session.user);
     const userId = user ? user.id : null
     const userHasReviewed = Object.values(reviews).some(review => review.userId === user?.id);
     const isOwner = spot?.ownerId === user?.id
-    console.log(isOwner)
 
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
@@ -30,7 +28,7 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
     };
 
     const sortedReviews = Object.values(reviews)
-    .filter((review) => review.createdAt) // Ensure `createdAt` exists
+    .filter((review) => review.createdAt)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     const renderReview = (review) => {
@@ -38,20 +36,8 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
         const options = { year: "numeric", month: "long" };
         const formattedDate = date.toLocaleDateString("en-US", options);
 
-        // If the user is the owner of the spot, then only render the reviews
-        // If the user is not the owner of the spot 
             return (
                 <div key={review.id} className="load_reviews_container">
-                    {/* {(user && spotOwnerId !== userId && review.userId !== userId) && (
-                        <div>
-                            <button className="post_review_button" type="button">
-                                <OpenModalMenuItem
-                                    itemText="Post a Review"
-                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                />
-                            </button>
-                        </div>
-                    )} */}
                         <div>
                             <div className="load_reviews_name_review_container">
                                 <span id="load_reviews_name">{review.User?.firstName || "Unknown User"}</span>
@@ -77,43 +63,21 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
                     )}
                 </div>
             )}     
-                        {/* (spotOwnerId !== userId && !userHasReviewed) ? (
-                        <div>
-                            <div className="load_reviews_name_review_container">
-                                <span id="load_reviews_name">{review.User?.firstName || "Unknown User"}</span>
-                                <span>{formattedDate}</span>
-                                <span>{review.review}</span>
-                            </div>
-                        </div>
-                    ): (     <div className="load_reviews_name_review_container">
-                                <span id="load_reviews_name">{review.User?.firstName || "Unknown User"}</span>
-                                <span>{formattedDate}</span>
-                                <span>{review.review}</span>
-                            </div>
-                    (spotOwnerId !== userId && userHasReviewed) && (
-                    )))} */}
-
-                    {/* {review.userId === userId ? (
-                    ) : ( Object.values(reviews).some((review) => review.userId === userId)?( 
-                        <div></div>
-                    ): ( user!== null ? (
-                        <div key={review.id}>
-                            <button className="post_review_button" type="button">
-                                <OpenModalMenuItem
-                                    itemText="Post a Review"
-                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                />
-                            </button>
-                        </div>
-                    ): (
-                        <div></div>
-                    )
-                    )
-                    )} */}
 
     return (
         <div>
-            {(user && !userHasReviewed && !isOwner) && (
+            {/* If spot has no reviews and the user is not the owner of the spot, we should be able to see the post a review button and the text */}
+            {(Object.values(reviews).length === 0 && !isOwner) ? (
+                 <div className="load_reviews_post_container">
+                 <button className="post_review_button" type="button">
+                     <OpenModalMenuItem
+                     itemText="Post a Review"
+                     modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
+                     />
+                 </button>
+                 <p>Be the first to post a review!</p>
+             </div>
+            ): (user && !userHasReviewed && !isOwner) && (
                 <div>
                     <button className="post_review_button" type="button">
                         <OpenModalMenuItem
@@ -123,10 +87,8 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
                     </button>
                 </div>
             )}
-             {sortedReviews && sortedReviews.length > 0 ? (
+             {sortedReviews && sortedReviews.length > 0 && (
                 sortedReviews.map(renderReview)
-            ) : (
-                <p>Loading reviews...</p>
             )}
         </div>
     );

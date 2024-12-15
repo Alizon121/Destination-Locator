@@ -108,17 +108,18 @@ function SpotDetails() {
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                            {!userHasReview && (
+                            {/* {!userHasReview && (
                                 <div className="spot_details_post_review_button_container">
-                                    {/* <button className="post_review_button" type="button">
+                                    <button className="post_review_button" type="button">
                                         <OpenModalMenuItem 
                                         itemText={'Post Your Review'}
                                         modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
                                         />
-                                    </button> */}
+                                    </button>
                                         <p>Be the first to post a review!</p>
                                 </div>)
-                            }
+                            } */}
+                            <LoadReviews spotId={spotId}/>
                         </div>
                     </div>
                 ) : ( (Object.values(reviews).length === 1) ? (
