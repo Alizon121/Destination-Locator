@@ -65,10 +65,10 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
             )}     
 
     return (
-        <div>
+        <div className="load_reviews_content_post_container">
             {/* If spot has no reviews and the user is not the owner of the spot, we should be able to see the post a review button and the text */}
             {(Object.values(reviews).length === 0 && !isOwner) ? (
-                 <div className="load_reviews_post_container">
+                 <div className="load_reviews_post_button_container">
                  <button className="post_review_button" type="button">
                      <OpenModalMenuItem
                      itemText="Post a Review"
@@ -78,7 +78,7 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
                  <p>Be the first to post a review!</p>
              </div>
             ): (user && !userHasReviewed && !isOwner) && (
-                <div>
+                <div className="load_reviews_post_button_container">
                     <button className="post_review_button" type="button">
                         <OpenModalMenuItem
                         itemText="Post a Review"

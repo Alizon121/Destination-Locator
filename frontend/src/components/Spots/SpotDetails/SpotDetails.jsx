@@ -103,7 +103,9 @@ function SpotDetails() {
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                            <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
+                            <div className="load_reviews_main_container">
+                                <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
+                            </div>
                         </div>
                     </div>
                 ) : ( (Object.values(reviews).length === 1) ? (
@@ -153,7 +155,7 @@ function SpotDetails() {
                     <div className="reviews_header">
                         <div>★{avgRating} · {numReviews} review</div>
                     </div>
-                    <div>
+                    <div className="load_reviews_main_container">
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>
@@ -205,7 +207,7 @@ function SpotDetails() {
                     <div className="reviews_header">
                         <div>★{avgRating} · {numReviews} reviews</div>
                     </div>
-                    <div>
+                    <div className="load_reviews_main_container">
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>

@@ -16,8 +16,10 @@ function CreateReviewModal({spotId, updateReviewStats}) {
     const dispatch = useDispatch();
     const {closeModal} = useModal();
 
+    console.log(review.length)
+
     useEffect(() => {
-        if (review.length < 10 || stars <= 0) {
+        if (review.length < 9 || stars <= 0) {
             setDisabled(true)
         } else {
         setDisabled(false)
