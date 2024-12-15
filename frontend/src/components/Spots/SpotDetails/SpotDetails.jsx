@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import { loadSpotDetails } from "../../../store/spots";
 import { loadReviewsThunk } from "../../../store/reviews";
 import LoadReviews from "../../Reviews/LoadReviews/LoadReviews";
-import OpenModalMenuItem from "../../Navigation/OpenModalMenuItem";
-import CreateReviewModal from "../../Reviews/CreateReviewModal/CreateReviewModal";
 import './SpotDetails.css'
 
 function SpotDetails() {
@@ -105,14 +103,8 @@ function SpotDetails() {
                             <div className="reviews_header">
                                 <h2>★ New</h2>
                             </div>
-                            <div className="spot_details_post_review_button_container">
-                                <button className="post_review_button" type="button">
-                                    <OpenModalMenuItem 
-                                    itemText={'Post Your Review'}
-                                    modalComponent={<CreateReviewModal spotId={spotId} updateReviewStats={updateReviewStats}/>}
-                                    />
-                                </button>
-                                    <p>Be the first to post a review!</p>
+                            <div className="load_reviews_main_container">
+                                <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                             </div>
                         </div>
                     </div>
@@ -163,7 +155,7 @@ function SpotDetails() {
                     <div className="reviews_header">
                         <div>★{avgRating} · {numReviews} review</div>
                     </div>
-                    <div>
+                    <div className="load_reviews_main_container">
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>
@@ -215,7 +207,7 @@ function SpotDetails() {
                     <div className="reviews_header">
                         <div>★{avgRating} · {numReviews} reviews</div>
                     </div>
-                    <div>
+                    <div className="load_reviews_main_container">
                         <LoadReviews spotId={spotId} updateReviewStats={updateReviewStats} editReviewStats={editReviewStats}/>
                     </div>
                 </div>
