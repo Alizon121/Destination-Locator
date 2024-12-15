@@ -54,7 +54,7 @@ function ProfileButton({user}) {
             {user ? (
             <>
                 <div className="dropdown_username_firstName_email">
-                    <span> {user.username}</span>
+                    {/* <span> Hello, {user.username}</span> */}
                     <span>Hello, {user.firstName}</span>
                     <span>{user.email}</span>
                 </div>

@@ -21,15 +21,16 @@ function CreateSpot() { // remove {navigate} from argument
     const dispatch = useDispatch();
     const numberLat = parseFloat(lat);
     const numberLng = parseFloat(lng);
+    const urlPattern = /^(https?:\/\/(?:www\.)?[^\s/.?#].[^\s]*)$/i;
 
-
+    // console.log(images?.slice(1).map(image => image.url.length < 1))
 
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        // we can check to see that images does not contain an empty url string here!
         // Handle validations here:
-       const newErrors = {}
+        const newErrors = {}
         if (!country) newErrors.country = "Country is required"
         if (!address) newErrors.address = "Address is required"
         if (!city) newErrors.city = "City is required"
@@ -41,10 +42,15 @@ function CreateSpot() { // remove {navigate} from argument
         if (!name) newErrors.name = "Name is required"
         if (!price) newErrors.price = "Price is required"
         if (images.map(arr => arr.url.length > 1)[0] === false) newErrors.images = "One preview image is required"
-
-       const urlPattern = /^(https?:\/\/(?:www\.)?[^\s/.?#].[^\s]*)$/i;
+        
+        images?.slice(1).forEach((image, index) => {
+                if (image.url.length < 1) {newErrors[`image${index+1}`] = "Please provide url or remove image"}
+            })
+            // images.map((image) => {if (image.url.length < 1) newErrors.images = "Please provide or remove additional image."})
+            
+        
        images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
-            newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
+            newErrors[`image${index}`] = "URL must be a valid format."; 
             } 
         });
 
@@ -82,31 +88,25 @@ function CreateSpot() { // remove {navigate} from argument
                 }
         }
     }
-
     const handleAddImage = () => { 
         setImages([...images, { url: '', preview: false }]); 
     };
 
     const handleImageChange = (index, field, value) => { 
         const newImages = [...images];
-        // If the incoming field (AKA 'url') is an empty string, then setErrors to something otherwise add the newImage
-        if (field !== '') {
             newImages[index][field] = value; 
             setImages(newImages); 
-        } else {
-            setErrors(errors.images= "Image cannot be an empty string.")
-        }
     };
 
     const handleImageRemove = () => {
         const oldImages = [...images];
         // console.log(oldImages.length-1)
-        if (oldImages.length > 1) {
+        // if (oldImages.length > 1) {
             oldImages.splice(oldImages.length-1, 1)
             setImages(oldImages)
-        } else {
-            return setErrors(errors.images = "Please provide at least one image.")
-        }
+        // } else {
+            // return setErrors(errors.images = "Please provide at least one image.")
+        // }
     }
 
     const handleCancelClick = (e) => {
@@ -116,7 +116,7 @@ function CreateSpot() { // remove {navigate} from argument
 
     return (
         <div className="create_spot_container">
-        <form className="create_spot_form" onSubmit={handleSubmit}>
+        <form className="create_spot_form" onSubmit={handleSubmit} noValidate>
             <div>
                 <h1>Create A Spot</h1>
                 <h2>{`Where's Your Spot Located`}</h2>
