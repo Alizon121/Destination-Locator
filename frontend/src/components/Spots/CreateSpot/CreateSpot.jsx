@@ -42,7 +42,6 @@ function CreateSpot() { // remove {navigate} from argument
         if (!price) newErrors.price = "Price is required"
         if (images.map(arr => arr.url.length > 1)[0] === false) newErrors.images = "One preview image is required"
 
-    //    const urlPattern = /^(http|https):\/\/.*\.(jpg|jpeg|png)$/;
        const urlPattern = /^(https?:\/\/(?:www\.)?[^\s/.?#].[^\s]*)$/i;
        images.forEach((image, index) => { if (image.url && !urlPattern.test(image.url)) { 
             newErrors[`image${index}`] = "URL must be a valid format (.jpg, .jpeg, .png)."; 
@@ -89,9 +88,14 @@ function CreateSpot() { // remove {navigate} from argument
     };
 
     const handleImageChange = (index, field, value) => { 
-        const newImages = [...images]; 
-        newImages[index][field] = value; 
-        setImages(newImages); 
+        const newImages = [...images];
+        // If the incoming field (AKA 'url') is an empty string, then setErrors to something otherwise add the newImage
+        if (field !== '') {
+            newImages[index][field] = value; 
+            setImages(newImages); 
+        } else {
+            setErrors(errors.images= "Image cannot be an empty string.")
+        }
     };
 
     const handleImageRemove = () => {
@@ -221,9 +225,6 @@ function CreateSpot() { // remove {navigate} from argument
                                     </div>
                                 </div> 
                             </label>
-                        {/* <div>
-                            
-                        </div>  */}
                     </div> ))}
                     {images.length <=4 &&
                         <button type="button" onClick={handleAddImage}>Add Another Image</button> 

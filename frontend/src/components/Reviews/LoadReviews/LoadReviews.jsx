@@ -11,12 +11,14 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const spots = useSelector(state => state.spots)
-    const spotOwnerId = Object.values(spots).map(spot => spot.ownerId)[0]
+    // const spotOwnerId = Object.values(spots).map(spot => spot.ownerId)[0]
+    const spot = Object.values(spots).find(spot => spot.id === parseInt(spotId));
     const [deletedReviewId, setDeletedReviewId] = useState(null);
     const user = useSelector((state) => state.session.user);
     const userId = user ? user.id : null
     const userHasReviewed = Object.values(reviews).some(review => review.userId === user?.id);
-
+    const isOwner = spot?.ownerId === user?.id
+    console.log(isOwner)
 
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
@@ -111,7 +113,7 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
 
     return (
         <div>
-            {(user && spotOwnerId !== userId && !userHasReviewed) && (
+            {(user && !userHasReviewed && !isOwner) && (
                 <div>
                     <button className="post_review_button" type="button">
                         <OpenModalMenuItem
