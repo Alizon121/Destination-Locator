@@ -134,6 +134,7 @@ svg {
 
 .dropdown_logout button {
     border-radius: 12px;
+    border: 1px solid #CCCCCC
 }
 
 .profile_login {

@@ -37,7 +37,6 @@ function SignupFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // valdiations
     const newErrors = {}
     if (username.length < 4) newErrors.username = "Username must be greater than 4 characters."
@@ -103,7 +102,7 @@ function SignupFormModal() {
           <input
             type="text"
             value={username}
-            placeholder='Username must be 5 characters'
+            placeholder='Username'
             onChange={(e) => setUsername(e.target.value)}
           />
         </label>
@@ -130,7 +129,7 @@ function SignupFormModal() {
           <input
             type="password"
             value={password}
-            placeholder='Password must be 7 characters'
+            placeholder='Password'
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
