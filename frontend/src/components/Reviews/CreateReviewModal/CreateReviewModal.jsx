@@ -17,10 +17,10 @@ function CreateReviewModal({spotId, updateReviewStats}) {
     const {closeModal} = useModal();
 
     useEffect(() => {
-        if (review.length < 10) {
+        if (review.length < 10 || stars <= 0) {
             setDisabled(true)
         } else {
-            setDisabled(false)
+        setDisabled(false)
         }
     }, [review])
 

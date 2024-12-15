@@ -273,12 +273,6 @@
     align-items: flex-start;
 }
 
-/* .spot_details_post_review_button_container {
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-} */
-
 .spot_details_post_review_button_container p {
     display: flex;
     justify-content: left;
