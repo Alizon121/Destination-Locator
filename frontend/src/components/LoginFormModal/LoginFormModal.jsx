@@ -28,7 +28,7 @@ function LoginFormModal() {
         .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);
-                else setErrors({general: "The provided credentials were incorrect"})
+                else setErrors({general: "The provided credentials were invalid"})
             }
             );
     }
