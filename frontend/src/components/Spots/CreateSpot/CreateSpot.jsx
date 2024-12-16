@@ -229,7 +229,9 @@ function CreateSpot() { // remove {navigate} from argument
                     {images.length <=4 &&
                         <button type="button" onClick={handleAddImage}>Add Another Image</button> 
                     } 
-                    <button type="button" onClick={handleImageRemove}>Remove Image</button>     
+                    {images.length > 1 &&
+                        <button type="button" onClick={handleImageRemove}>Remove Image</button>     
+                    }
             </div> 
             <button type="submit">Create Spot</button>
             <button type="button" onClick={handleCancelClick}>Cancel</button>
