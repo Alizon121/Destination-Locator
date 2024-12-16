@@ -45,6 +45,7 @@ function SignupFormModal() {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
+      return
     }
 
     const payload = {
