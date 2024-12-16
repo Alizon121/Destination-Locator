@@ -34,6 +34,7 @@
 
 svg {
     margin-top: 0px;
+    /* cursor: pointer; */
 }
 
 .left-menu {
@@ -68,6 +69,7 @@ svg {
     margin-right: 4px;
     padding: 6px;
     margin-bottom: 5px;
+    cursor: pointer;
   }
 
   .profile-icon {
