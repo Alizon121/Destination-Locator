@@ -7,7 +7,7 @@ import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 
 
-function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
+function LoadReviews({ spotId, updateReviewStats, editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const spots = useSelector(state => state.spots)
