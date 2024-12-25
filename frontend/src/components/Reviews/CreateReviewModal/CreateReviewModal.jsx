@@ -23,7 +23,7 @@ function CreateReviewModal({spotId, updateReviewStats}) {
         } else {
         setDisabled(false)
         }
-    }, [review])
+    }, [review, stars])
 
     const handleCreate = async (e) => {
         e.preventDefault();

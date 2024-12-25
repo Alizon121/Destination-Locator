@@ -7,19 +7,20 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
-    const reviews = useSelector(state => state.reviews)
+    // const reviews = useSelector(state => state.reviews)
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
     const [disabled, setDisabled] = useState(true)
     const updateReview = useSelector(state => state.reviews[reviewId])
-    const spots = useSelector(state => state.spots)
+    // const spots = useSelector(state => state.spots)
     const {closeModal} = useModal();
     const reviewIdString = reviewId.toString();
-    const spotId = Object.values(reviews).map((review) => review.spotId)[0]
+    // const spotId = Object.values(reviews).map((review) => review.spotId)[0]
     // const spotName = spots[spotId].name
     // console.log('SPOTS', spots)
     // console.log('SPOTS', Object.values(spots).map(spot => spot.name))
 
+    // Validation for disabling the submit button
     useEffect(() => {
         if (review.length < 9) {
             setDisabled(true)
@@ -56,8 +57,9 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
 
         const updatedReview = await dispatch(updateReviewThunk(payload, reviewIdString))
         if (updatedReview) {
-            // onUpdate(updatedReview.id)
-            editReviewStats(prevRating, updatedReview)
+            editReviewStats && (
+                editReviewStats(prevRating, updatedReview)
+            )
             closeModal()
         } else {
             setErrors({general: "Failed to update review."})

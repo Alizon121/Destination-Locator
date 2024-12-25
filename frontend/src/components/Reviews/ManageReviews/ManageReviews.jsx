@@ -21,7 +21,7 @@ function ManageReviews() {
     };
 
     // We need to update the stars and the review only in this section?s
-    // const editReviewStats = (prevRating = null, editReview = null) => {
+    // const editReviewStats = (prevRating, editReview) => {
     //     const currentTotalRating = avgRating * numReviews
     //     const newTotalRating = currentTotalRating - prevRating + editReview.stars
     //     const updatedAvgStarRating = (newTotalRating/ numReviews).toFixed(1)
@@ -50,7 +50,7 @@ function ManageReviews() {
                         <button  id="review_update_button" type="button">
                             <OpenModalMenuItem
                                 itemText="Update"
-                                modalComponent={<UpdateReviewModal reviewId={review.id} prevRating={review.stars}/>}
+                                modalComponent={<UpdateReviewModal reviewId={review.id} prevRating={review.stars} editReviewStats={null}/>}
                             />
                         </button>
                     </div>
