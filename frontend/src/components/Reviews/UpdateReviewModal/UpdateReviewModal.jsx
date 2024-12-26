@@ -7,18 +7,15 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
-    // const reviews = useSelector(state => state.reviews)
+    const reviews = useSelector(state => state.reviews)
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
     const [disabled, setDisabled] = useState(true)
     const updateReview = useSelector(state => state.reviews[reviewId])
-    // const spots = useSelector(state => state.spots)
     const {closeModal} = useModal();
     const reviewIdString = reviewId.toString();
-    // const spotId = Object.values(reviews).map((review) => review.spotId)[0]
-    // const spotName = spots[spotId].name
-    // console.log('SPOTS', spots)
-    // console.log('SPOTS', Object.values(spots).map(spot => spot.name))
+    const spotId = Object.values(reviews).map((review) => review.spotId)[0]
+    const spotName = reviews[spotId].Spot.name
 
     // Validation for disabling the submit button
     useEffect(() => {
@@ -68,7 +65,7 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
 
     return (
         <div>
-            {/* <h1>How Was Your Stay at {spotName}?</h1> */}
+            <h1>How Was Your Stay at {spotName}?</h1>
             <form className="update_review_modal_form" onSubmit={handleUpdate}>
                 <textarea 
                 placeholder="Leave your review here"
