@@ -2,6 +2,7 @@ import { updateReviewThunk } from "../../../store/reviews";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
+import './UpdateReviewModal.css'
 
 function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const dispatch = useDispatch();
@@ -15,7 +16,12 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const {closeModal} = useModal();
     const reviewIdString = reviewId.toString();
     const spotId = Object.values(reviews).map((review) => review.spotId)[0]
-    const spotName = reviews[spotId].Spot.name
+    const spots = useSelector(state => state.spots)
+    let spotName;
+    
+    // Set the spot name for Spot Details and Manage Reviews pages
+    if (reviews[spotId].Spot) spotName = reviews[spotId].Spot.name
+    else spotName = Object.values(spots).map(spot => spot.name)[0]
 
     // Validation for disabling the submit button
     useEffect(() => {
@@ -64,8 +70,10 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     }
 
     return (
-        <div>
-            <h1>How Was Your Stay at {spotName}?</h1>
+        <div className="update_review_modal_container">
+            {spotName && 
+                <h1>How Was Your Stay at {spotName}?</h1>
+            }
             <form className="update_review_modal_form" onSubmit={handleUpdate}>
                 <textarea 
                 placeholder="Leave your review here"
