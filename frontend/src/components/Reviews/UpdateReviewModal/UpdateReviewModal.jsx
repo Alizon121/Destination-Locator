@@ -98,7 +98,7 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
             {errors.stars && <p className="error">{errors.stars}</p>}
             {errors.user && <p className="error">{errors.user}</p>}
             <div className="update_review_buttons">
-                <button type="submit" disabled={disabled}>Submit</button>
+                <button id="update_review_submit_button" type="submit" disabled={disabled}>Submit</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
             </div>
             {errors.general && <p className="error">{errors.general}</p>}
