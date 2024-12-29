@@ -7,7 +7,7 @@ import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 
 
-function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
+function LoadReviews({ spotId, updateReviewStats, editReviewStats }) {
     const dispatch = useDispatch();
     const reviews = useSelector((state) => state.reviews);
     const spots = useSelector(state => state.spots)
@@ -17,6 +17,8 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
     const userId = user ? user.id : null
     const userHasReviewed = Object.values(reviews).some(review => review.userId === user?.id);
     const isOwner = spot?.ownerId === user?.id
+
+    console.log(user !== null)
 
     useEffect(() => {
         dispatch(loadReviewsThunk(spotId));
@@ -67,7 +69,7 @@ function LoadReviews({ spotId,updateReviewStats, editReviewStats }) {
     return (
         <div className="load_reviews_content_post_container">
             {/* If spot has no reviews and the user is not the owner of the spot, we should be able to see the post a review button and the text */}
-            {(Object.values(reviews).length === 0 && !isOwner) ? (
+            {(Object.values(reviews).length === 0 && !isOwner && user) ? (
                  <div className="load_reviews_post_button_container">
                  <button className="post_review_button" type="button">
                      <OpenModalMenuItem

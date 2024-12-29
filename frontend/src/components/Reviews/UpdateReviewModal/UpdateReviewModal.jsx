@@ -2,26 +2,41 @@ import { updateReviewThunk } from "../../../store/reviews";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../../context/Modal";
+import './UpdateReviewModal.css'
 
 function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
     const dispatch = useDispatch();
     const [review, setReview] = useState('');
     const [stars, setStars] = useState(0);
     const reviews = useSelector(state => state.reviews)
-    const updateReview = useSelector(state => state.reviews[reviewId])
-    const spots = useSelector(state => state.spots)
     const [hover, setHover] = useState(0);
     const [errors, setErrors] = useState({})
+    const [disabled, setDisabled] = useState(true)
+    const updateReview = useSelector(state => state.reviews[reviewId])
     const {closeModal} = useModal();
     const reviewIdString = reviewId.toString();
     const spotId = Object.values(reviews).map((review) => review.spotId)[0]
-    const spotName = spots[spotId].name
+    const spots = useSelector(state => state.spots)
+    let spotName;
+    
+    // Set the spot name for Spot Details and Manage Reviews pages
+    if (reviews[spotId].Spot) spotName = reviews[spotId].Spot.name
+    else spotName = Object.values(spots).map(spot => spot.name)[0]
+
+    // Validation for disabling the submit button
+    useEffect(() => {
+        if (review.length < 9) {
+            setDisabled(true)
+        } else {
+            setDisabled(false)
+        }
+    }, [review])
 
     useEffect(() => {
         if (updateReview) {
             setReview(updateReview.review || '');
             setStars(updateReview.stars || '');
-        }
+        } 
     }, [updateReview])
 
     const handleUpdate = async (e) => {
@@ -45,17 +60,20 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
 
         const updatedReview = await dispatch(updateReviewThunk(payload, reviewIdString))
         if (updatedReview) {
-            // onUpdate(updatedReview.id)
-            editReviewStats(prevRating, updatedReview)
-            closeModal();
+            editReviewStats && (
+                editReviewStats(prevRating, updatedReview)
+            )
+            closeModal()
         } else {
             setErrors({general: "Failed to update review."})
         }
     }
 
     return (
-        <div>
-            <h1>How Was Your Stay at {spotName}?</h1>
+        <div className="update_review_modal_container">
+            {spotName && 
+                <h1>How Was Your Stay at {spotName}?</h1>
+            }
             <form className="update_review_modal_form" onSubmit={handleUpdate}>
                 <textarea 
                 placeholder="Leave your review here"
@@ -80,7 +98,7 @@ function UpdateReviewModal({reviewId, prevRating, editReviewStats}){
             {errors.stars && <p className="error">{errors.stars}</p>}
             {errors.user && <p className="error">{errors.user}</p>}
             <div className="update_review_buttons">
-                <button type="submit">Submit</button>
+                <button id="update_review_submit_button" type="submit" disabled={disabled}>Submit</button>
                 <button type="button" onClick={closeModal}>Cancel</button>
             </div>
             {errors.general && <p className="error">{errors.general}</p>}

@@ -1,0 +1,37 @@
+.update_review_modal_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+.update_review_text_area {
+    width: 440px;
+    height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.update_review_buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    gap: 5px;
+}
+
+.update_review_buttons button {
+    width: 100px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+#update_review_submit_button {
+    background-color: #FF5A5F;
+}
