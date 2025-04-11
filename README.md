@@ -1,4 +1,43 @@
 # Destination Locator
+***
+
+Here is a live version of Destination Locator: https://destination-locator.onrender.com
+
+Destination Locator is a replica of the AirBnB application that is intended to be used to allow users to solicit accommodations and post listings. The backend of the application is built on JavaScript and Express.js with a PostgreSQL database. The frontend is structured on React/Redux for creating a normalized, global state.
+
+## Features & Implementation
+***
+
+### Single-Page App
+
+#### React Router and Components
+
+* Destination Locator is a single page app with each page rendered at "/". The React router ensures that the applications components are reached by adding paths to the root route.
+
+#### Frontend and Backend Interaction
+
+* The data from the backend is retrieved by reaching an api endpoint. The data retrieved from the backend path is then hydrated in the Redux state, which is accessible from the frontend framework. The information passed from backend to frontend allows for secure, normalized, and efficient rendering.
+
+### Authentication
+
+* Users are required to signup or login to be authenticated. The application inject a csrf-token into cookies and ensure that the user is authenticated before navigating to pages requiring authentication.
+
+#### Landing Page
+<img width="1433" alt="Screenshot 2025-04-11 at 11 17 04 AM" src="https://github.com/user-attachments/assets/a7bf89c7-8296-456e-8145-de00f237dc13" />
+
+* The landing page displays current listings that are available to rent. The spots slice of state is used to render all listings by making a fetch call to the get all spots route handler "/". The landing page also container a dropdown menu for a user to login or signup, which will open a modal that allows a user to sign up using credentials.
+
+#### Spot Details Page
+<img width="1408" alt="Screenshot 2025-04-11 at 11 27 25 AM" src="https://github.com/user-attachments/assets/05f375b5-0b8e-4923-ba54-727d7a3b8508" />
+
+* When a user clicks on a listing, they are directed to the spot details page, which contains information on the listing and reviews for the listing. A GET route handler with a path of "/:spotId" is used to hydrate the spots slice of state for a spot, and the GET handler with a path of "/:spotId/reviews" is used to hydrate the reviews slice of state. These slices of state are used to render the spot's information.
+
+#### Create a Spot
+<img width="1440" alt="Screenshot 2025-04-11 at 11 38 37 AM" src="https://github.com/user-attachments/assets/67d1d9a3-f88a-4c73-99a9-7467d39bd921" />
+
+* When a user is logged-in, the Create a Spot link is displayed on the navigation bar. When the link is clicked, the user is redirected to the "Create a Spot" page, which contains fields that allow a user to create a listing.
+
+
 
 ## Database Schema Design
 
