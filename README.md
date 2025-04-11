@@ -1,4 +1,4 @@
-git# Destination Locator
+# Destination Locator
 
 ## Database Schema Design
 
